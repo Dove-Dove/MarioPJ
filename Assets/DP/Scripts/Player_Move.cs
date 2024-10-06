@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
@@ -57,7 +58,10 @@ public class Player_Move : MonoBehaviour
     public bool isJump=false;
     public bool onAir=false;
     private bool onceInputJumpBoutton=false;
+    private bool noDoubleJump = false;
     public float jumpInputTime = 0.5f;
+    //미끄러지기
+    public bool isSilding = false;
     //중간중간 전체 애니메이션 멈춤제어하는 불형
     [SerializeField]
     private bool stopMoment;
@@ -109,7 +113,6 @@ public class Player_Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
         marioPos =rigid.position;
         //플레이어 이동불가 조건
         if(ishit)
@@ -202,12 +205,21 @@ public class Player_Move : MonoBehaviour
            else if(Input.GetKeyUp(KeyCode.X))
             { 
                 onceInputJumpBoutton = false;
+                //더블점프 방지
+                noDoubleJump = true;
                 jumpTimer = 0;
             }
-
-            Debug.Log(input_x);
+            //슬라이드 
+            if (isSilding)
+            {
+                if (rigid.velocity.x == 0 || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.X))
+                {
+                    isSilding = false;
+                    animator.SetBool("isSit", false);
+                }
+                
+            }
         }
-
     }
     //플레이어 방향 수정
     void FlipPlayer(bool isRight)
@@ -284,24 +296,25 @@ public class Player_Move : MonoBehaviour
         //버튼입력확인용.
         onceInputJumpBoutton = true;
         //점프 입력 시간 제한
-        if (jumpTimer > jumpInputTime)
+        if (jumpTimer > jumpInputTime) 
             onceInputJumpBoutton = false;
+            
         //사운드 한번만 나오게
-        if (Input.GetKeyDown(KeyCode.X))
+        if (Input.GetKeyDown(KeyCode.X) && !onAir)
             { 
             jumpSound.Play();
-            animator.SetBool("IsJump", true);
+            animator.SetBool("isJump", true);
             //+ 체공시간에따라 점프자세유지
         }
 
-        float jumpPower = LMrio_LowJump_pow;
+            float jumpPower = LMrio_LowJump_pow;
         Debug.Log(jumpPower);
         //addforce
-        if (onceInputJumpBoutton)
-        {        
+        if (onceInputJumpBoutton &&!noDoubleJump)
+        {
             Debug.Log("Jump");
             var direction = new Vector2(0, jumpPower);
-            rigid.AddForce(direction,ForceMode2D.Impulse);
+            rigid.AddForce(direction, ForceMode2D.Impulse);
             //힘 제한
             if (rigid.velocity.y > jumpPower)
                 rigid.velocity = new Vector2(rigid.velocity.x, jumpPower);
@@ -312,6 +325,7 @@ public class Player_Move : MonoBehaviour
     {
         //디버그용
         Debug.DrawRay(rigid.position, new Vector2(0,-0.6f), new Color(1,0,0));
+        Debug.DrawRay(rigid.position, new Vector2(0,-1.2f), new Color(0,1,0));
 
         RaycastHit2D groundHit = Physics2D.Raycast(rigid.position, Vector2.down, 0.6f,LayerMask.GetMask("Ground"));
         if(groundHit.collider !=null)
@@ -319,29 +333,48 @@ public class Player_Move : MonoBehaviour
             Debug.Log("onGround");
             onAir = false;
             onGround = true;//뱡향전환효과 온오프용
-            animator.SetBool("IsJump", false);
+            noDoubleJump = false;//점프입력가능
+            animator.SetBool("isJump", false);
         }
         else
         {
             onGround = false;
             onAir = true;
-            animator.SetBool("IsJump", true);
+            animator.SetBool("isJump", true);
         }
 
-        RaycastHit2D onDownhill = Physics2D.Raycast(rigid.position, Vector2.down, 1f, LayerMask.GetMask("DownHill"));
+        RaycastHit2D onDownhill = Physics2D.Raycast(rigid.position, Vector2.down, 1.2f, LayerMask.GetMask("DownHill"));
         if (onDownhill.collider != null)
         {
             Debug.Log(onDownhill.collider.name);
             onGround = true;
-            animator.SetBool("IsJump", false);
+            onAir = false;
+            animator.SetBool("isJump", false);
+
+            //미끄러지기
+            if (Input.GetKeyDown(KeyCode.DownArrow))
+            {
+                animator.SetBool("isSit", true);
+                isSilding = true;
+                rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+            }
 
             //언덕위에서 이동입력없으면 정지
-            if (input_x == 0)
-            { rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation; }
+            //TODO:슬라이드 작동되도록
+            if (input_x == 0 &&!isSilding)
+            { 
+                rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+                //미끄러지기
+                if (Input.GetKeyDown(KeyCode.DownArrow))
+                {
+                    animator.SetBool("isSit", true);
+                    isSilding = true;
+                    rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                }
+            }
             else
             { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; }
 
-            
 
         }
     }
