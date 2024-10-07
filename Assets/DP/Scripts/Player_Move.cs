@@ -342,7 +342,7 @@ public class Player_Move : MonoBehaviour
             onAir = true;
             animator.SetBool("isJump", true);
         }
-
+        //언덕위에 있을 때 
         RaycastHit2D onDownhill = Physics2D.Raycast(rigid.position, Vector2.down, 1.2f, LayerMask.GetMask("DownHill"));
         if (onDownhill.collider != null)
         {
@@ -352,18 +352,17 @@ public class Player_Move : MonoBehaviour
             animator.SetBool("isJump", false);
 
             //미끄러지기
-            if (Input.GetKeyDown(KeyCode.DownArrow))
+            if (Input.GetKey(KeyCode.DownArrow) && !isSilding)
             {
                 animator.SetBool("isSit", true);
                 isSilding = true;
-                rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                rigid.constraints = RigidbodyConstraints2D.FreezeRotation;   
             }
 
             //언덕위에서 이동입력없으면 정지
             //TODO:슬라이드 작동되도록
             if (input_x == 0 &&!isSilding)
             { 
-                rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
                 //미끄러지기
                 if (Input.GetKeyDown(KeyCode.DownArrow))
                 {
@@ -371,6 +370,8 @@ public class Player_Move : MonoBehaviour
                     isSilding = true;
                     rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
                 }
+                else
+                rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
             }
             else
             { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; }
