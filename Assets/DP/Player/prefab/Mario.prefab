@@ -196,7 +196,6 @@ MonoBehaviour:
   hitBox: {fileID: 5248906049530070142}
   rigid: {fileID: 879457614400164742}
   animator: {fileID: 2237578941927412894}
-  mainCam: {fileID: 0}
   LMrio_LowJump_pow: 9
   LMrio_TopJump_pow: 12.5
   BMrio_LowJump_pow: 10
@@ -204,6 +203,8 @@ MonoBehaviour:
   mario_AddedJumpPowLevel: 2.5
   isBigMario: 0
   isLittleMario: 0
+  marioStatus: 1
+  hp: 0
   isFireMario: 0
   isRaccoonMario: 0
   isInvincibleStar: 0
@@ -214,13 +215,16 @@ MonoBehaviour:
   curAnimSpeed: 0
   onGround: 0
   animAccel: 0
-  LMVelocity: 15
-  LMAccel: 10
+  LMVelocity: 8
+  LMMaxVelocity: 15
+  LMNomalVelocity: 8
+  LMAccel: 5
   curKey: 0
   input_x: 0
   isJump: 0
   onAir: 0
   jumpInputTime: 0.4
+  isSilding: 0
   stopMoment: 0
   acceleGauge: 20
   marioHp: 0
@@ -230,3 +234,4 @@ MonoBehaviour:
   growUpSound: {fileID: 0}
   hitUpSound: {fileID: 0}
   deadSound: {fileID: 0}
+  timeStop: 0

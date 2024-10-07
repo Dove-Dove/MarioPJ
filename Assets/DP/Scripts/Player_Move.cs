@@ -4,7 +4,18 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEditor.Tilemaps;
 using UnityEngine;
+using static UnityEngine.EventSystems.PointerEventData;
 using static UnityEngine.RuleTile.TilingRuleOutput;
+
+enum MarioStatus
+{
+    None,
+    NormalMario,
+    SuperMario,
+    FireMario,
+    RaccoonMario,
+    InvincibleMario
+}
 
 public class Player_Move : MonoBehaviour
 {
@@ -21,6 +32,11 @@ public class Player_Move : MonoBehaviour
     //==마리오 확인용
     public bool isBigMario;
     public bool isLittleMario;
+    [SerializeField]
+    private MarioStatus marioStatus = MarioStatus.NormalMario;
+    //마리오 HP
+    [SerializeField]
+    private uint hp;
     //마리오 변신 확인용
     public bool isFireMario = false;
     public bool isRaccoonMario = false;
@@ -37,6 +53,7 @@ public class Player_Move : MonoBehaviour
     private Vector2 destination;
     private Vector2 curPos = Vector2.zero;
     public float maxAnimSpeed = 10;
+    private float maxAnimSpeedPlus5 = 15;
     public float curAnimSpeed;
     private bool isInputMove = false;
     private bool beginMove = false;
@@ -47,6 +64,8 @@ public class Player_Move : MonoBehaviour
 
     //littleMario
     public float LMVelocity = 10;
+    public float LMMaxVelocity = 15;
+    public float LMNomalVelocity = 10;
     public float LMAccel = 8;
     //==애니메이션
     public UnityEngine.KeyCode curKey=KeyCode.None;
@@ -109,6 +128,8 @@ public class Player_Move : MonoBehaviour
     {
         //시작 시 오른쪽으로
         FlipPlayer(true);
+        //상태 및 hp적용
+        UpdateMarioStatusAndHP(MarioStatus.NormalMario);
     }
 
     // Update is called once per frame
@@ -210,6 +231,8 @@ public class Player_Move : MonoBehaviour
                 noDoubleJump = true;
                 jumpTimer = 0;
             }
+            //=='Z'버튼
+            InputActionButton();
             //슬라이드 
             if (isSilding)
             {
@@ -221,14 +244,16 @@ public class Player_Move : MonoBehaviour
             }
             //타임스케일 테스트용
             if(Input.GetKeyDown(KeyCode.P) && !timeStop)
-                { 
+            { 
                 Time.timeScale = 0;
                 timeStop = true;
-                }
-            if (Input.GetKeyDown(KeyCode.P) && timeStop)
+                Debug.Log("Time Stop");
+            }
+            else if (Input.GetKeyDown(KeyCode.P) && timeStop)
             {
                 Time.timeScale = 1;
                 timeStop = false;
+                Debug.Log("Time Start");
             }
 
         }
@@ -355,7 +380,7 @@ public class Player_Move : MonoBehaviour
             animator.SetBool("isJump", true);
         }
         //언덕위에 있을 때 
-        RaycastHit2D onDownhill = Physics2D.Raycast(rigid.position, Vector2.down, 1.2f, LayerMask.GetMask("DownHill"));
+        RaycastHit2D onDownhill = Physics2D.Raycast(rigid.position, Vector2.down, 1.1f, LayerMask.GetMask("DownHill"));
         if (onDownhill.collider != null)
         {
             Debug.Log(onDownhill.collider.name);
@@ -368,12 +393,16 @@ public class Player_Move : MonoBehaviour
             {
                 animator.SetBool("isSit", true);
                 isSilding = true;
-                rigid.constraints = RigidbodyConstraints2D.FreezeRotation;   
+                rigid.constraints = RigidbodyConstraints2D.FreezeRotation; 
+                if(isRight)
+                    rigid.velocity = new Vector2(0.1f, rigid.velocity.y);
+                else
+                    rigid.velocity = new Vector2(-0.1f, rigid.velocity.y);
             }
 
             //언덕위에서 이동입력없으면 정지
             //TODO:슬라이드 작동되도록
-            if (input_x == 0 &&!isSilding)
+            if (input_x == 0 &&!isSilding &&!onAir)
             { 
                 //미끄러지기
                 if (Input.GetKeyDown(KeyCode.DownArrow))
@@ -381,6 +410,10 @@ public class Player_Move : MonoBehaviour
                     animator.SetBool("isSit", true);
                     isSilding = true;
                     rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                    if (isRight)
+                        rigid.velocity = new Vector2(0.1f, rigid.velocity.y);
+                    else
+                        rigid.velocity = new Vector2(-0.1f, rigid.velocity.y);
                 }
                 else
                 rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
@@ -392,5 +425,55 @@ public class Player_Move : MonoBehaviour
         }
     }
 
+    void UpdateMarioStatusAndHP(MarioStatus status)
+    {
+        marioStatus = status;
+        switch(marioStatus)
+        {
+            case MarioStatus.None:
+                break;
+            case MarioStatus.NormalMario:
+                marioHp = 1; break;
+            case MarioStatus.SuperMario: 
+                marioHp = 2; break;
+            case MarioStatus.FireMario:
+                marioHp = 2; break;
+            case MarioStatus.RaccoonMario:
+                marioHp = 2; break;
+            case MarioStatus.InvincibleMario:
+                isInvincibleStar=true; break;
+        }
 
+        //TODO: 필요하면 스테이터스에 맞는 효과작성
+    }
+
+    //===Z키==
+    void InputActionButton()
+    {
+        if (Input.GetKey(KeyCode.Z))
+        {
+            Debug.Log("Input 'Z'button");
+            switch (marioStatus)
+            {
+                //상태에 따른 최대속도변경
+                case MarioStatus.NormalMario:
+                    LMVelocity = LMMaxVelocity;
+                    maxAnimSpeed = maxAnimSpeedPlus5;
+                    //이동 시
+                    //애니메이션변경 및 사운드추가
+                    if(curAnimSpeed > maxAnimSpeedPlus5 - 5)
+                    {
+                        animator.SetBool("inputActionButton", true); 
+                    }
+
+                    break;
+            }
+        }
+        else if(Input.GetKeyUp(KeyCode.Z))//원상복귀
+        { 
+            LMVelocity = LMNomalVelocity;
+            maxAnimSpeed -= 5;
+            animator.SetBool("inputActionButton", false);
+        }
+    }
 }
