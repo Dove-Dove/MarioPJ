@@ -82,7 +82,8 @@ public class Player_Move : MonoBehaviour
     public AudioSource hitUpSound;
     public AudioSource deadSound;
 
-
+    //기타
+    public bool timeStop=false;
     private void Awake()
     {
         hitBox = GetComponent<BoxCollider2D>();
@@ -216,9 +217,20 @@ public class Player_Move : MonoBehaviour
                 {
                     isSilding = false;
                     animator.SetBool("isSit", false);
-                }
-                
+                }   
             }
+            //타임스케일 테스트용
+            if(Input.GetKeyDown(KeyCode.P) && !timeStop)
+                { 
+                Time.timeScale = 0;
+                timeStop = true;
+                }
+            if (Input.GetKeyDown(KeyCode.P) && timeStop)
+            {
+                Time.timeScale = 1;
+                timeStop = false;
+            }
+
         }
     }
     //플레이어 방향 수정
