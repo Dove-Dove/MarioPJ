@@ -1,6 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Security.Cryptography.X509Certificates;
+using UnityEditor;
 using UnityEngine;
+using static UnityEngine.GraphicsBuffer;
 
 public enum Itemtypy
 {
@@ -14,15 +17,19 @@ public class items : MonoBehaviour
 {
     public Sprite[] itemImg;
     public Itemtypy itemtypys;
-    public bool touchItem = false;
+    public Vector2 target;
+    int randomWay = 0;
+
     void Start()
     {
-        
+        target = new Vector2(transform.position.x, transform.position.y+1);
+        randomWay = Random.Range(0, 1);
     }
 
     // Update is called once per frame
     void Update()
     {
+        moveItem();
         switch (itemtypys)
         {
             case Itemtypy.mushroom:
@@ -43,13 +50,14 @@ public class items : MonoBehaviour
     void mushroom()
     {
         GetComponent<SpriteRenderer>().sprite = itemImg[0];
-
+        
         
     }
 
     void flower()
     {
         GetComponent<SpriteRenderer>().sprite = itemImg[1];
+        
     }
 
     void star()
@@ -64,13 +72,11 @@ public class items : MonoBehaviour
 
     void moveItem()
     {
-        if (touchItem)
-        {
-            //먼저 아이템 위로 올라감
+     float speed = 1;
 
-            //아이템에 따라서 움직임이 달라짐
-
-        }
+     //먼저 아이템 위로 올라감 (현재 위치에서 y 좌표 +1 만큼 올라감 )
+     transform.position = Vector2.MoveTowards(transform.position, target, speed * 0.1f);
+     //아이템에 따라서 움직임이 달라짐
     }
 }
 
