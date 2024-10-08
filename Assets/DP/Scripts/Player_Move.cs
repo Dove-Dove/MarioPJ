@@ -53,8 +53,9 @@ public class Player_Move : MonoBehaviour
     private Vector2 destination;
     private Vector2 curPos = Vector2.zero;
     public float maxAnimSpeed = 10;
-    private float maxAnimSpeedPlus5 = 15;
-    public float curAnimSpeed;
+    public float addedMaxAnimSpeed=0;
+    public float curAnimSpeed=0;
+    public float addAnimSpeed;
     private bool isInputMove = false;
     private bool beginMove = false;
     public bool onGround;
@@ -64,12 +65,11 @@ public class Player_Move : MonoBehaviour
 
     //littleMario
     public float LMVelocity = 10;
-    public float LMMaxVelocity = 15;
-    public float LMNomalVelocity = 10;
-    public float LMAccel = 8;
+    public float LMLimitVelocity = 3;
+    public float addedLMLimitVelocity;
+    public float addLimitVelocity = 3;
     //==애니메이션
     public UnityEngine.KeyCode curKey=KeyCode.None;
-
 
     //좌우
     public float input_x;
@@ -100,6 +100,7 @@ public class Player_Move : MonoBehaviour
     public AudioSource growUpSound;
     public AudioSource hitUpSound;
     public AudioSource deadSound;
+    public AudioSource runSound;
 
     //기타
     public bool timeStop=false;
@@ -130,6 +131,10 @@ public class Player_Move : MonoBehaviour
         FlipPlayer(true);
         //상태 및 hp적용
         UpdateMarioStatusAndHP(MarioStatus.NormalMario);
+        //애니메이션 최고속도 설정
+        addedMaxAnimSpeed=maxAnimSpeed;
+        //이동최고속도 설정
+        addedLMLimitVelocity = LMLimitVelocity;
     }
 
     // Update is called once per frame
@@ -162,7 +167,7 @@ public class Player_Move : MonoBehaviour
                 //상수를 이후 변수로
                 if (curAnimSpeed > 0)
                 {
-                    curAnimSpeed -= curAnimSpeed * 0.1f;
+                    curAnimSpeed -= curAnimSpeed * 1f;
                     if (curAnimSpeed <= 0.1f)
                     {
                         curAnimSpeed = 0;
@@ -197,7 +202,7 @@ public class Player_Move : MonoBehaviour
                 //상수를 이후 변수로
                 if (curAnimSpeed > 0)
                 {
-                    curAnimSpeed -= curAnimSpeed * 0.1f;
+                    curAnimSpeed -= curAnimSpeed * 1f;
                     if (curAnimSpeed <= 0.1f)
                     {
                         curAnimSpeed = 0;
@@ -256,6 +261,7 @@ public class Player_Move : MonoBehaviour
                 Debug.Log("Time Start");
             }
 
+            Debug.Log("Velocity :" + rigid.velocity.x);
         }
     }
     //플레이어 방향 수정
@@ -279,15 +285,15 @@ public class Player_Move : MonoBehaviour
         {
             var direction =new Vector2(LMVelocity, 0);
             rigid.AddForce(direction);
-            if(rigid.velocity.x> LMAccel)
-                rigid.velocity = new Vector2(LMAccel, rigid.velocity.y);
+            if(rigid.velocity.x> addedLMLimitVelocity)
+                rigid.velocity = new Vector2(addedLMLimitVelocity, rigid.velocity.y);
         }
         else
         {
             var direction = new Vector2(-LMVelocity, 0);
             rigid.AddForce(direction);
-            if (rigid.velocity.x < -LMAccel)
-                rigid.velocity = new Vector2(-LMAccel, rigid.velocity.y);
+            if (rigid.velocity.x < -addedLMLimitVelocity)
+                rigid.velocity = new Vector2(-addedLMLimitVelocity, rigid.velocity.y);
         }
     }
     //누르는 시간에 따른 모션속도를 위한 함수
@@ -305,8 +311,8 @@ public class Player_Move : MonoBehaviour
 
             curAnimSpeed = moveTimer * animAccel;
             //최고속도 고정
-            if (curAnimSpeed > maxAnimSpeed)
-                curAnimSpeed = maxAnimSpeed;
+            if (curAnimSpeed > addedMaxAnimSpeed)
+                curAnimSpeed = addedMaxAnimSpeed;
 
             animator.SetFloat("Speed", curAnimSpeed);
         }
@@ -319,8 +325,8 @@ public class Player_Move : MonoBehaviour
 
             curAnimSpeed = moveTimer * animAccel;
             //최고속도 고정
-            if (curAnimSpeed > maxAnimSpeed)
-                curAnimSpeed = maxAnimSpeed;
+            if (curAnimSpeed > addedMaxAnimSpeed)
+                curAnimSpeed = addedMaxAnimSpeed;
 
             animator.SetFloat("Speed", curAnimSpeed);
         }
@@ -457,23 +463,25 @@ public class Player_Move : MonoBehaviour
             {
                 //상태에 따른 최대속도변경
                 case MarioStatus.NormalMario:
-                    LMVelocity = LMMaxVelocity;
-                    maxAnimSpeed = maxAnimSpeedPlus5;
+                    addedLMLimitVelocity = LMLimitVelocity + addLimitVelocity;
+                    //액션키 누르면 최대속도 addAnimSpeed 만큼 추가
+                    addedMaxAnimSpeed = maxAnimSpeed + addAnimSpeed;
                     //이동 시
-                    //애니메이션변경 및 사운드추가
-                    if(curAnimSpeed > maxAnimSpeedPlus5 - 5)
+                    if(curAnimSpeed > maxAnimSpeed)
                     {
-                        animator.SetBool("inputActionButton", true); 
+                        animator.SetBool("inputActionButton", true);
+                        //TODO:한번끝나고 한번제생하는 형태로
+                        runSound.Play();
                     }
-
                     break;
             }
         }
         else if(Input.GetKeyUp(KeyCode.Z))//원상복귀
-        { 
-            LMVelocity = LMNomalVelocity;
-            maxAnimSpeed -= 5;
+        {
+            addedLMLimitVelocity = LMLimitVelocity;
+            addedMaxAnimSpeed = maxAnimSpeed;
             animator.SetBool("inputActionButton", false);
+            runSound.Pause();
         }
     }
 }
