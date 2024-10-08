@@ -15,8 +15,7 @@ public class FlowerEnemy : MonoBehaviour
     public EnemyState currentState;
 
     private Transform player;
-    private float hideTimer = 2f;
-    private float attackCooldown = 2f;
+    private float attackCooldown = 3f;
     private float nextAttackTime;
 
     Animator animator;
@@ -43,11 +42,11 @@ public class FlowerEnemy : MonoBehaviour
             case EnemyState.Attack:
                 AttackState();
                 break;
-            case EnemyState.Dead:
-                DeadState();
-                break;
             case EnemyState.Move:
                 MoveState();
+                break;
+            case EnemyState.Dead:
+                DeadState();
                 break;
         }
     }
@@ -74,11 +73,11 @@ public class FlowerEnemy : MonoBehaviour
                 transform.localScale = new Vector3(1, 1, 1);
                 if (player.position.y < transform.position.y)
                 {
-                    animator.SetBool("AttackUp", true);
+                    animator.SetBool("AttackUp", false);
                 }
                 else
                 {
-                    animator.SetBool("AttackUp", false);
+                    animator.SetBool("AttackUp", true);
                 }
             }
             else
@@ -86,27 +85,32 @@ public class FlowerEnemy : MonoBehaviour
                 transform.localScale = new Vector3(-1, 1, 1);
                 if (player.position.y < transform.position.y)
                 {
-                    animator.SetBool("AttackUp", true);
+                    animator.SetBool("AttackUp", false);
                 }
                 else
                 {
-                    animator.SetBool("AttackUp", false);
+                    animator.SetBool("AttackUp", true);
                 }
 
             }
 
+
             if (Time.time >= nextAttackTime)
             {
-                ShootProjectile();
                 nextAttackTime = Time.time + attackCooldown;  // 공격 후 쿨타임 설정
+                ShootProjectile();
                 isMoveUp = false;
-                currentState = EnemyState.Hide;
+                animator.SetBool("IsAttack", false);
+                animator.SetBool("IsHide", true);
+                currentState = EnemyState.Move;
             }
         }
         else
         {
             isMoveUp = false;
-            currentState = EnemyState.Hide;
+            animator.SetBool("IsAttack", false);
+            animator.SetBool("IsHide", true);
+            currentState = EnemyState.Move;
         }
     }
 
@@ -128,9 +132,24 @@ public class FlowerEnemy : MonoBehaviour
     void MoveState()
     {
         //애니메이션
-        currentState = EnemyState.Attack;
-
+        if(animator.GetBool("IsHide") && !animator.GetBool("IsAttack"))
+        {
+            Invoke("hide", 3.0f);
+        }
+        else
+        {
+            Invoke("attack", 2.0f);
+        }
   
+    }
+
+    void attack()
+    {
+        currentState = EnemyState.Attack;
+    }
+    void hide()
+    {
+        currentState = EnemyState.Hide;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

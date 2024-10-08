@@ -28,7 +28,7 @@ public class Enemy : MonoBehaviour
     public float jumpInterveal = 2f;
 
     private Rigidbody2D rb;
-    private float nextJumpTime;
+    public float nextJumpTime;
     public bool movingLeft = true;
 
     Animator animator;
@@ -112,25 +112,28 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        if(currentState != State.Dead)
         {
-            if(hasWing)
+            if(collision.gameObject.CompareTag("Player"))
             {
-                hasWing = false;
-                currentState = State.Move;
+                if(hasWing)
+                {
+                    hasWing = false;
+                    currentState = State.Move;
+                }
+                else
+                {
+                    currentState = State.Dead;
+                }
             }
-            else
+            else if(collision.gameObject.CompareTag("Enemy"))
+            {
+                Flip();
+            }
+            else if(collision.gameObject.CompareTag("Attack"))
             {
                 currentState = State.Dead;
             }
-        }
-        else if(collision.gameObject.CompareTag("Enemy"))
-        {
-            Flip();
-        }
-        else if(collision.gameObject.CompareTag("Attack"))
-        {
-            currentState = State.Dead;
         }
     }
 

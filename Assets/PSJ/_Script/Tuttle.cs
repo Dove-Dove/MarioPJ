@@ -10,6 +10,12 @@ public class Tuttle : Enemy
 
     Animator Tuttleanim;
 
+    void Start()
+    {
+        Tuttleanim = GetComponent<Animator>();
+
+    }
+
     // Update is called once per frame
     void Update()
     {
