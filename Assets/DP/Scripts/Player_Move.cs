@@ -44,6 +44,11 @@ public class Player_Move : MonoBehaviour
     public bool isInvincibleStar = false;
     //히트
     public bool ishit = false;
+    //입력불가 상태
+    [SerializeField]
+    private bool notInput = false;
+    [SerializeField]
+    private bool isClear= false;
     //마리오 방향
     public bool isRight = false;
     //공중에 있을 때
@@ -146,6 +151,13 @@ public class Player_Move : MonoBehaviour
         {
             return;
         }
+        //입력불가 상황
+        else if(notInput)
+        { return; }
+        //클리어
+        else if(isClear)
+        { return; }
+        //기본 입력가능상태
         else
         {
             input_x = Input.GetAxis("Horizontal");
@@ -221,6 +233,7 @@ public class Player_Move : MonoBehaviour
                 if(rigid.velocity.x < -3 && onGround)
                 turnSound.Play();
             }
+
             //바닦체크
             CheckOnGround();
 
@@ -247,7 +260,7 @@ public class Player_Move : MonoBehaviour
                     animator.SetBool("isSit", false);
                 }   
             }
-            //타임스케일 테스트용
+            //타임스케일 테스트용()
             if(Input.GetKeyDown(KeyCode.P) && !timeStop)
             { 
                 Time.timeScale = 0;
@@ -261,7 +274,6 @@ public class Player_Move : MonoBehaviour
                 Debug.Log("Time Start");
             }
 
-            Debug.Log("Velocity :" + rigid.velocity.x);
         }
     }
     //플레이어 방향 수정
@@ -453,7 +465,7 @@ public class Player_Move : MonoBehaviour
         //TODO: 필요하면 스테이터스에 맞는 효과작성
     }
 
-    //===Z키==
+    //===Z키(액션키)==
     void InputActionButton()
     {
         if (Input.GetKey(KeyCode.Z))
@@ -473,6 +485,9 @@ public class Player_Move : MonoBehaviour
                         //TODO:한번끝나고 한번제생하는 형태로
                         runSound.Play();
                     }
+                    break;
+                    //슈퍼마리오
+                case MarioStatus.SuperMario:
                     break;
             }
         }
