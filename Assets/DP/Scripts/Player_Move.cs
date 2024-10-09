@@ -7,7 +7,7 @@ using UnityEngine;
 using static UnityEngine.EventSystems.PointerEventData;
 using static UnityEngine.RuleTile.TilingRuleOutput;
 
-enum MarioStatus
+public enum MarioStatus
 {
     None,
     NormalMario,
@@ -23,14 +23,15 @@ public class Player_Move : MonoBehaviour
     public BoxCollider2D hitBox;
     public Rigidbody2D rigid;
     public Animator animator;
+    public SpriteRenderer sprite;
 
-    public float LMrio_LowJump_pow = 8f;
+    public float LMrio_LowJump_pow = 9f;
     public float LMrio_TopJump_pow = 12.5f;
     public float BMrio_LowJump_pow = 10f;
-    public float BMrio_TopJump_pow = 17.5f;
+    public float BMrio_TopJump_pow = 15f;
     public float mario_AddedJumpPowLevel = 2.5f;
     //==마리오 확인용
-    public bool isBigMario;
+    public bool isSuperMario;
     public bool isLittleMario;
     [SerializeField]
     private MarioStatus marioStatus = MarioStatus.NormalMario;
@@ -47,6 +48,11 @@ public class Player_Move : MonoBehaviour
     //입력불가 상태
     [SerializeField]
     private bool notInput = false;
+    public bool NotInput
+    {
+    get { return notInput; } 
+    set { notInput = value; }
+    }
     [SerializeField]
     private bool isClear= false;
     //마리오 방향
@@ -69,9 +75,9 @@ public class Player_Move : MonoBehaviour
     public float animAccel = 0;
 
     //littleMario
-    public float LMVelocity = 10;
-    public float LMLimitVelocity = 3;
-    public float addedLMLimitVelocity;
+    public float LMVelocity = 20;
+    public float LMLimitVelocity = 4;
+    public float addedLimitVelocity;
     public float addLimitVelocity = 3;
     //==애니메이션
     public UnityEngine.KeyCode curKey=KeyCode.None;
@@ -91,7 +97,9 @@ public class Player_Move : MonoBehaviour
     private bool stopMoment;
     //가속도 게이지
     [SerializeField]
-    private float acceleGauge = 20;
+    private float acceleGauge = 0;    
+    [SerializeField]
+    private float maxAcceleGauge = 20;
     [SerializeField]
     private int marioHp;
     [SerializeField]
@@ -102,10 +110,15 @@ public class Player_Move : MonoBehaviour
     //===사운드
     public AudioSource jumpSound;
     public AudioSource turnSound;
-    public AudioSource growUpSound;
-    public AudioSource hitUpSound;
+    public AudioSource powerUpSound;
+    private bool isPowerUp=false;
+    public AudioSource hitSound;
+    private bool ishitSound = false;
     public AudioSource deadSound;
+    private bool isDeadSound=false;
     public AudioSource runSound;
+    //===이펙트
+    private Color originalColor;
 
     //기타
     public bool timeStop=false;
@@ -114,11 +127,12 @@ public class Player_Move : MonoBehaviour
         hitBox = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
+        sprite= GetComponent<SpriteRenderer>();
 
         //회전 고정
         rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
 
-        isBigMario = false;
+        isSuperMario = false;
         isLittleMario = true;
         //TODO:이후 레이로 바닦확인
         onGround = true;
@@ -139,7 +153,10 @@ public class Player_Move : MonoBehaviour
         //애니메이션 최고속도 설정
         addedMaxAnimSpeed=maxAnimSpeed;
         //이동최고속도 설정
-        addedLMLimitVelocity = LMLimitVelocity;
+        addedLimitVelocity = LMLimitVelocity;
+        //
+        originalColor = sprite.material.color;
+
     }
 
     // Update is called once per frame
@@ -149,11 +166,42 @@ public class Player_Move : MonoBehaviour
         //플레이어 이동불가 조건
         if(ishit)
         {
+            //dead확인
+            Debug.Log("HP :"+marioHp);
+            if(marioHp<=0)
+            { 
+                //마리오 사망처리
+                if(!isDeadSound)
+                {
+                    isDeadSound = true;
+                    deadSound.Play();
+                }
+                //씬전환 혹은 사망신호
+                animator.SetBool("isDead", true);
+            }
+            else
+            { 
+                marioHp--; 
+                ishit = false;
+            }
+
+
+            if(!ishitSound)
+            {
+                ishitSound = true;
+                hitSound.Play();
+            }
+            marioBlink();
+            
             return;
         }
         //입력불가 상황
         else if(notInput)
-        { return; }
+        {
+            Debug.Log("notInput");
+            ChangeSuperMario();
+            return;
+        }
         //클리어
         else if(isClear)
         { return; }
@@ -274,6 +322,8 @@ public class Player_Move : MonoBehaviour
                 Debug.Log("Time Start");
             }
 
+
+            Debug.Log(marioStatus);
         }
     }
     //플레이어 방향 수정
@@ -297,15 +347,15 @@ public class Player_Move : MonoBehaviour
         {
             var direction =new Vector2(LMVelocity, 0);
             rigid.AddForce(direction);
-            if(rigid.velocity.x> addedLMLimitVelocity)
-                rigid.velocity = new Vector2(addedLMLimitVelocity, rigid.velocity.y);
+            if(rigid.velocity.x> addedLimitVelocity)
+                rigid.velocity = new Vector2(addedLimitVelocity, rigid.velocity.y);
         }
         else
         {
             var direction = new Vector2(-LMVelocity, 0);
             rigid.AddForce(direction);
-            if (rigid.velocity.x < -addedLMLimitVelocity)
-                rigid.velocity = new Vector2(-addedLMLimitVelocity, rigid.velocity.y);
+            if (rigid.velocity.x < -addedLimitVelocity)
+                rigid.velocity = new Vector2(-addedLimitVelocity, rigid.velocity.y);
         }
     }
     //누르는 시간에 따른 모션속도를 위한 함수
@@ -439,11 +489,10 @@ public class Player_Move : MonoBehaviour
             else
             { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; }
 
-
         }
     }
 
-    void UpdateMarioStatusAndHP(MarioStatus status)
+    public void UpdateMarioStatusAndHP(MarioStatus status)
     {
         marioStatus = status;
         switch(marioStatus)
@@ -453,6 +502,7 @@ public class Player_Move : MonoBehaviour
             case MarioStatus.NormalMario:
                 marioHp = 1; break;
             case MarioStatus.SuperMario: 
+                isSuperMario = true;
                 marioHp = 2; break;
             case MarioStatus.FireMario:
                 marioHp = 2; break;
@@ -475,7 +525,7 @@ public class Player_Move : MonoBehaviour
             {
                 //상태에 따른 최대속도변경
                 case MarioStatus.NormalMario:
-                    addedLMLimitVelocity = LMLimitVelocity + addLimitVelocity;
+                    addedLimitVelocity = LMLimitVelocity + addLimitVelocity;
                     //액션키 누르면 최대속도 addAnimSpeed 만큼 추가
                     addedMaxAnimSpeed = maxAnimSpeed + addAnimSpeed;
                     //이동 시
@@ -493,10 +543,70 @@ public class Player_Move : MonoBehaviour
         }
         else if(Input.GetKeyUp(KeyCode.Z))//원상복귀
         {
-            addedLMLimitVelocity = LMLimitVelocity;
+            addedLimitVelocity = LMLimitVelocity;
             addedMaxAnimSpeed = maxAnimSpeed;
             animator.SetBool("inputActionButton", false);
             runSound.Pause();
         }
     }
+
+    void ChangeSuperMario()
+    {
+        if (isSuperMario)
+        {
+            Debug.Log("SuperMario!!");
+            //사운드 출력
+            if (!isPowerUp)
+            {
+                powerUpSound.Play();
+                isPowerUp = true;
+            }
+            Time.timeScale = 0;
+            StartCoroutine(MarioChangeTimeStart());
+        }
+    }
+    IEnumerator MarioChangeTimeStart()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        Time.timeScale = 1;
+        notInput = false;
+        isPowerUp = false;
+        Debug.Log("EndChange MarioForm");
+    }
+    //마리오 변신상태 get set
+    public void setMarioTransform(MarioStatus marioForm)
+    {
+        marioStatus = marioForm;
+    }
+    MarioStatus getMarioStatus() { return marioStatus; }
+    //Effect
+    public void marioBlink()
+    {
+        StartCoroutine(Blink(0, true));
+    }
+
+    private IEnumerator Blink(int count, bool makeBlink)
+    {       
+        if (makeBlink)
+        {
+            GetComponent<SpriteRenderer>().material.color = new Color(originalColor.r, originalColor.g, originalColor.b, 0);
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().material.color = originalColor;
+        }
+        
+        yield return new WaitForSecondsRealtime(0.2f);
+
+        if(count<3)
+        {
+            StartCoroutine (Blink(count+1, !makeBlink));
+        }
+        else
+        {
+            ishit = false;
+            ishitSound = false;
+        }
+    }
 }
+
