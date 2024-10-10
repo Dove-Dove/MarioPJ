@@ -59,27 +59,34 @@ public class Enemy : MonoBehaviour
     public void enemyMove()
     {
         transform.Translate(Vector2.left * moveSpeed * Time.deltaTime * (movingLeft ? 1 : -1));
-        //발판 확인
+
+        // 발판 확인
         RaycastHit2D groundInfo1 = Physics2D.Raycast(groundDetect1.position, Vector2.down, rayDistance, groundLayer);
-        RaycastHit2D groundInfo2 = Physics2D.Raycast(groundDetect1.position, Vector2.down, rayDistance, groundLayer);
+        RaycastHit2D groundInfo2 = Physics2D.Raycast(groundDetect2.position, Vector2.down, rayDistance, groundLayer);
         RaycastHit2D jumpInfo1 = Physics2D.Raycast(jumpDetect1.position, Vector2.down, 7.0f, groundLayer);
         RaycastHit2D jumpInfo2 = Physics2D.Raycast(jumpDetect2.position, Vector2.down, 7.0f, groundLayer);
 
-        //발판이 없을 때
-        if (groundInfo1.collider == false || groundDetect2 == false)
+        // 발판이 없을 때
+        if (groundInfo1.collider == false || groundInfo2.collider == false)
         {
+            // 날개가 있는 경우만 점프
             if (hasWing)
             {
                 if (jumpInfo1.collider == false || jumpInfo2.collider == false)
                 {
+                    // 발판이 없고 날개가 있으면 방향을 바꾸고 점프
                     Flip();
+                    Jump();
                 }
             }
             else
             {
+                // 발판이 없고 날개가 없으면 방향만 바꿈
                 Flip();
             }
         }
+
+        // 날개가 있는 경우 주기적으로 점프
         if (hasWing)
         {
             if (Time.time >= nextJumpTime)
@@ -89,6 +96,7 @@ public class Enemy : MonoBehaviour
             }
         }
     }
+
 
     public void Flip()
     {
@@ -100,46 +108,38 @@ public class Enemy : MonoBehaviour
 
     public void Jump()
     {
-        if(movingLeft)
-        {
-            rb.velocity = new Vector2(-moveSpeed * Time.deltaTime, jumpForce);
-        }
-        else
-        {
-            rb.velocity = new Vector2(moveSpeed * Time.deltaTime, jumpForce);
-        }
+        float horizontalVelocity = movingLeft ? -moveSpeed : moveSpeed;
+        rb.velocity = new Vector2(horizontalVelocity, jumpForce);  
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(currentState != State.Dead)
+        if(collision.gameObject.CompareTag("Player"))
         {
-            if(collision.gameObject.CompareTag("Player"))
+            if(hasWing)
             {
-                if(hasWing)
-                {
-                    hasWing = false;
-                    currentState = State.Move;
-                }
-                else
-                {
-                    currentState = State.Dead;
-                }
+                hasWing = false;
+                currentState = State.Move;
             }
-            else if(collision.gameObject.CompareTag("Enemy"))
-            {
-                Flip();
-            }
-            else if(collision.gameObject.CompareTag("Attack"))
+            else
             {
                 currentState = State.Dead;
             }
+        }
+        else if(collision.gameObject.CompareTag("Enemy"))
+        {
+            Flip();
+        }
+        else if(collision.gameObject.CompareTag("Attack"))
+        {
+            currentState = State.Dead;
         }
     }
 
     public void enemyDead()
     {
         animator.SetTrigger("IsDead");
+        currentState = State.Dead;
         Invoke("destroy", 1.0f);
     }
 

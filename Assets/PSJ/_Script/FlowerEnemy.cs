@@ -63,55 +63,33 @@ public class FlowerEnemy : MonoBehaviour
 
     void AttackState()
     {
-        animator.SetBool("IsAttack", true);
-
-        // 플레이어와의 거리를 계속 체크하여 원거리 공격 실행
         if (Vector2.Distance(transform.position, player.position) <= attackRange)
         {
-            if(player.position.x < transform.position.x)
-            {
-                transform.localScale = new Vector3(1, 1, 1);
-                if (player.position.y < transform.position.y)
-                {
-                    animator.SetBool("AttackUp", false);
-                }
-                else
-                {
-                    animator.SetBool("AttackUp", true);
-                }
-            }
-            else
-            {
-                transform.localScale = new Vector3(-1, 1, 1);
-                if (player.position.y < transform.position.y)
-                {
-                    animator.SetBool("AttackUp", false);
-                }
-                else
-                {
-                    animator.SetBool("AttackUp", true);
-                }
-
-            }
-
+            SetDirectionAndAnimation();
 
             if (Time.time >= nextAttackTime)
             {
-                nextAttackTime = Time.time + attackCooldown;  // 공격 후 쿨타임 설정
-                ShootProjectile();
-                isMoveUp = false;
-                animator.SetBool("IsAttack", false);
-                animator.SetBool("IsHide", true);
-                currentState = EnemyState.Move;
+                ShootProjectile();  // 발사체 발사
+                SetAnimationState(true, false);  // 애니메이션 상태 전환
+                Invoke("ReturnToMoveState", attackCooldown);  // 쿨타임 후 MoveState로 전환
             }
         }
         else
         {
-            isMoveUp = false;
-            animator.SetBool("IsAttack", false);
-            animator.SetBool("IsHide", true);
-            currentState = EnemyState.Move;
+            ReturnToMoveState();  // 범위 밖으로 벗어나면 바로 MoveState로
         }
+    }
+
+
+    void SetAnimationState(bool isHide, bool isAttack)
+    {
+        animator.SetBool("IsHide", isHide);
+        animator.SetBool("IsAttack", isAttack);
+    }
+
+    void ReturnToMoveState()
+    {
+        currentState = EnemyState.Move;
     }
 
     void DeadState()
@@ -128,19 +106,38 @@ public class FlowerEnemy : MonoBehaviour
         Vector2 direction = (player.position - firePoint.position).normalized;
         projectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
     }
-    
+
     void MoveState()
     {
-        //애니메이션
-        if(animator.GetBool("IsHide") && !animator.GetBool("IsAttack"))
+        if (animator.GetBool("IsHide") && !animator.GetBool("IsAttack"))
         {
-            Invoke("hide", 3.0f);
+            if (!IsInvoking("hide"))
+            {
+                Invoke("hide", 3.0f);  // 중복 호출 방지
+            }
         }
         else
         {
-            Invoke("attack", 2.0f);
+            if (!IsInvoking("attack"))
+            {
+                Invoke("attack", 2.0f);  // 중복 호출 방지
+            }
         }
-  
+    }
+
+
+    void SetDirectionAndAnimation()
+    {
+        if (player.position.x < transform.position.x)
+        {
+            transform.localScale = new Vector3(1, 1, 1);
+        }
+        else
+        {
+            transform.localScale = new Vector3(-1, 1, 1);
+        }
+
+        animator.SetBool("AttackUp", player.position.y >= transform.position.y);
     }
 
     void attack()
@@ -154,6 +151,13 @@ public class FlowerEnemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        currentState = EnemyState.Dead;
+        if (collision.gameObject.CompareTag("Player"))  
+        {
+            currentState = EnemyState.Dead;
+        }
+        else if (collision.gameObject.CompareTag("Attack"))
+        {
+            currentState = EnemyState.Dead;
+        }
     }
 }

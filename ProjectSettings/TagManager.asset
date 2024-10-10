@@ -4,14 +4,8 @@
 TagManager:
   serializedVersion: 2
   tags:
-  - Ground
   - Enemy
-<<<<<<< Updated upstream
-  - Box
-  - Items
-=======
   - Attack
->>>>>>> Stashed changes
   layers:
   - Default
   - TransparentFX
@@ -19,8 +13,6 @@ TagManager:
   - 
   - Water
   - UI
-  - Ground
-  - DownHill
   - 
   - 
   - 
@@ -33,7 +25,9 @@ TagManager:
   - 
   - 
   - 
-  - Player
+  - 
+  - 
+  - 
   - 
   - 
   - 

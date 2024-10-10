@@ -29379,7 +29379,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: -2
+  m_SortingOrder: 0
   m_Sprite: {fileID: -1817461852, guid: 73931106284219948be8c2f9627f38e0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -29446,7 +29446,7 @@ MonoBehaviour:
   firePoint: {fileID: 57709053}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 1048576
+    m_Bits: 0
   isMoveUp: 0
   currentState: 0
 --- !u!1 &682679806
@@ -39033,6 +39033,10 @@ PrefabInstance:
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2259291461442894925, guid: 8bacb48f56a0d1e47a14615f97a33778, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2310779709509573076, guid: 8bacb48f56a0d1e47a14615f97a33778, type: 3}
       propertyPath: m_Layer
       value: 0
@@ -39101,6 +39105,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8953865356117380398, guid: 8bacb48f56a0d1e47a14615f97a33778, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -39118,13 +39126,17 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 1721723321437343182, guid: e28bf25c285f9c2479ea88d4ec6cb69e, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2479365866921991926, guid: e28bf25c285f9c2479ea88d4ec6cb69e, type: 3}
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3891458141089951431, guid: e28bf25c285f9c2479ea88d4ec6cb69e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -45.88
+      value: -52.14
       objectReference: {fileID: 0}
     - target: {fileID: 3891458141089951431, guid: e28bf25c285f9c2479ea88d4ec6cb69e, type: 3}
       propertyPath: m_LocalPosition.y
@@ -39168,6 +39180,10 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6181849089707922771, guid: e28bf25c285f9c2479ea88d4ec6cb69e, type: 3}
       propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7018408237504050737, guid: e28bf25c285f9c2479ea88d4ec6cb69e, type: 3}
+      propertyPath: groundLayer.m_Bits
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7790126360951886488, guid: e28bf25c285f9c2479ea88d4ec6cb69e, type: 3}
@@ -39239,12 +39255,20 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 203755193128485656, guid: c884e28f874ff894980e2f5eeed42534, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1421329559531087623, guid: c884e28f874ff894980e2f5eeed42534, type: 3}
       propertyPath: m_Layer
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3328865054286129698, guid: c884e28f874ff894980e2f5eeed42534, type: 3}
       propertyPath: m_Layer
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3340718495449602933, guid: c884e28f874ff894980e2f5eeed42534, type: 3}
+      propertyPath: groundLayer.m_Bits
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4371783387075329180, guid: c884e28f874ff894980e2f5eeed42534, type: 3}
@@ -39356,9 +39380,17 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 4
       objectReference: {fileID: 0}
+    - target: {fileID: 5885524746012711449, guid: 1378c6663f8e0584c9fc488e7a0b41d4, type: 3}
+      propertyPath: groundLayer.m_Bits
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6244289200635345718, guid: 1378c6663f8e0584c9fc488e7a0b41d4, type: 3}
       propertyPath: m_Layer
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7216777945344596723, guid: 1378c6663f8e0584c9fc488e7a0b41d4, type: 3}
+      propertyPath: m_IsTrigger
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8669840533290037523, guid: 1378c6663f8e0584c9fc488e7a0b41d4, type: 3}
       propertyPath: m_Layer

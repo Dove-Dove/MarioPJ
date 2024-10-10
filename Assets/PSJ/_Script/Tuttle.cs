@@ -54,6 +54,10 @@ public class Tuttle : Enemy
             {
                 currentState = State.ShellMove;
             }
+            else if(currentState == State.ShellMove)
+            {
+                //플레이어와 충돌
+            }
         }
         else if (collision.gameObject.CompareTag("Enemy"))
         {
@@ -66,29 +70,38 @@ public class Tuttle : Enemy
         {
             currentState = State.Dead;
         }
-
+        /*
+        else if(collision.gameObject.CompareTag("Wall"))
+        {
+            movingLeft = !movingLeft;
+        }
+        */
 
     }
+
+    private float shellElapsedTime = 0; // 클래스 필드로 선언
 
     void enemyShell()
     {
         Tuttleanim.SetBool("IsShell", true);
 
-        float timer = 0;
-        timer += Time.deltaTime;
-        if(timer >= shellTimer)
+        shellElapsedTime += Time.deltaTime; // timer를 누적
+        if (shellElapsedTime >= shellTimer)
         {
             Tuttleanim.SetBool("IsShell", false);
             currentState = State.Move;
             gameObject.tag = "Enemy";
+            shellElapsedTime = 0; // 타이머 초기화
         }
-
     }
 
     void enemyShellMove()
     {
         gameObject.tag = "Attack";
-        Tuttleanim.SetTrigger("ShellMove");
+        if (Tuttleanim.GetCurrentAnimatorStateInfo(0).IsName("ShellMove") == false)
+        {
+            Tuttleanim.SetTrigger("ShellMove");
+        }
         transform.Translate(Vector2.left * shellSpeed * Time.deltaTime * (movingLeft ? 1 : -1));
     }
 
