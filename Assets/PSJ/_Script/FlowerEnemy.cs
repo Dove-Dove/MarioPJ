@@ -67,12 +67,8 @@ public class FlowerEnemy : MonoBehaviour
         {
             SetDirectionAndAnimation();
 
-            if (Time.time >= nextAttackTime)
-            {
-                ShootProjectile();  // 발사체 발사
-                SetAnimationState(true, false);  // 애니메이션 상태 전환
-                Invoke("ReturnToMoveState", attackCooldown);  // 쿨타임 후 MoveState로 전환
-            }
+            SetAnimationState(true, false);  // 애니메이션 상태 전환
+            Invoke("ReturnToMoveState", attackCooldown);  // 쿨타임 후 MoveState로 전환
         }
         else
         {
@@ -96,7 +92,7 @@ public class FlowerEnemy : MonoBehaviour
     {
         //애니메이션 재생
         //파괴
-        Destroy(gameObject);
+        gameObject.SetActive(false);
     }
 
     void ShootProjectile()

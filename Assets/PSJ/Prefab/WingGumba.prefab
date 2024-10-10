@@ -97,9 +97,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8917158125798241624}
-  - {fileID: 4034670468810538081}
   - {fileID: 8787422308108030875}
-  - {fileID: 8732478433968898926}
   - {fileID: 6812318583914050665}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -197,11 +195,12 @@ MonoBehaviour:
   rayDistance: 1
   groundDetect1: {fileID: 8917158125798241624}
   groundDetect2: {fileID: 8787422308108030875}
-  jumpDetect1: {fileID: 4034670468810538081}
-  jumpDetect2: {fileID: 8732478433968898926}
   hasWing: 1
   jumpForce: 5
   jumpInterveal: 2
+  nextJumpTime: 0
+  movingLeft: 1
+  wings: {fileID: 8669840533290037523}
 --- !u!61 &7216777945344596723
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -217,7 +216,7 @@ BoxCollider2D:
     m_Bits: 0
   m_ExcludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1024
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
@@ -273,69 +272,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 0
---- !u!1 &5212413269046763429
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 4034670468810538081}
-  m_Layer: 10
-  m_Name: JumpDetect1
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &4034670468810538081
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5212413269046763429}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.5, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 880829990072016085}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &6244289200635345718
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 8732478433968898926}
-  m_Layer: 10
-  m_Name: JumpDetect2
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8732478433968898926
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6244289200635345718}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.5, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 880829990072016085}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_Constraints: 4
 --- !u!1 &6480555067850731000
 GameObject:
   m_ObjectHideFlags: 0
@@ -347,7 +284,7 @@ GameObject:
   - component: {fileID: 2423491805161770709}
   - component: {fileID: 5117558723988995070}
   - component: {fileID: 745505992394292280}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wings
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -453,7 +390,7 @@ GameObject:
   - component: {fileID: 1139370885741236725}
   - component: {fileID: 2049852929120008145}
   - component: {fileID: 1197220540773761698}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Wings (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}

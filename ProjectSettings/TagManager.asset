@@ -5,7 +5,9 @@ TagManager:
   serializedVersion: 2
   tags:
   - Enemy
-  - Attack
+  - EnemyWall
+  - MovingShell
+  - E_Attack
   layers:
   - Default
   - TransparentFX
@@ -17,9 +19,9 @@ TagManager:
   - DownHill
   - 
   - 
-  - 
-  - 
-  - 
+  - Enemy
+  - MovingShell
+  - EnemyWall
   - 
   - 
   - 

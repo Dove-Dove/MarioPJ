@@ -18,11 +18,12 @@ public class Enemy : MonoBehaviour
     public float distance = 5f;
 
     public LayerMask groundLayer;
+    //public LayerMask wallLayer;
     public float rayDistance = 1f;
     public Transform groundDetect1, groundDetect2;
-    public Transform jumpDetect1, jumpDetect2;
 
     public bool hasWing;
+    private bool isJumping;
 
     public float jumpForce = 5f;
     public float jumpInterveal = 2f;
@@ -32,6 +33,7 @@ public class Enemy : MonoBehaviour
     public bool movingLeft = true;
 
     Animator animator;
+    public GameObject wings;
 
     // Start is called before the first frame update
     void Start()
@@ -54,6 +56,10 @@ public class Enemy : MonoBehaviour
                 enemyDead();
                 break;
         }
+        if(!hasWing)
+        {
+            wings.SetActive(false);
+        }
     }
 
     public void enemyMove()
@@ -63,36 +69,31 @@ public class Enemy : MonoBehaviour
         // 발판 확인
         RaycastHit2D groundInfo1 = Physics2D.Raycast(groundDetect1.position, Vector2.down, rayDistance, groundLayer);
         RaycastHit2D groundInfo2 = Physics2D.Raycast(groundDetect2.position, Vector2.down, rayDistance, groundLayer);
-        RaycastHit2D jumpInfo1 = Physics2D.Raycast(jumpDetect1.position, Vector2.down, 7.0f, groundLayer);
-        RaycastHit2D jumpInfo2 = Physics2D.Raycast(jumpDetect2.position, Vector2.down, 7.0f, groundLayer);
 
-        // 발판이 없을 때
-        if (groundInfo1.collider == false || groundInfo2.collider == false)
-        {
-            // 날개가 있는 경우만 점프
-            if (hasWing)
-            {
-                if (jumpInfo1.collider == false || jumpInfo2.collider == false)
-                {
-                    // 발판이 없고 날개가 있으면 방향을 바꾸고 점프
-                    Flip();
-                    Jump();
-                }
-            }
-            else
-            {
-                // 발판이 없고 날개가 없으면 방향만 바꿈
-                Flip();
-            }
-        }
+        bool isGrounded = groundInfo1 || groundInfo2;
 
-        // 날개가 있는 경우 주기적으로 점프
-        if (hasWing)
+        if(!isGrounded)
         {
-            if (Time.time >= nextJumpTime)
+            if(hasWing && Time.time >= nextJumpTime && !isJumping)
             {
                 Jump();
                 nextJumpTime = Time.time + jumpInterveal;
+                isJumping = false;
+            }
+            else if(!hasWing)
+            {
+                Flip();
+                nextJumpTime = Time.time + jumpInterveal;
+            }
+        }
+        else
+        {
+            if(hasWing && Time.time >= nextJumpTime && !isJumping)
+            {
+                Jump();
+                nextJumpTime = Time.time + jumpInterveal;
+                isJumping = false;
+
             }
         }
     }
@@ -108,15 +109,30 @@ public class Enemy : MonoBehaviour
 
     public void Jump()
     {
-        float horizontalVelocity = movingLeft ? -moveSpeed : moveSpeed;
-        rb.velocity = new Vector2(horizontalVelocity, jumpForce);  
+        isJumping = true;
+        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(gameObject.GetComponent<Rigidbody2D>().velocity.x, jumpForce);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Player"))
+        //else if(collision.gameObject.layer == LayerMask.NameToLayer("EnemyWall"))
+        if (collision.gameObject.CompareTag("EnemyWall"))
         {
-            if(hasWing)
+            Flip();
+        }
+        else if (collision.gameObject.CompareTag("MovingShell"))
+        {
+            currentState = State.Dead;
+        }
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        Debug.Log(collision.tag);
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (hasWing)
             {
                 hasWing = false;
                 currentState = State.Move;
@@ -128,17 +144,24 @@ public class Enemy : MonoBehaviour
         }
         else if(collision.gameObject.CompareTag("Enemy"))
         {
-            Flip();
         }
-        else if(collision.gameObject.CompareTag("Attack"))
+        else if (collision.gameObject.tag.Contains("Attack"))
         {
             currentState = State.Dead;
         }
+        else if(collision.gameObject.CompareTag("MovingShell"))
+        {
+            currentState = State.Dead;
+        }
+
+
     }
 
     public void enemyDead()
     {
         animator.SetTrigger("IsDead");
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+
         currentState = State.Dead;
         Invoke("destroy", 1.0f);
     }
