@@ -13,6 +13,8 @@ TagManager:
   - 
   - Water
   - UI
+  - Ground
+  - DownHill
   - 
   - 
   - 
@@ -25,9 +27,7 @@ TagManager:
   - 
   - 
   - 
-  - 
-  - 
-  - 
+  - Player
   - 
   - 
   - 

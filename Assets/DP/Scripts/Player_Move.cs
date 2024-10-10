@@ -93,8 +93,7 @@ public class Player_Move : MonoBehaviour
     //미끄러지기
     public bool isSilding = false;
     //기능(Z)
-    private bool isLift
-    { get { return isLift; } set { isLift = value; }}
+    public bool isLift=false;
 
     //중간중간 전체 애니메이션 멈춤제어하는 불형
     [SerializeField]
@@ -580,6 +579,10 @@ public class Player_Move : MonoBehaviour
         Time.timeScale = 1;
         notInput = false;
         isPowerUp = false;
+        //애니메이션 변경: 슈퍼마리오
+        animator.SetBool("ChangeSuperMario",true);
+        //이넘변수 변경 : 슈퍼마리오
+        UpdateMarioStatusAndHP(MarioStatus.SuperMario);
         Debug.Log("EndChange MarioForm");
     }
     //마리오 변신상태 get set
