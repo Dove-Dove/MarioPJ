@@ -25,10 +25,8 @@ public class Player_Move : MonoBehaviour
     public Animator animator;
     public SpriteRenderer sprite;
 
-    public float LMrio_LowJump_pow = 9f;
-    public float LMrio_TopJump_pow = 12.5f;
-    public float BMrio_LowJump_pow = 10f;
-    public float BMrio_TopJump_pow = 15f;
+    public float LMrio_Jump_pow = 9f;
+    public float SMrio_Jump_pow = 10f;
     public float mario_AddedJumpPowLevel = 2.5f;
     //==마리오 확인용
     public bool isSuperMario;
@@ -37,10 +35,13 @@ public class Player_Move : MonoBehaviour
     private MarioStatus marioStatus = MarioStatus.NormalMario;
     //마리오 HP
     [SerializeField]
-    private uint hp;
+    private uint hp
+    { get; set; }
     //마리오 변신 확인용
     public bool isFireMario = false;
     public bool isRaccoonMario = false;
+    //무적상태(히트 후)
+    public bool isInvincible = false;
     //별 무적
     public bool isInvincibleStar = false;
     //히트
@@ -75,8 +76,8 @@ public class Player_Move : MonoBehaviour
     public float animAccel = 0;
 
     //littleMario
-    public float LMVelocity = 20;
-    public float LMLimitVelocity = 4;
+    public float Velocity = 20;
+    public float LimitVelocity = 4;
     public float addedLimitVelocity;
     public float addLimitVelocity = 3;
     //==애니메이션
@@ -90,8 +91,17 @@ public class Player_Move : MonoBehaviour
     private bool onceInputJumpBoutton=false;
     private bool noDoubleJump = false;
     public float jumpInputTime = 0.5f;
+    private float jumpPower;
     //미끄러지기
     public bool isSilding = false;
+    [SerializeField]
+    private float groundRayLen=0;
+    [SerializeField]
+    private float hillRayLen=0;
+    public float LMarioGroundRayLen = 0.6f;
+    public float LMarioHillRayLen = 1.3f;
+    public float SMarioGroundRayLen = 1.1f;
+    public float SMarioHillRayLen = 1.8f;
     //기능(Z)
     public bool isLift=false;
 
@@ -143,6 +153,7 @@ public class Player_Move : MonoBehaviour
         //rigid.gravityScale = 2;
 
         animAccel = 8;
+        jumpPower=LMrio_Jump_pow;
 
     }
 
@@ -156,11 +167,15 @@ public class Player_Move : MonoBehaviour
         //애니메이션 최고속도 설정
         addedMaxAnimSpeed=maxAnimSpeed;
         //이동최고속도 설정
-        addedLimitVelocity = LMLimitVelocity;
+        addedLimitVelocity = LimitVelocity;
         //스프라이트 점멸용 기존마리오 스프라이트 컬러저장
         //변신 시 새로 저장
         originalColor = sprite.material.color;
         isLift = false;
+        //기본마리오일때 바닥감지
+        groundRayLen=LMarioGroundRayLen;
+        hillRayLen=LMarioHillRayLen;
+        
     }
 
     // Update is called once per frame
@@ -168,11 +183,10 @@ public class Player_Move : MonoBehaviour
     {
         marioPos =rigid.position;
         //플레이어 이동불가 조건
-        if(ishit)
+        if(ishit && !isInvincible)
         {
             //dead확인
-            Debug.Log("HP :"+marioHp);
-            if(marioHp<=0)
+            if(marioHp <= 1)
             { 
                 //마리오 사망처리
                 if(!isDeadSound)
@@ -187,6 +201,20 @@ public class Player_Move : MonoBehaviour
             { 
                 marioHp--; 
                 ishit = false;
+                isInvincible = true;
+                //1초 무적
+                StartCoroutine(HitInvincible());
+                if (marioHp==1)
+                {
+                    //기본 마리오
+                    setChangeStatus(MarioStatus.NormalMario);
+                    
+                }
+                else if (marioHp==2)
+                {
+                    Debug.Log("Set SuperMario");
+                    setChangeStatus(MarioStatus.SuperMario);
+                }
             }
 
 
@@ -204,11 +232,15 @@ public class Player_Move : MonoBehaviour
         {
             Debug.Log("notInput");
             ChangeSuperMario();
+            setChangeStatus(MarioStatus.SuperMario);
             return;
         }
         //클리어
         else if(isClear)
-        { return; }
+        {
+            //땅위라면 이동 애니메이션 출력 + 이동
+            return;
+        }
         //기본 입력가능상태
         else
         {
@@ -309,7 +341,7 @@ public class Player_Move : MonoBehaviour
                 if (rigid.velocity.x == 0 || Input.GetKey(KeyCode.LeftArrow) || Input.GetKey(KeyCode.RightArrow) || Input.GetKey(KeyCode.X))
                 {
                     isSilding = false;
-                    animator.SetBool("isSit", false);
+                    animator.SetBool("isSlide", false);
                 }   
             }
             //타임스케일 테스트용()
@@ -330,6 +362,9 @@ public class Player_Move : MonoBehaviour
             Debug.Log(marioStatus);
         }
     }
+    //====================함수==================//
+    //==========================================//
+
     //플레이어 방향 수정
     void FlipPlayer(bool isRight)
     {
@@ -349,14 +384,14 @@ public class Player_Move : MonoBehaviour
         //addforce
         if (isRight)
         {
-            var direction =new Vector2(LMVelocity, 0);
+            var direction =new Vector2(Velocity, 0);
             rigid.AddForce(direction);
             if(rigid.velocity.x> addedLimitVelocity)
                 rigid.velocity = new Vector2(addedLimitVelocity, rigid.velocity.y);
         }
         else
         {
-            var direction = new Vector2(-LMVelocity, 0);
+            var direction = new Vector2(-Velocity, 0);
             rigid.AddForce(direction);
             if (rigid.velocity.x < -addedLimitVelocity)
                 rigid.velocity = new Vector2(-addedLimitVelocity, rigid.velocity.y);
@@ -413,10 +448,9 @@ public class Player_Move : MonoBehaviour
             { 
             jumpSound.Play();
             animator.SetBool("isJump", true);
-            //+ 체공시간에따라 점프자세유지
-        }
+            }
 
-            float jumpPower = LMrio_LowJump_pow;
+        jumpPower = LMrio_Jump_pow;
         Debug.Log(jumpPower);
         //addforce
         if (onceInputJumpBoutton &&!noDoubleJump)
@@ -433,10 +467,10 @@ public class Player_Move : MonoBehaviour
     void CheckOnGround()
     {
         //디버그용
-        Debug.DrawRay(rigid.position, new Vector2(0,-0.6f), new Color(1,0,0));
-        Debug.DrawRay(rigid.position, new Vector2(0,-1.2f), new Color(0,1,0));
+        Debug.DrawRay(rigid.position, new Vector2(0,-groundRayLen), new Color(1,0,0));
+        //Debug.DrawRay(rigid.position, new Vector2(0,-hillRayLen), new Color(0,1,0));
 
-        RaycastHit2D groundHit = Physics2D.Raycast(rigid.position, Vector2.down, 0.6f,LayerMask.GetMask("Ground"));
+        RaycastHit2D groundHit = Physics2D.Raycast(rigid.position, Vector2.down, groundRayLen,LayerMask.GetMask("Ground"));
         if(groundHit.collider !=null)
         {
             Debug.Log("onGround");
@@ -452,7 +486,7 @@ public class Player_Move : MonoBehaviour
             animator.SetBool("isJump", true);
         }
         //언덕위에 있을 때 
-        RaycastHit2D onDownhill = Physics2D.Raycast(rigid.position, Vector2.down, 1.1f, LayerMask.GetMask("DownHill"));
+        RaycastHit2D onDownhill = Physics2D.Raycast(rigid.position, Vector2.down, hillRayLen, LayerMask.GetMask("DownHill"));
         if (onDownhill.collider != null)
         {
             Debug.Log(onDownhill.collider.name);
@@ -463,7 +497,7 @@ public class Player_Move : MonoBehaviour
             //미끄러지기
             if (Input.GetKey(KeyCode.DownArrow) && !isSilding)
             {
-                animator.SetBool("isSit", true);
+                animator.SetBool("isSlide", true);
                 isSilding = true;
                 rigid.constraints = RigidbodyConstraints2D.FreezeRotation; 
                 if(isRight)
@@ -479,7 +513,7 @@ public class Player_Move : MonoBehaviour
                 //미끄러지기
                 if (Input.GetKeyDown(KeyCode.DownArrow))
                 {
-                    animator.SetBool("isSit", true);
+                    animator.SetBool("isSlide", true);
                     isSilding = true;
                     rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
                     if (isRight)
@@ -511,9 +545,9 @@ public class Player_Move : MonoBehaviour
                 isSuperMario = true;
                 marioHp = 2; break;
             case MarioStatus.FireMario:
-                marioHp = 2; break;
+                marioHp = 3; break;
             case MarioStatus.RaccoonMario:
-                marioHp = 2; break;
+                marioHp = 3; break;
             case MarioStatus.InvincibleMario:
                 isInvincibleStar=true; break;
         }
@@ -531,7 +565,7 @@ public class Player_Move : MonoBehaviour
             {
                 //상태에 따른 최대속도변경
                 case MarioStatus.NormalMario:
-                    addedLimitVelocity = LMLimitVelocity + addLimitVelocity;
+                    addedLimitVelocity = LimitVelocity + addLimitVelocity;
                     //액션키 누르면 최대속도 addAnimSpeed 만큼 추가
                     addedMaxAnimSpeed = maxAnimSpeed + addAnimSpeed;
                     //이동 시
@@ -550,7 +584,7 @@ public class Player_Move : MonoBehaviour
         }
         else if(Input.GetKeyUp(KeyCode.Z))//원상복귀
         {
-            addedLimitVelocity = LMLimitVelocity;
+            addedLimitVelocity = LimitVelocity;
             addedMaxAnimSpeed = maxAnimSpeed;
             animator.SetBool("inputActionButton", false);
             runSound.Pause();
@@ -580,9 +614,9 @@ public class Player_Move : MonoBehaviour
         notInput = false;
         isPowerUp = false;
         //애니메이션 변경: 슈퍼마리오
+        
         animator.SetBool("ChangeSuperMario",true);
         //이넘변수 변경 : 슈퍼마리오
-        UpdateMarioStatusAndHP(MarioStatus.SuperMario);
         Debug.Log("EndChange MarioForm");
     }
     //마리오 변신상태 get set
@@ -591,6 +625,69 @@ public class Player_Move : MonoBehaviour
         marioStatus = marioForm;
     }
     MarioStatus getMarioStatus() { return marioStatus; }
+
+    //히트후 무적
+    IEnumerator HitInvincible()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+        isInvincible = false;
+    }
+
+    //마리오 변신 초기화
+
+    void setChangeStatus(MarioStatus marioStetus)
+    {
+        switch (marioStetus)
+        {
+            case MarioStatus.NormalMario:
+                animator.SetBool("ChangeSuperMario", false);
+                animator.SetBool("ChangeRaccoonMario", false);
+                animator.SetBool("ChangeFireMario", false);
+                UpdateMarioStatusAndHP(marioStetus);
+                SetLMario();
+                break;
+            case MarioStatus.SuperMario:
+                animator.SetBool("ChangeSuperMario", true);
+                animator.SetBool("ChangeRaccoonMario", false);
+                animator.SetBool("ChangeFireMario", false);
+                UpdateMarioStatusAndHP(marioStetus);
+                SetSMario();
+                break;
+            case MarioStatus.RaccoonMario:
+                animator.SetBool("ChangeSuperMario", false);
+                animator.SetBool("ChangeRaccoonMario", true);
+                animator.SetBool("ChangeFireMario", false);
+                UpdateMarioStatusAndHP(marioStetus);
+                SetSMario();
+                break;
+            case MarioStatus.FireMario:
+                animator.SetBool("ChangeSuperMario", false);
+                animator.SetBool("ChangeRaccoonMario", false);
+                animator.SetBool("ChangeFireMario", true);
+                UpdateMarioStatusAndHP(marioStetus);
+                SetSMario();
+                break;
+        }
+    }
+     void SetLMario()
+    {
+        jumpInputTime = 0.4f;
+        jumpPower = LMrio_Jump_pow;
+        hitBox.size=new Vector2(0.9f, 0.9f);
+        groundRayLen = LMarioGroundRayLen;
+        hillRayLen = LMarioHillRayLen;
+    }
+
+    void SetSMario()
+    {
+        jumpInputTime = 0.5f;
+        jumpPower = SMrio_Jump_pow;
+        hitBox.size = new Vector2(0.9f, 1.7f);
+        groundRayLen = SMarioGroundRayLen;
+        hillRayLen = SMarioHillRayLen;
+    }
+
+
     //Effect
     public void marioBlink()
     {
