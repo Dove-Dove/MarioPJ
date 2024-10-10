@@ -114,7 +114,7 @@ MonoBehaviour:
   rayDistance: 0.1
   groundLayer:
     serializedVersion: 2
-    m_Bits: 64
+    m_Bits: 0
 --- !u!61 &4856413788205284321
 BoxCollider2D:
   m_ObjectHideFlags: 0

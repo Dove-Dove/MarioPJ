@@ -11,6 +11,10 @@ public class blocks : MonoBehaviour
     public GameObject itemPrefab;
     //아이템 박스 열린 이후 이미지
     public Sprite OpenImg;
+
+    public AudioSource itemSound;
+    public AudioSource hitFloorSound;
+    public AudioSource coinSound;
     void Start()
     {
         itemBocksOpen = false;
@@ -28,6 +32,8 @@ public class blocks : MonoBehaviour
             if (itemPrefab != null)
             {
                 Instantiate(itemPrefab, transform.position, Quaternion.identity);
+                hitFloorSound.Play();
+                itemSound.Play();
                 itemPrefab.SetActive(true);
                 gameObject.GetComponent<blocks>().enabled = false;
             }
