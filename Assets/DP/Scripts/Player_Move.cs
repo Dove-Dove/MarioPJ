@@ -92,6 +92,10 @@ public class Player_Move : MonoBehaviour
     public float jumpInputTime = 0.5f;
     //미끄러지기
     public bool isSilding = false;
+    //기능(Z)
+    private bool isLift
+    { get { return isLift; } set { isLift = value; }}
+
     //중간중간 전체 애니메이션 멈춤제어하는 불형
     [SerializeField]
     private bool stopMoment;
@@ -154,9 +158,10 @@ public class Player_Move : MonoBehaviour
         addedMaxAnimSpeed=maxAnimSpeed;
         //이동최고속도 설정
         addedLimitVelocity = LMLimitVelocity;
-        //
+        //스프라이트 점멸용 기존마리오 스프라이트 컬러저장
+        //변신 시 새로 저장
         originalColor = sprite.material.color;
-
+        isLift = false;
     }
 
     // Update is called once per frame
@@ -500,8 +505,10 @@ public class Player_Move : MonoBehaviour
             case MarioStatus.None:
                 break;
             case MarioStatus.NormalMario:
+                originalColor = sprite.material.color;
                 marioHp = 1; break;
-            case MarioStatus.SuperMario: 
+            case MarioStatus.SuperMario:
+                originalColor = sprite.material.color;
                 isSuperMario = true;
                 marioHp = 2; break;
             case MarioStatus.FireMario:
@@ -535,6 +542,7 @@ public class Player_Move : MonoBehaviour
                         //TODO:한번끝나고 한번제생하는 형태로
                         runSound.Play();
                     }
+                    //아이템 들기
                     break;
                     //슈퍼마리오
                 case MarioStatus.SuperMario:
@@ -554,6 +562,7 @@ public class Player_Move : MonoBehaviour
     {
         if (isSuperMario)
         {
+            //각종 수치 변경
             Debug.Log("SuperMario!!");
             //사운드 출력
             if (!isPowerUp)
