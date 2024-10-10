@@ -7,6 +7,7 @@ public class MarioCollision : MonoBehaviour
 {
     private PlatformEffector2D pletformCol;
     private GameObject playerCom;
+    public GameObject shell;
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +54,12 @@ public class MarioCollision : MonoBehaviour
         {
             playerCom.GetComponentInChildren<Player_Move>().ishit = true;
             //playerCom.GetComponentInChildren<Player_Move>().animator.SetBool("isHit", true);
+        }
+        //¿¡³Ê¹Ì
+        if (collision.tag == "Attack")
+        {
+            playerCom.GetComponentInChildren<Player_Move>().isLift = true;
+            shell = collision.gameObject;
         }
     }
 

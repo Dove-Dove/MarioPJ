@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Tilemaps;
 using UnityEngine;
@@ -94,6 +95,8 @@ public class Player_Move : MonoBehaviour
     private float jumpPower;
     //미끄러지기
     public bool isSilding = false;
+    //앉기
+    public bool isSit = false;
     [SerializeField]
     private float groundRayLen=0;
     [SerializeField]
@@ -130,13 +133,18 @@ public class Player_Move : MonoBehaviour
     public AudioSource deadSound;
     private bool isDeadSound=false;
     public AudioSource runSound;
+    public AudioSource kickSound;
+    private bool iskcikSound = false;
     //===이펙트
     private Color originalColor;
 
     //기타
     public bool timeStop=false;
+    private Vector2 LMarioHitboxSize = new Vector2(0.9f, 0.9f);
+    private Vector2 SMarioHitboxSize = new Vector2(0.9f, 1.7f);
+
     private void Awake()
-    {
+    {                                  
         hitBox = GetComponent<BoxCollider2D>();
         rigid = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
@@ -468,16 +476,31 @@ public class Player_Move : MonoBehaviour
     {
         //디버그용
         Debug.DrawRay(rigid.position, new Vector2(0,-groundRayLen), new Color(1,0,0));
-        //Debug.DrawRay(rigid.position, new Vector2(0,-hillRayLen), new Color(0,1,0));
+        Debug.DrawRay(rigid.position, new Vector2(0,-hillRayLen), new Color(0,1,0));
 
         RaycastHit2D groundHit = Physics2D.Raycast(rigid.position, Vector2.down, groundRayLen,LayerMask.GetMask("Ground"));
-        if(groundHit.collider !=null)
+        if (groundHit.collider != null)
         {
             Debug.Log("onGround");
             onAir = false;
             onGround = true;//뱡향전환효과 온오프용
             noDoubleJump = false;//점프입력가능
             animator.SetBool("isJump", false);
+            //앉기
+            if (Input.GetKey(KeyCode.DownArrow) && input_x == 0)
+            {
+                hitBox.size = LMarioHitboxSize;
+                animator.SetBool("isSit", true);
+            }
+            else
+            {
+                animator.SetBool("isSit", false);
+                //히트박스 사이즈 조정
+                if (marioStatus == MarioStatus.NormalMario)
+                    { hitBox.size = LMarioHitboxSize; }
+                else
+                    { hitBox.size = SMarioHitboxSize; }
+            }
         }
         else
         {
@@ -485,8 +508,11 @@ public class Player_Move : MonoBehaviour
             onAir = true;
             animator.SetBool("isJump", true);
         }
-        //언덕위에 있을 때 
-        RaycastHit2D onDownhill = Physics2D.Raycast(rigid.position, Vector2.down, hillRayLen, LayerMask.GetMask("DownHill"));
+
+
+
+            //언덕위에 있을 때 
+            RaycastHit2D onDownhill = Physics2D.Raycast(rigid.position, Vector2.down, hillRayLen, LayerMask.GetMask("DownHill"));
         if (onDownhill.collider != null)
         {
             Debug.Log(onDownhill.collider.name);
@@ -576,6 +602,18 @@ public class Player_Move : MonoBehaviour
                         runSound.Play();
                     }
                     //아이템 들기
+                    if(isLift)
+                    {
+                        if(GameObject.Find("Mario").GetComponent<MarioCollision>().shell != null)
+                        { 
+                            var shell = GameObject.Find("Mario").GetComponent<MarioCollision>().shell; 
+                            if(isRight)
+                                shell.transform.position = marioPos+new Vector2(0.8f,0);
+                            else
+                                shell.transform.position = marioPos + new Vector2(-0.8f, 0);
+                        }
+                        animator.SetBool("isLift", true);
+                    }
                     break;
                     //슈퍼마리오
                 case MarioStatus.SuperMario:
@@ -588,6 +626,13 @@ public class Player_Move : MonoBehaviour
             addedMaxAnimSpeed = maxAnimSpeed;
             animator.SetBool("inputActionButton", false);
             runSound.Pause();
+            if(isLift)
+            {
+                isLift = false;
+                animator.SetBool("isLift", false);
+                kickSound.Play();
+                //킥 사운드
+            }
         }
     }
 
@@ -673,7 +718,7 @@ public class Player_Move : MonoBehaviour
     {
         jumpInputTime = 0.4f;
         jumpPower = LMrio_Jump_pow;
-        hitBox.size=new Vector2(0.9f, 0.9f);
+        hitBox.size= LMarioHitboxSize;
         groundRayLen = LMarioGroundRayLen;
         hillRayLen = LMarioHillRayLen;
     }
@@ -682,7 +727,7 @@ public class Player_Move : MonoBehaviour
     {
         jumpInputTime = 0.5f;
         jumpPower = SMrio_Jump_pow;
-        hitBox.size = new Vector2(0.9f, 1.7f);
+        hitBox.size = SMarioHitboxSize;
         groundRayLen = SMarioGroundRayLen;
         hillRayLen = SMarioHillRayLen;
     }
