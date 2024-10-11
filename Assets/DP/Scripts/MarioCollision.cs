@@ -34,6 +34,18 @@ public class MarioCollision : MonoBehaviour
             playerCom.GetComponent<Player_Move>().UpdateMarioStatusAndHP(MarioStatus.SuperMario);
         }
 
+        //에너미
+        if (collision.gameObject.tag == "Enemy")
+        {
+            playerCom.GetComponentInChildren<Player_Move>().ishit = true;
+            //playerCom.GetComponentInChildren<Player_Move>().animator.SetBool("isHit", true);
+        }
+        //에너미
+        if (collision.gameObject.tag == "MovingShell")
+        {
+            playerCom.GetComponentInChildren<Player_Move>().isLift = true;
+            shell = collision.gameObject;
+        }
 
     }
 
@@ -46,31 +58,4 @@ public class MarioCollision : MonoBehaviour
     {
         
     }
-    //트리거
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        //에너미
-        if (collision.tag == "Enemy")
-        {
-            playerCom.GetComponentInChildren<Player_Move>().ishit = true;
-            //playerCom.GetComponentInChildren<Player_Move>().animator.SetBool("isHit", true);
-        }
-        //에너미
-        if (collision.tag == "MovingShell")
-        {
-            playerCom.GetComponentInChildren<Player_Move>().isLift = true;
-            shell = collision.gameObject;
-        }
-    }
-
-    private void OnTriggerStay2D(Collider2D collision)
-    {
-        
-    }
-
-    private void OnTriggerExit2D(Collider2D collision)
-    {
-        
-    }
-
 }
