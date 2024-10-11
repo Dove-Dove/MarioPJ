@@ -62,8 +62,28 @@ public class Tuttle : Enemy
             {
                 currentState = State.Dead;
             }
-
         }
+        else if (collision.gameObject.CompareTag("Player"))
+        {
+            if (hasWing)
+            {
+                hasWing = false;
+                currentState = State.Move;
+            }
+            else if (!hasWing && currentState == State.Move)
+            {
+                currentState = State.Shell;
+            }
+            else if (!hasWing && currentState == State.Shell)
+            {
+                currentState = State.ShellMove;
+            }
+            else if (currentState == State.ShellMove)
+            {
+                //플레이어 데미지
+            }
+        }
+
 
     }
 
