@@ -124,6 +124,10 @@ public class Enemy : MonoBehaviour
         {
             currentState = State.Dead;
         }
+        else if(collision.gameObject.CompareTag("Shell"))
+        {
+            Flip();
+        }
         else if (collision.gameObject.CompareTag("Player"))
         {
             if (hasWing)

@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class Tuttle : Enemy
 {
     public float shellSpeed = 8.0f;
@@ -10,10 +11,12 @@ public class Tuttle : Enemy
 
     Animator Tuttleanim;
 
+    public GameObject player;
+
     void Start()
     {
         Tuttleanim = GetComponent<Animator>();
-
+        player = GameObject.Find("Mario");
     }
 
     // Update is called once per frame
@@ -63,6 +66,10 @@ public class Tuttle : Enemy
                 currentState = State.Dead;
             }
         }
+        else if (collision.gameObject.CompareTag("Shell"))
+        {
+            Flip();
+        }
         else if (collision.gameObject.CompareTag("Player"))
         {
             if (hasWing)
@@ -76,11 +83,10 @@ public class Tuttle : Enemy
             }
             else if (!hasWing && currentState == State.Shell)
             {
-                currentState = State.ShellMove;
-            }
-            else if (currentState == State.ShellMove)
-            {
-                //플레이어 데미지
+                if (player.GetComponentInChildren<Player_Move>().isKick == true)
+                {
+                    currentState = State.ShellMove;
+                }
             }
         }
 
@@ -127,6 +133,7 @@ public class Tuttle : Enemy
     void enemyShell()
     {
         Tuttleanim.SetBool("IsShell", true);
+        gameObject.tag = "Shell";
 
         shellElapsedTime += Time.deltaTime; // timer를 누적
         if (shellElapsedTime >= shellTimer)

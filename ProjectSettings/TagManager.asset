@@ -8,6 +8,9 @@ TagManager:
   - EnemyWall
   - MovingShell
   - E_Attack
+  - Box
+  - Items
+  - Shell
   layers:
   - Default
   - TransparentFX
