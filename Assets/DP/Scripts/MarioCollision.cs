@@ -56,7 +56,7 @@ public class MarioCollision : MonoBehaviour
             //playerCom.GetComponentInChildren<Player_Move>().animator.SetBool("isHit", true);
         }
         //¿¡³Ê¹Ì
-        if (collision.tag == "Attack")
+        if (collision.tag == "MovingShell")
         {
             playerCom.GetComponentInChildren<Player_Move>().isLift = true;
             shell = collision.gameObject;

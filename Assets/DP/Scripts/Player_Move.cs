@@ -106,7 +106,10 @@ public class Player_Move : MonoBehaviour
     public float SMarioGroundRayLen = 1.1f;
     public float SMarioHillRayLen = 1.8f;
     //기능(Z)
-    public bool isLift=false;
+    public bool isLift;
+    //상태 전달용
+    private bool isKick
+    { get { return isKick; }set { isKick = value; } }
 
     //중간중간 전체 애니메이션 멈춤제어하는 불형
     [SerializeField]
@@ -598,21 +601,21 @@ public class Player_Move : MonoBehaviour
                     if(curAnimSpeed > maxAnimSpeed)
                     {
                         animator.SetBool("inputActionButton", true);
-                        //TODO:한번끝나고 한번제생하는 형태로
+                        //TODO:한번끝나고 한번재생하는 형태로
                         runSound.Play();
                     }
                     //아이템 들기
                     if(isLift)
                     {
                         if(GameObject.Find("Mario").GetComponent<MarioCollision>().shell != null)
-                        { 
+                        {
                             var shell = GameObject.Find("Mario").GetComponent<MarioCollision>().shell; 
                             if(isRight)
                                 shell.transform.position = marioPos+new Vector2(0.8f,0);
                             else
                                 shell.transform.position = marioPos + new Vector2(-0.8f, 0);
+                            animator.SetBool("isLift", true);
                         }
-                        animator.SetBool("isLift", true);
                     }
                     break;
                     //슈퍼마리오
@@ -629,10 +632,12 @@ public class Player_Move : MonoBehaviour
             if(isLift)
             {
                 isLift = false;
+                isKick = true;
                 animator.SetBool("isLift", false);
                 kickSound.Play();
                 //킥 사운드
             }
+            else { isKick = false; }
         }
     }
 
