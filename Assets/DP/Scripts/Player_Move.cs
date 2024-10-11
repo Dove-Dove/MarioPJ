@@ -108,8 +108,7 @@ public class Player_Move : MonoBehaviour
     //기능(Z)
     public bool isLift;
     //상태 전달용
-    private bool isKick
-    { get { return isKick; }set { isKick = value; } }
+    public bool isKick;
 
     //중간중간 전체 애니메이션 멈춤제어하는 불형
     [SerializeField]
