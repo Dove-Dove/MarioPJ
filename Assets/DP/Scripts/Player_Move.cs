@@ -584,6 +584,8 @@ public class Player_Move : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Z))
         {
+            isKick = false;
+
             //Debug.Log("Input 'Z'button");
             switch (marioStatus)
             {
@@ -604,7 +606,6 @@ public class Player_Move : MonoBehaviour
                     {
                         if(GameObject.Find("Mario").GetComponent<MarioCollision>().shell != null)
                         {
-                            isKick = false;
                             var shell = GameObject.Find("Mario").GetComponent<MarioCollision>().shell; 
                             if(isRight)
                                 shell.transform.position = marioPos + new Vector2(0.8f,0);
