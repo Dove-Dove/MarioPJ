@@ -124,21 +124,41 @@ public class Enemy : MonoBehaviour
         {
             currentState = State.Dead;
         }
-
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        Debug.Log(collision.tag);
-        if (collision.gameObject.CompareTag("Player"))
+        else if (collision.gameObject.CompareTag("Player"))
         {
             if (hasWing)
             {
+                Debug.Log(collision.gameObject.name);
+
                 hasWing = false;
                 currentState = State.Move;
             }
             else
             {
+                Debug.Log(collision.gameObject.name);
+
+                currentState = State.Dead;
+            }
+        }
+
+
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            if (hasWing)
+            {
+                Debug.Log(collision.tag);
+
+                hasWing = false;
+                currentState = State.Move;
+            }
+            else
+            {
+                Debug.Log(collision.tag);
+
                 currentState = State.Dead;
             }
         }
@@ -160,6 +180,7 @@ public class Enemy : MonoBehaviour
     public void enemyDead()
     {
         animator.SetTrigger("IsDead");
+        rb.gravityScale = 0;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
 
         currentState = State.Dead;
