@@ -11,7 +11,7 @@ public class Tuttle : Enemy
 
     Animator Tuttleanim;
 
-    public GameObject player;
+    private GameObject player;
 
     void Start()
     {
@@ -47,15 +47,15 @@ public class Tuttle : Enemy
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("EnemyWall"))
+        if (collision.gameObject.CompareTag("EnemyWall")) //벽 충돌
         {
             Flip();
         }
-        else if (collision.gameObject.tag.Contains("Attack"))
+        else if (collision.gameObject.tag.Contains("Attack")) //공격 충돌
         {
             currentState = State.Dead;
         }
-        else if (collision.gameObject.CompareTag("MovingShell"))
+        else if (collision.gameObject.CompareTag("MovingShell")) //움직이는 껍질과충돌
         {
             if (currentState == State.ShellMove)
             {
@@ -66,11 +66,11 @@ public class Tuttle : Enemy
                 currentState = State.Dead;
             }
         }
-        else if (collision.gameObject.CompareTag("Shell"))
+        else if (collision.gameObject.CompareTag("Shell")) //껍질과 충돌
         {
             Flip();
         }
-        else if (collision.gameObject.CompareTag("Player"))
+        else if (collision.gameObject.CompareTag("Player")) //플레이어와 충돌
         {
             if (hasWing)
             {
@@ -80,6 +80,7 @@ public class Tuttle : Enemy
             else if (!hasWing && currentState == State.Move)
             {
                 currentState = State.Shell;
+                DeadSound.Play();
             }
             else if (!hasWing && currentState == State.Shell)
             {

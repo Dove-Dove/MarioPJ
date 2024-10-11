@@ -35,6 +35,8 @@ public class Enemy : MonoBehaviour
     Animator animator;
     public GameObject wings;
 
+    public AudioSource DeadSound;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -115,13 +117,14 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //else if(collision.gameObject.layer == LayerMask.NameToLayer("EnemyWall"))
         if (collision.gameObject.CompareTag("EnemyWall"))
         {
             Flip();
         }
         else if (collision.gameObject.CompareTag("MovingShell"))
         {
+            DeadSound.Play();
+
             currentState = State.Dead;
         }
         else if(collision.gameObject.CompareTag("Shell"))
@@ -130,6 +133,8 @@ public class Enemy : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Player"))
         {
+            DeadSound.Play();
+
             if (hasWing)
             {
                 Debug.Log(collision.gameObject.name);
@@ -186,7 +191,6 @@ public class Enemy : MonoBehaviour
         animator.SetTrigger("IsDead");
         rb.gravityScale = 0;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
-
         currentState = State.Dead;
         Invoke("destroy", 1.0f);
     }
