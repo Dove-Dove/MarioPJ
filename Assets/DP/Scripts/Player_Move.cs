@@ -35,9 +35,7 @@ public class Player_Move : MonoBehaviour
     [SerializeField]
     private MarioStatus marioStatus = MarioStatus.NormalMario;
     //마리오 HP
-    [SerializeField]
-    private uint hp
-    { get; set; }
+    public uint hp;
     //마리오 변신 확인용
     public bool isFireMario = false;
     public bool isRaccoonMario = false;
@@ -108,7 +106,7 @@ public class Player_Move : MonoBehaviour
     //기능(Z)
     public bool isLift;
     //상태 전달용
-    public bool isKick;
+    public bool isKick=true;
 
     //중간중간 전체 애니메이션 멈춤제어하는 불형
     [SerializeField]
@@ -222,7 +220,7 @@ public class Player_Move : MonoBehaviour
                 }
                 else if (marioHp==2)
                 {
-                    Debug.Log("Set SuperMario");
+                    //Debug.Log("Set SuperMario");
                     setChangeStatus(MarioStatus.SuperMario);
                 }
             }
@@ -240,7 +238,7 @@ public class Player_Move : MonoBehaviour
         //입력불가 상황
         else if(notInput)
         {
-            Debug.Log("notInput");
+            //Debug.Log("notInput");
             ChangeSuperMario();
             setChangeStatus(MarioStatus.SuperMario);
             return;
@@ -359,17 +357,15 @@ public class Player_Move : MonoBehaviour
             { 
                 Time.timeScale = 0;
                 timeStop = true;
-                Debug.Log("Time Stop");
+                //Debug.Log("Time Stop");
             }
             else if (Input.GetKeyDown(KeyCode.P) && timeStop)
             {
                 Time.timeScale = 1;
                 timeStop = false;
-                Debug.Log("Time Start");
+                //Debug.Log("Time Start");
             }
-
-
-            Debug.Log(marioStatus);
+            //Debug.Log(marioStatus);
         }
     }
     //====================함수==================//
@@ -461,11 +457,11 @@ public class Player_Move : MonoBehaviour
             }
 
         jumpPower = LMrio_Jump_pow;
-        Debug.Log(jumpPower);
+        //Debug.Log(jumpPower);
         //addforce
         if (onceInputJumpBoutton &&!noDoubleJump)
         {
-            Debug.Log("Jump");
+            //Debug.Log("Jump");
             var direction = new Vector2(0, jumpPower);
             rigid.AddForce(direction, ForceMode2D.Impulse);
             //힘 제한
@@ -483,7 +479,7 @@ public class Player_Move : MonoBehaviour
         RaycastHit2D groundHit = Physics2D.Raycast(rigid.position, Vector2.down, groundRayLen,LayerMask.GetMask("Ground"));
         if (groundHit.collider != null)
         {
-            Debug.Log("onGround");
+            //Debug.Log("onGround");
             onAir = false;
             onGround = true;//뱡향전환효과 온오프용
             noDoubleJump = false;//점프입력가능
@@ -517,7 +513,7 @@ public class Player_Move : MonoBehaviour
             RaycastHit2D onDownhill = Physics2D.Raycast(rigid.position, Vector2.down, hillRayLen, LayerMask.GetMask("DownHill"));
         if (onDownhill.collider != null)
         {
-            Debug.Log(onDownhill.collider.name);
+            //Debug.Log(onDownhill.collider.name);
             onGround = true;
             onAir = false;
             animator.SetBool("isJump", false);
@@ -588,7 +584,7 @@ public class Player_Move : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Z))
         {
-            Debug.Log("Input 'Z'button");
+            //Debug.Log("Input 'Z'button");
             switch (marioStatus)
             {
                 //상태에 따른 최대속도변경
@@ -608,9 +604,10 @@ public class Player_Move : MonoBehaviour
                     {
                         if(GameObject.Find("Mario").GetComponent<MarioCollision>().shell != null)
                         {
+                            isKick = false;
                             var shell = GameObject.Find("Mario").GetComponent<MarioCollision>().shell; 
                             if(isRight)
-                                shell.transform.position = marioPos+new Vector2(0.8f,0);
+                                shell.transform.position = marioPos + new Vector2(0.8f,0);
                             else
                                 shell.transform.position = marioPos + new Vector2(-0.8f, 0);
                             animator.SetBool("isLift", true);
@@ -630,13 +627,11 @@ public class Player_Move : MonoBehaviour
             runSound.Pause();
             if(isLift)
             {
-                isLift = false;
                 isKick = true;
                 animator.SetBool("isLift", false);
                 kickSound.Play();
                 //킥 사운드
             }
-            else { isKick = false; }
         }
     }
 
@@ -645,7 +640,7 @@ public class Player_Move : MonoBehaviour
         if (isSuperMario)
         {
             //각종 수치 변경
-            Debug.Log("SuperMario!!");
+            //Debug.Log("SuperMario!!");
             //사운드 출력
             if (!isPowerUp)
             {
@@ -666,7 +661,7 @@ public class Player_Move : MonoBehaviour
         
         animator.SetBool("ChangeSuperMario",true);
         //이넘변수 변경 : 슈퍼마리오
-        Debug.Log("EndChange MarioForm");
+        //Debug.Log("EndChange MarioForm");
     }
     //마리오 변신상태 get set
     public void setMarioTransform(MarioStatus marioForm)
