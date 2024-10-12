@@ -5,19 +5,21 @@ using UnityEngine;
 
 public class brickBlocks : MonoBehaviour
 {
-    //임시 변수
-    /*
-        완성하지 않았음 - 게임메니저가 어느정도 되면 다시 작업 해야 함 
-    */
-    public bool small = false;
-    public bool big = true;
-    //-----
+    //opne , notopen 구분 이유
+    // 작은 마리오일때 상호작용이 있어서 구분하기 위해서 만들었음
+    private bool open = false;
+    private bool notOpen = false;
+
+    //----- 게임 오브젝트 
     public GameObject coin;
-    //-----
+    public GameObject WallObject;
+    public GameObject WallUnderObject;
+
     //사운드
     public AudioSource hitBlockSound;
     public AudioSource BreakBlockSound;
     private int soundPlay;
+
     //작은 마리오가 벽돌 칠때 
     private Vector2 nowPos;
     private Vector2 movePos;
@@ -40,9 +42,19 @@ public class brickBlocks : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (WallUnderObject.GetComponent<underCol>().WallUnderOpen)
+        {     
+            if(WallUnderObject.GetComponent<underCol>().big)
+                open = true;
+            else
+                notOpen = true;
+        }
+
+        else if(WallObject.GetComponent<BlockWall>().WallOpen)
+            open = true;
 
         //작은 마리오 상태일때 잠깐 위로 이동
-       if(small && moveTime <= 0.5f)
+       if (notOpen && moveTime <= 0.5f)
         {
             if (soundPlay == 0)
             {
@@ -57,12 +69,12 @@ public class brickBlocks : MonoBehaviour
         {
             moveTime = 0.0f;
             transform.position = Vector2.MoveTowards(transform.position, nowPos, 10.0f * 0.021f);
-            small = false;
+            notOpen = false;
             soundPlay = 0;
         }
        
        //큰 마리오 일떄
-       if((usingBlock !=null ) && getCoin)
+       if((usingBlock !=null ) && getCoin && open)
         {
             coin.SetActive(true);
             GetComponent<SpriteRenderer>().sprite = usingBlock;
@@ -70,10 +82,11 @@ public class brickBlocks : MonoBehaviour
             gameObject.GetComponent<brickBlocks>().enabled = false;
         }
 
-       else if(big)
+       else if(open)
         {
             BreakBlockSound.Play(); 
             gameObject.SetActive(false);
         }
     }
+
 }

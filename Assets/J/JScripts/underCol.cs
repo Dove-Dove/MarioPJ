@@ -6,6 +6,7 @@ using UnityEngine;
 public class underCol : MonoBehaviour
 {
     public bool WallUnderOpen = false;
+    public bool big = false;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -14,12 +15,17 @@ public class underCol : MonoBehaviour
             if (GameObject.Find("Mario").GetComponent<Player_Move>().onAir == true)
             {
                 WallUnderOpen = true;
+                big = GameObject.Find("GameManager").GetComponent<GameManager>().breakBlock;
             }
 
-                
         }
 
-
     }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        WallUnderOpen = false;
+        big = false;
+}
 }
 
