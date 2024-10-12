@@ -26,6 +26,9 @@ public class Player_Move : MonoBehaviour
     public Animator animator;
     public SpriteRenderer sprite;
 
+    //오브젝트 가져오기용
+    private GameObject tuttleShell;
+
     public float LMrio_Jump_pow = 9f;
     public float SMrio_Jump_pow = 10f;
     public float mario_AddedJumpPowLevel = 2.5f;
@@ -103,6 +106,9 @@ public class Player_Move : MonoBehaviour
     public float LMarioHillRayLen = 1.3f;
     public float SMarioGroundRayLen = 1.1f;
     public float SMarioHillRayLen = 1.8f;
+    //공격
+    public bool isEnemy=false;
+    public bool isAttack = false;
     //기능(Z)
     public bool isLift;
     //상태 전달용
@@ -330,7 +336,7 @@ public class Player_Move : MonoBehaviour
             CheckOnGround();
 
            //==점프
-           if (Input.GetKey(KeyCode.X))
+           if (Input.GetKey(KeyCode.X) || isAttack)
             {
                 Jump();
             }
@@ -484,6 +490,7 @@ public class Player_Move : MonoBehaviour
             onGround = true;//뱡향전환효과 온오프용
             noDoubleJump = false;//점프입력가능
             animator.SetBool("isJump", false);
+
             //앉기
             if (Input.GetKey(KeyCode.DownArrow) && input_x == 0)
             {
@@ -506,8 +513,6 @@ public class Player_Move : MonoBehaviour
             onAir = true;
             animator.SetBool("isJump", true);
         }
-
-
 
             //언덕위에 있을 때 
             RaycastHit2D onDownhill = Physics2D.Raycast(rigid.position, Vector2.down, hillRayLen, LayerMask.GetMask("DownHill"));
@@ -552,6 +557,14 @@ public class Player_Move : MonoBehaviour
             { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; }
 
         }
+
+        RaycastHit2D marioAttackHit = Physics2D.Raycast(rigid.position, Vector2.down, groundRayLen, LayerMask.GetMask("Enemy"));
+        if(marioAttackHit.collider != null)
+        {
+            isEnemy = true;
+            gameObject.tag = "PlayerAttack";
+        }
+        else { isEnemy = false; gameObject.tag = "Player"; isAttack = false; }
     }
 
     public void UpdateMarioStatusAndHP(MarioStatus status)
@@ -584,6 +597,7 @@ public class Player_Move : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Z))
         {
+            //킥 안되도록
             isKick = false;
 
             //Debug.Log("Input 'Z'button");
@@ -606,11 +620,11 @@ public class Player_Move : MonoBehaviour
                     {
                         if(GameObject.Find("Mario").GetComponent<MarioCollision>().shell != null)
                         {
-                            var shell = GameObject.Find("Mario").GetComponent<MarioCollision>().shell; 
+                            tuttleShell = GameObject.Find("Mario").GetComponent<MarioCollision>().shell; 
                             if(isRight)
-                                shell.transform.position = marioPos + new Vector2(0.8f,0);
+                                tuttleShell.transform.position = marioPos + new Vector2(0.8f,0);
                             else
-                                shell.transform.position = marioPos + new Vector2(-0.8f, 0);
+                                tuttleShell.transform.position = marioPos + new Vector2(-0.8f, 0);
                             animator.SetBool("isLift", true);
                         }
                     }
@@ -628,10 +642,16 @@ public class Player_Move : MonoBehaviour
             runSound.Pause();
             if(isLift)
             {
+                if (tuttleShell != null)
+                { 
+                    tuttleShell = null;
+                    //킥 사운드
+                    kickSound.Play();
+                }
                 isKick = true;
+                isLift = false;
                 animator.SetBool("isLift", false);
-                kickSound.Play();
-                //킥 사운드
+
             }
         }
     }
@@ -686,20 +706,23 @@ public class Player_Move : MonoBehaviour
         {
             case MarioStatus.NormalMario:
                 animator.SetBool("ChangeSuperMario", false);
+                animator.Play("LMario_idle");
                 animator.SetBool("ChangeRaccoonMario", false);
                 animator.SetBool("ChangeFireMario", false);
                 UpdateMarioStatusAndHP(marioStetus);
                 SetLMario();
                 break;
             case MarioStatus.SuperMario:
+                SetSMario();
                 animator.SetBool("ChangeSuperMario", true);
+                animator.Play("SMario_idle");
                 animator.SetBool("ChangeRaccoonMario", false);
                 animator.SetBool("ChangeFireMario", false);
                 UpdateMarioStatusAndHP(marioStetus);
-                SetSMario();
                 break;
             case MarioStatus.RaccoonMario:
                 animator.SetBool("ChangeSuperMario", false);
+                animator.Play("RMario_idle");
                 animator.SetBool("ChangeRaccoonMario", true);
                 animator.SetBool("ChangeFireMario", false);
                 UpdateMarioStatusAndHP(marioStetus);
@@ -707,6 +730,7 @@ public class Player_Move : MonoBehaviour
                 break;
             case MarioStatus.FireMario:
                 animator.SetBool("ChangeSuperMario", false);
+                animator.Play("FMario_idle");
                 animator.SetBool("ChangeRaccoonMario", false);
                 animator.SetBool("ChangeFireMario", true);
                 UpdateMarioStatusAndHP(marioStetus);
@@ -731,7 +755,6 @@ public class Player_Move : MonoBehaviour
         groundRayLen = SMarioGroundRayLen;
         hillRayLen = SMarioHillRayLen;
     }
-
 
     //Effect
     public void marioBlink()
