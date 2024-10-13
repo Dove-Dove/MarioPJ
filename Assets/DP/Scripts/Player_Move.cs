@@ -37,6 +37,7 @@ public class Player_Move : MonoBehaviour
     public bool isLittleMario;
     [SerializeField]
     private MarioStatus marioStatus = MarioStatus.NormalMario;
+    private MarioStatus curStatus;
     //마리오 HP
     public uint hp;
     //마리오 변신 확인용
@@ -178,8 +179,10 @@ public class Player_Move : MonoBehaviour
         FlipPlayer(true);
         //상태 및 hp적용
         UpdateMarioStatusAndHP(MarioStatus.NormalMario);
+        //마리오 상태변화 감지용
+        curStatus = marioStatus;
         //애니메이션 최고속도 설정
-        addedMaxAnimSpeed=maxAnimSpeed;
+        addedMaxAnimSpeed =maxAnimSpeed;
         //이동최고속도 설정
         addedLimitVelocity = LimitVelocity;
         //스프라이트 점멸용 기존마리오 스프라이트 컬러저장
@@ -221,13 +224,13 @@ public class Player_Move : MonoBehaviour
                 if (marioHp==1)
                 {
                     //기본 마리오
-                    setChangeStatus(MarioStatus.NormalMario);
+                    setChangeStatus();
                     
                 }
                 else if (marioHp==2)
                 {
                     //Debug.Log("Set SuperMario");
-                    setChangeStatus(MarioStatus.SuperMario);
+                    setChangeStatus();
                 }
             }
 
@@ -246,7 +249,7 @@ public class Player_Move : MonoBehaviour
         {
             //Debug.Log("notInput");
             ChangeSuperMario();
-            setChangeStatus(MarioStatus.SuperMario);
+            setChangeStatus();
             return;
         }
         //클리어
@@ -371,7 +374,13 @@ public class Player_Move : MonoBehaviour
                 timeStop = false;
                 //Debug.Log("Time Start");
             }
-            //Debug.Log(marioStatus);
+            
+            //테스트용 마리오 변신시 사용
+            if(curStatus !=marioStatus)
+            {
+                curStatus=marioStatus;
+                setChangeStatus();
+            }
         }
     }
     //====================함수==================//
@@ -584,6 +593,7 @@ public class Player_Move : MonoBehaviour
             case MarioStatus.FireMario:
                 marioHp = 3; break;
             case MarioStatus.RaccoonMario:
+                originalColor = sprite.material.color;
                 marioHp = 3; break;
             case MarioStatus.InvincibleMario:
                 isInvincibleStar=true; break;
@@ -700,16 +710,16 @@ public class Player_Move : MonoBehaviour
 
     //마리오 변신 초기화
 
-    void setChangeStatus(MarioStatus marioStetus)
+    public void setChangeStatus()
     {
-        switch (marioStetus)
+        switch (marioStatus)
         {
             case MarioStatus.NormalMario:
                 animator.SetBool("ChangeSuperMario", false);
                 animator.Play("LMario_idle");
                 animator.SetBool("ChangeRaccoonMario", false);
                 animator.SetBool("ChangeFireMario", false);
-                UpdateMarioStatusAndHP(marioStetus);
+                UpdateMarioStatusAndHP(marioStatus);
                 SetLMario();
                 break;
             case MarioStatus.SuperMario:
@@ -718,14 +728,14 @@ public class Player_Move : MonoBehaviour
                 animator.Play("SMario_idle");
                 animator.SetBool("ChangeRaccoonMario", false);
                 animator.SetBool("ChangeFireMario", false);
-                UpdateMarioStatusAndHP(marioStetus);
+                UpdateMarioStatusAndHP(marioStatus);
                 break;
             case MarioStatus.RaccoonMario:
                 animator.SetBool("ChangeSuperMario", false);
                 animator.Play("RMario_idle");
                 animator.SetBool("ChangeRaccoonMario", true);
                 animator.SetBool("ChangeFireMario", false);
-                UpdateMarioStatusAndHP(marioStetus);
+                UpdateMarioStatusAndHP(marioStatus);
                 SetSMario();
                 break;
             case MarioStatus.FireMario:
@@ -733,7 +743,7 @@ public class Player_Move : MonoBehaviour
                 animator.Play("FMario_idle");
                 animator.SetBool("ChangeRaccoonMario", false);
                 animator.SetBool("ChangeFireMario", true);
-                UpdateMarioStatusAndHP(marioStetus);
+                UpdateMarioStatusAndHP(marioStatus);
                 SetSMario();
                 break;
         }
