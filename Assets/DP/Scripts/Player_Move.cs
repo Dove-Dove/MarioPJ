@@ -159,7 +159,7 @@ public class Player_Move : MonoBehaviour
 
         //회전 고정
         rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
-
+        hitBox.offset = new Vector2(0, 0.9f);
         isSuperMario = false;
         isLittleMario = true;
         //TODO:이후 레이로 바닦확인
@@ -178,6 +178,7 @@ public class Player_Move : MonoBehaviour
         //시작 시 오른쪽으로
         FlipPlayer(true);
         //상태 및 hp적용
+        marioStatus= MarioStatus.NormalMario;
         UpdateMarioStatusAndHP(MarioStatus.NormalMario);
         //마리오 상태변화 감지용
         curStatus = marioStatus;
@@ -224,12 +225,14 @@ public class Player_Move : MonoBehaviour
                 if (marioHp==1)
                 {
                     //기본 마리오
+                    marioStatus=MarioStatus.NormalMario;
                     setChangeStatus();
                     
                 }
                 else if (marioHp==2)
                 {
                     //Debug.Log("Set SuperMario");
+                    marioStatus = MarioStatus.SuperMario;
                     setChangeStatus();
                 }
             }
@@ -240,7 +243,8 @@ public class Player_Move : MonoBehaviour
                 ishitSound = true;
                 hitSound.Play();
             }
-            marioBlink();
+            //TODO:컬러문제인거 같지만 일단 보류
+            //marioBlink();
             
             return;
         }
@@ -504,6 +508,7 @@ public class Player_Move : MonoBehaviour
             if (Input.GetKey(KeyCode.DownArrow) && input_x == 0)
             {
                 hitBox.size = LMarioHitboxSize;
+                hitBox.offset = new Vector2(0, 0.5f);
                 animator.SetBool("isSit", true);
             }
             else
@@ -511,9 +516,9 @@ public class Player_Move : MonoBehaviour
                 animator.SetBool("isSit", false);
                 //히트박스 사이즈 조정
                 if (marioStatus == MarioStatus.NormalMario)
-                    { hitBox.size = LMarioHitboxSize; }
+                    { hitBox.size = LMarioHitboxSize; hitBox.offset = new Vector2(0, 0.5f); }
                 else
-                    { hitBox.size = SMarioHitboxSize; }
+                    { hitBox.size = SMarioHitboxSize; hitBox.offset =new Vector2(0,0.9f); }
             }
         }
         else
@@ -593,7 +598,6 @@ public class Player_Move : MonoBehaviour
             case MarioStatus.FireMario:
                 marioHp = 3; break;
             case MarioStatus.RaccoonMario:
-                originalColor = sprite.material.color;
                 marioHp = 3; break;
             case MarioStatus.InvincibleMario:
                 isInvincibleStar=true; break;
@@ -716,7 +720,7 @@ public class Player_Move : MonoBehaviour
         {
             case MarioStatus.NormalMario:
                 animator.SetBool("ChangeSuperMario", false);
-                animator.Play("LMario_idle");
+                animator.Play("SuperMario_2_LMario");
                 animator.SetBool("ChangeRaccoonMario", false);
                 animator.SetBool("ChangeFireMario", false);
                 UpdateMarioStatusAndHP(marioStatus);
@@ -725,7 +729,7 @@ public class Player_Move : MonoBehaviour
             case MarioStatus.SuperMario:
                 SetSMario();
                 animator.SetBool("ChangeSuperMario", true);
-                animator.Play("SMario_idle");
+                animator.Play("LMario_2_SuperMario");
                 animator.SetBool("ChangeRaccoonMario", false);
                 animator.SetBool("ChangeFireMario", false);
                 UpdateMarioStatusAndHP(marioStatus);
@@ -753,6 +757,7 @@ public class Player_Move : MonoBehaviour
         jumpInputTime = 0.4f;
         jumpPower = LMrio_Jump_pow;
         hitBox.size= LMarioHitboxSize;
+        hitBox.offset = new Vector2(0, 0.9f);
         groundRayLen = LMarioGroundRayLen;
         hillRayLen = LMarioHillRayLen;
     }
@@ -762,6 +767,7 @@ public class Player_Move : MonoBehaviour
         jumpInputTime = 0.5f;
         jumpPower = SMrio_Jump_pow;
         hitBox.size = SMarioHitboxSize;
+        hitBox.offset = new Vector2(0, 0.9f);
         groundRayLen = SMarioGroundRayLen;
         hillRayLen = SMarioHillRayLen;
     }
