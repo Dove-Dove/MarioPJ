@@ -23,7 +23,7 @@ public class items : MonoBehaviour
     //아이템 이동속도(버섯, 별)
     public float movespeed =2 ;
     // 좌우 랜덤용 함수
-    bool randomWay = false;
+    public bool randomWay = false;
 
     bool openItem = true;
 
