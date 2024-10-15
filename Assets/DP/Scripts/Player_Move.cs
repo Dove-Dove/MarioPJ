@@ -26,6 +26,7 @@ public class Player_Move : MonoBehaviour
     public Animator animator;
     public SpriteRenderer sprite;
     public PhysicsMaterial2D physicsMaterial;
+    public GameObject tail;
 
     //오브젝트 가져오기용
     private GameObject tuttleShell;
@@ -147,6 +148,8 @@ public class Player_Move : MonoBehaviour
     public AudioSource runSound;
     public AudioSource kickSound;
     private bool iskcikSound = false;
+    public AudioSource tailAttackSound;
+    private bool isTailAttackSound=false;
     //===이펙트
     private Color originalColor;
 
@@ -204,6 +207,7 @@ public class Player_Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        originalColor = sprite.material.color;
         marioPos =rigid.position;
         //플레이어 이동불가 조건
         if(ishit && !isInvincible)
@@ -563,6 +567,7 @@ public class Player_Move : MonoBehaviour
             {
                 animator.SetBool("isSlide", true);
                 isSilding = true;
+                gameObject.tag = "PlayerAttack";
                 rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
                 if (isRight)
                 {
@@ -579,8 +584,9 @@ public class Player_Move : MonoBehaviour
             //언덕위에서 이동입력없으면 정지
             //TODO:슬라이드 작동되도록
             if (input_x == 0 &&!isSilding &&!onAir)
-            { 
+            {
                 //미끄러지기
+                gameObject.tag = "PlayerAttack";
                 if (Input.GetKeyDown(KeyCode.DownArrow))
                 {
                     animator.SetBool("isSlide", true);
@@ -601,7 +607,7 @@ public class Player_Move : MonoBehaviour
                 rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
             }
             else
-            { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; }
+            { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; gameObject.tag = "Player"; }
 
         }
 
@@ -622,10 +628,8 @@ public class Player_Move : MonoBehaviour
             case MarioStatus.None:
                 break;
             case MarioStatus.NormalMario:
-                originalColor = sprite.material.color;
                 marioHp = 1; break;
             case MarioStatus.SuperMario:
-                originalColor = sprite.material.color;
                 isSuperMario = true;
                 marioHp = 2; break;
             case MarioStatus.FireMario:
@@ -647,37 +651,56 @@ public class Player_Move : MonoBehaviour
             //킥 안되도록
             isKick = false;
 
+            addedLimitVelocity = LimitVelocity + addLimitVelocity;
+            //액션키 누르면 최대속도 addAnimSpeed 만큼 추가
+            addedMaxAnimSpeed = maxAnimSpeed + addAnimSpeed;
+            //이동 시
+            if (curAnimSpeed > maxAnimSpeed)
+            {
+                animator.SetBool("inputActionButton", true);
+                //TODO:한번끝나고 한번재생하는 형태로
+                runSound.Play();
+            }
+            //아이템 들기
+            if (isLift)
+            {
+                if (GameObject.Find("Mario").GetComponent<MarioCollision>().shell != null)
+                {
+                    tuttleShell = GameObject.Find("Mario").GetComponent<MarioCollision>().shell;
+                    if (isRight)
+                        tuttleShell.transform.position = marioPos + new Vector2(0.8f, 0.5f);
+                    else
+                        tuttleShell.transform.position = marioPos + new Vector2(-0.8f, 0.5f);
+                    animator.SetBool("isLift", true);
+                }
+            }
+            else
+            {
+                tuttleShell = null;
+            }
+
             //Debug.Log("Input 'Z'button");
             switch (marioStatus)
             {
                 //상태에 따른 최대속도변경
                 case MarioStatus.NormalMario:
-                    addedLimitVelocity = LimitVelocity + addLimitVelocity;
-                    //액션키 누르면 최대속도 addAnimSpeed 만큼 추가
-                    addedMaxAnimSpeed = maxAnimSpeed + addAnimSpeed;
-                    //이동 시
-                    if(curAnimSpeed > maxAnimSpeed)
-                    {
-                        animator.SetBool("inputActionButton", true);
-                        //TODO:한번끝나고 한번재생하는 형태로
-                        runSound.Play();
-                    }
-                    //아이템 들기
-                    if(isLift)
-                    {
-                        if(GameObject.Find("Mario").GetComponent<MarioCollision>().shell != null)
-                        {
-                            tuttleShell = GameObject.Find("Mario").GetComponent<MarioCollision>().shell; 
-                            if(isRight)
-                                tuttleShell.transform.position = marioPos + new Vector2(0.8f,0);
-                            else
-                                tuttleShell.transform.position = marioPos + new Vector2(-0.8f, 0);
-                            animator.SetBool("isLift", true);
-                        }
-                    }
                     break;
-                    //슈퍼마리오
+                //슈퍼마리오
                 case MarioStatus.SuperMario:
+                    break;
+                //불꽃마리오
+                case MarioStatus.FireMario:
+                    break;
+                //너구리마리오
+                case MarioStatus.RaccoonMario:
+                    animator.SetBool("isTailAttack",true);
+                    if(Input.GetKeyDown(KeyCode.Z))
+                        animator.Play("RMario_tailattack");
+                    if (!isTailAttackSound)
+                    {
+                        isTailAttackSound = true;
+                        tailAttackSound.Play();
+                    }
                     break;
             }
         }
@@ -686,6 +709,8 @@ public class Player_Move : MonoBehaviour
             addedLimitVelocity = LimitVelocity;
             addedMaxAnimSpeed = maxAnimSpeed;
             animator.SetBool("inputActionButton", false);
+            animator.SetBool("isTailAttack", false);
+            isTailAttackSound = false;
             runSound.Pause();
             if(isLift)
             {
@@ -804,7 +829,16 @@ public class Player_Move : MonoBehaviour
         groundRayLen = SMarioGroundRayLen;
         hillRayLen = SMarioHillRayLen;
     }
+    //꼬리 히트박스켜고 끄기
+    public void onTailHitbox()
+    {
+        tail.SetActive(true);    
+    }
 
+    public void offTailHitbox()
+    {
+        tail.SetActive(false);
+    }
     //Effect
     public void marioBlink()
     {

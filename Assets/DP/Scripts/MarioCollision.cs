@@ -37,19 +37,20 @@ public class MarioCollision : MonoBehaviour
             switch(type)
             {
                 case Itemtypy.mushroom://버섯
-                    if (player.getMarioStatus() != MarioStatus.NormalMario)
-                    { return; //점수추가
-                    }
-                    else
+                    if (player.getMarioStatus() == MarioStatus.NormalMario)
                     {
                         player.setMarioStatus(MarioStatus.SuperMario);
                         player.setChangeStatus();
+                    }
+                    else
+                    {
+                        Destroy(collision.gameObject); return; //점수추가
                     }
                     break;
                 case Itemtypy.leaf://나뭇잎
                     if (player.getMarioStatus() == MarioStatus.RaccoonMario)
                     {
-                        return; //점수추가
+                        Destroy(collision.gameObject); return; //점수추가
                     }
                     else if(player.getMarioStatus() == MarioStatus.NormalMario)
                     {
@@ -65,7 +66,7 @@ public class MarioCollision : MonoBehaviour
                 case Itemtypy.flower://불 꽃
                     if (player.getMarioStatus() == MarioStatus.FireMario)
                     {
-                        return; //점수추가
+                        Destroy(collision.gameObject); return; //점수추가
                     }
                     else if (player.getMarioStatus() == MarioStatus.NormalMario)
                     {
@@ -104,6 +105,8 @@ public class MarioCollision : MonoBehaviour
             playerCom.GetComponentInChildren<Player_Move>().isLift = true;
             shell = collision.gameObject;
         }
+        else
+        { shell=null; }
 
     }
 
