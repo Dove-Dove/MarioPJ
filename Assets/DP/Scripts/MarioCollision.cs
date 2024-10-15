@@ -8,11 +8,13 @@ public class MarioCollision : MonoBehaviour
     private PlatformEffector2D pletformCol;
     private GameObject playerCom;
     public GameObject shell;
+    private Player_Move player;
     // Start is called before the first frame update
     void Start()
     {
         pletformCol = GetComponent<PlatformEffector2D>();
         playerCom = GameObject.Find("Mario");
+        player = playerCom.GetComponent<Player_Move>();
     }
 
     // Update is called once per frame
@@ -26,12 +28,63 @@ public class MarioCollision : MonoBehaviour
         //아이템
         if(collision.collider.tag=="Items")
         {
-            //TODO:정확한 확인과정 추가
-            Destroy(collision.gameObject);
+            
 
             //playerCom.GetComponent<Player_Move>().setMarioTransform(MarioStatus.SuperMario);
-            playerCom.GetComponent<Player_Move>().NotInput = true;
-            playerCom.GetComponent<Player_Move>().UpdateMarioStatusAndHP(MarioStatus.SuperMario);
+            player.NotInput = true;
+            //아이템 종류별 효과적용
+            var type = collision.gameObject.GetComponent<items>().itemtypys;
+            switch(type)
+            {
+                case Itemtypy.mushroom://버섯
+                    if (player.getMarioStatus() != MarioStatus.NormalMario)
+                    { return; //점수추가
+                    }
+                    else
+                    {
+                        player.setMarioStatus(MarioStatus.SuperMario);
+                        player.setChangeStatus();
+                    }
+                    break;
+                case Itemtypy.leaf://나뭇잎
+                    if (player.getMarioStatus() == MarioStatus.RaccoonMario)
+                    {
+                        return; //점수추가
+                    }
+                    else if(player.getMarioStatus() == MarioStatus.NormalMario)
+                    {
+                        player.setMarioStatus(MarioStatus.SuperMario);
+                        player.setChangeStatus();
+                    }
+                    else
+                    {
+                        player.setMarioStatus(MarioStatus.RaccoonMario);
+                        player.setChangeStatus();
+                    }
+                    break;
+                case Itemtypy.flower://불 꽃
+                    if (player.getMarioStatus() == MarioStatus.FireMario)
+                    {
+                        return; //점수추가
+                    }
+                    else if (player.getMarioStatus() == MarioStatus.NormalMario)
+                    {
+                        player.setMarioStatus(MarioStatus.SuperMario);
+                        player.setChangeStatus();
+                    }
+                    else
+                    {
+                        player.setMarioStatus(MarioStatus.FireMario);
+                        player.setChangeStatus();
+                    }
+                    break;
+                case Itemtypy.star://별 TODO: 만들어야함
+                    player.setMarioStatus(MarioStatus.InvincibleMario);
+                    player.setChangeStatus();
+                    break;
+            }
+            //TODO:정확한 확인과정 추가
+            Destroy(collision.gameObject);
         }
 
         //에너미

@@ -25,6 +25,7 @@ public class Player_Move : MonoBehaviour
     public Rigidbody2D rigid;
     public Animator animator;
     public SpriteRenderer sprite;
+    public PhysicsMaterial2D physicsMaterial;
 
     //오브젝트 가져오기용
     private GameObject tuttleShell;
@@ -97,6 +98,10 @@ public class Player_Move : MonoBehaviour
     private float jumpPower;
     //미끄러지기
     public bool isSilding = false;
+    public float slideAddForcd=5f;
+    public const float friction = 1;
+    public const float hillFriction = 0.1f;
+    
     //앉기
     public bool isSit = false;
     [SerializeField]
@@ -363,6 +368,7 @@ public class Player_Move : MonoBehaviour
                 {
                     isSilding = false;
                     animator.SetBool("isSlide", false);
+                    physicsMaterial.friction=friction;
                 }   
             }
             //타임스케일 테스트용()
@@ -510,6 +516,21 @@ public class Player_Move : MonoBehaviour
                 hitBox.size = LMarioHitboxSize;
                 hitBox.offset = new Vector2(0, 0.5f);
                 animator.SetBool("isSit", true);
+                //마리오 상태별 애니메이션으로 바로 전환
+                switch (marioStatus)
+                {
+                    case MarioStatus.NormalMario:
+                         break;
+                    case MarioStatus.SuperMario:
+                        animator.Play("SMario_sit");
+                         break;
+                    case MarioStatus.FireMario:
+                        animator.Play("FMario_sit"); break;
+                    case MarioStatus.RaccoonMario:
+                        animator.Play("RMario_sit"); break;
+                    case MarioStatus.InvincibleMario:
+                        break;
+                }
             }
             else
             {
@@ -542,11 +563,17 @@ public class Player_Move : MonoBehaviour
             {
                 animator.SetBool("isSlide", true);
                 isSilding = true;
-                rigid.constraints = RigidbodyConstraints2D.FreezeRotation; 
-                if(isRight)
-                    rigid.velocity = new Vector2(0.1f, rigid.velocity.y);
+                rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                if (isRight)
+                {
+                    rigid.velocity = new Vector2(slideAddForcd, rigid.velocity.y);
+                    physicsMaterial.friction = hillFriction;
+                }
                 else
-                    rigid.velocity = new Vector2(-0.1f, rigid.velocity.y);
+                {
+                    rigid.velocity = new Vector2(-slideAddForcd, rigid.velocity.y);
+                    physicsMaterial.friction = hillFriction;
+                }
             }
 
             //언덕위에서 이동입력없으면 정지
@@ -560,9 +587,15 @@ public class Player_Move : MonoBehaviour
                     isSilding = true;
                     rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
                     if (isRight)
-                        rigid.velocity = new Vector2(0.1f, rigid.velocity.y);
+                    {
+                        rigid.velocity = new Vector2(slideAddForcd, rigid.velocity.y);
+                        physicsMaterial.friction = hillFriction;
+                    }
                     else
-                        rigid.velocity = new Vector2(-0.1f, rigid.velocity.y);
+                    {
+                        rigid.velocity = new Vector2(-slideAddForcd, rigid.velocity.y);
+                        physicsMaterial.friction = hillFriction;
+                    }
                 }
                 else
                 rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
@@ -699,7 +732,7 @@ public class Player_Move : MonoBehaviour
         //Debug.Log("EndChange MarioForm");
     }
     //마리오 변신상태 get set
-    public void setMarioTransform(MarioStatus marioForm)
+    public void setMarioStatus(MarioStatus marioForm)
     {
         marioStatus = marioForm;
     }
