@@ -104,8 +104,8 @@ MonoBehaviour:
   itemImg:
   - {fileID: 1246381422, guid: 73fc6eb53e4b04c428757503fc687194, type: 3}
   - {fileID: 1632380885, guid: 73fc6eb53e4b04c428757503fc687194, type: 3}
-  - {fileID: 1475690936, guid: 73fc6eb53e4b04c428757503fc687194, type: 3}
   - {fileID: -705835114, guid: 73fc6eb53e4b04c428757503fc687194, type: 3}
+  - {fileID: 1475690936, guid: 73fc6eb53e4b04c428757503fc687194, type: 3}
   itemtypys: 0
   target: {x: 0, y: 0}
   movespeed: 2

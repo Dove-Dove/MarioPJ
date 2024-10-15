@@ -22,6 +22,7 @@ public class GameManager : MonoBehaviour
     public GameObject Player;
     public bool breakBlock = false;
     public float playerSpeed = 0;
+    public float runingTime = 0;
     public int PlayerLife = 3;
 
     //¸Ê »ç¿îµå 
@@ -40,7 +41,20 @@ public class GameManager : MonoBehaviour
                 breakBlock = true;
         }
 
-        playerSpeed = Player.GetComponentInChildren<Player_Move>().curAnimSpeed;
+        playerSpeed = Player.GetComponentInChildren<Player_Move>().rigid.velocity.x;
+        if ((playerSpeed - 10) > 0 )
+        {
+            if(runingTime <= 3.0f)
+                runingTime += Time.deltaTime + 0.0002f;
+        }        
+        else
+        {
+            if (runingTime > 0)
+                runingTime -= Time.deltaTime;
+        }
+
+        if (runingTime < 0)
+            runingTime = 0;
 
 
         switch (stage)
@@ -69,4 +83,5 @@ public class GameManager : MonoBehaviour
     {
         point += getpoint;
     }
+
 }
