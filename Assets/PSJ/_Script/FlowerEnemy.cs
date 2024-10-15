@@ -52,6 +52,8 @@ public class FlowerEnemy : MonoBehaviour
             animator.SetBool("InRange", false);
         }
         SetDirectionAndAnimation();
+
+
     }
 
 
@@ -89,9 +91,11 @@ public class FlowerEnemy : MonoBehaviour
         }
         else if (collision.gameObject.CompareTag("Attack"))
         {
-            animator.SetTrigger("IsDead");
-            gameObject.SetActive(false);
-
+            if (!animator.GetBool("IsHide"))
+            {
+                animator.SetTrigger("IsDead");
+                gameObject.SetActive(false);
+            }
         }
     }
 }

@@ -203,7 +203,6 @@ public class Enemy : MonoBehaviour
 }
 
 /*
-점프할 때 방향전환시 플립제한
-ShellMove상태일때 방향설정
+    경사면 처리
 */
 
