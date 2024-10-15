@@ -14,14 +14,15 @@ public class GameManager : MonoBehaviour
 {
     
     int coin = 0;
-    int point = 0;
+    public int point = 1000;
     //스테이지 
     public Stage stage = Stage.Map;
 
     //플레이어
     public GameObject Player;
     public bool breakBlock = false;
-    public float playerSpeed = 0;
+    private float playerSpeed = 0;
+    private float playerMaxSpeed = 0; 
     public float runingTime = 0;
     public int PlayerLife = 3;
 
@@ -42,10 +43,12 @@ public class GameManager : MonoBehaviour
         }
 
         playerSpeed = Player.GetComponentInChildren<Player_Move>().rigid.velocity.x;
-        if ((playerSpeed - 10) > 0 )
+        playerMaxSpeed = Player.GetComponentInChildren<Player_Move>().addedLimitVelocity;
+
+        if ( ((playerSpeed  > 4) || (playerSpeed < -4.0f)) && playerMaxSpeed == 7)
         {
             if(runingTime <= 3.0f)
-                runingTime += Time.deltaTime + 0.0002f;
+                runingTime += Time.deltaTime + 0.005f;
         }        
         else
         {
