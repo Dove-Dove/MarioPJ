@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7db2ba2816285804c8df2b0df99581dd
+guid: 7f3076d88a8e00741b934c020e71da70
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -108,7 +108,70 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Object3_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f937ddf4c18b04d4284ad291da676d05
+      internalID: -329011104
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Object3_1
+      rect:
+        serializedVersion: 2
+        x: 21
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: def529468593bf64899903ae26d874a2
+      internalID: 99855651
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Object3_2
+      rect:
+        serializedVersion: 2
+        x: 42
+        y: 0
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 4cea8bf5e57d3b94c94443895f772c1d
+      internalID: 39855827
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +182,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Object3_0: -329011104
+      Object3_1: 99855651
+      Object3_2: 39855827
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -112,7 +112,7 @@ public class Enemy : MonoBehaviour
     public void Jump()
     {
         isJumping = true;
-        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(gameObject.GetComponent<Rigidbody2D>().velocity.x, jumpForce);
+        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 7db2ba2816285804c8df2b0df99581dd
+guid: ed5c6e5813ca5514f948883adf6e5326
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -108,7 +108,70 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: Object5_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 19.333334
+        height: 16
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 709986feec0c89c41999af89b75e94f6
+      internalID: 1218500475
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Object5_1
+      rect:
+        serializedVersion: 2
+        x: 19
+        y: 0
+        width: 19.333334
+        height: 16
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 407043a798e00614b868af4c1c792bfe
+      internalID: 1262636971
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Object5_2
+      rect:
+        serializedVersion: 2
+        x: 38
+        y: 0
+        width: 19.333334
+        height: 16
+      alignment: 4
+      pivot: {x: 0, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 707098cd1ac843c4ca78e8972bc078bd
+      internalID: -1897231692
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -119,7 +182,10 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      Object5_0: 1218500475
+      Object5_1: 1262636971
+      Object5_2: -1897231692
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 

@@ -89,7 +89,7 @@ public class FlowerEnemy : MonoBehaviour
         {
             
         }
-        else if (collision.gameObject.CompareTag("Attack"))
+        else if (collision.gameObject.CompareTag("PlayerFire"))
         {
             if (!animator.GetBool("IsHide"))
             {
