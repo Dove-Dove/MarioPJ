@@ -22,7 +22,7 @@ public class followplayer : MonoBehaviour
         }
         else { playerTrans = GameObject.FindWithTag("PlayerAttack").transform; }
 
-        Vector2 playerPos = new Vector2(playerTrans.position.x, playerTrans.transform.position.y);
+        Vector2 playerPos = new Vector2(playerTrans.position.x, 0);
         transform.SetPositionAndRotation(playerPos, transform.rotation);
 
 

@@ -121,6 +121,8 @@ public class Player_Move : MonoBehaviour
     //상태 전달용
     public bool isKick=true;
 
+    //죽음
+
     //중간중간 전체 애니메이션 멈춤제어하는 불형
     [SerializeField]
     private bool stopMoment;
@@ -218,8 +220,7 @@ public class Player_Move : MonoBehaviour
                 //마리오 사망처리
                 if(!isDeadSound)
                 {
-                    isDeadSound = true;
-                    deadSound.Play();
+                    MarioDeath();
                 }
                 //씬전환 혹은 사망신호
                 animator.SetBool("isDead", true);
@@ -376,21 +377,10 @@ public class Player_Move : MonoBehaviour
                 }   
             }
             //타임스케일 테스트용()
-            if(Input.GetKeyDown(KeyCode.P) && !timeStop)
-            { 
-                Time.timeScale = 0;
-                timeStop = true;
-                //Debug.Log("Time Stop");
-            }
-            else if (Input.GetKeyDown(KeyCode.P) && timeStop)
-            {
-                Time.timeScale = 1;
-                timeStop = false;
-                //Debug.Log("Time Start");
-            }
-            
+            TimePause();
+
             //테스트용 마리오 변신시 사용
-            if(curStatus !=marioStatus)
+            if (curStatus !=marioStatus)
             {
                 curStatus=marioStatus;
                 setChangeStatus();
@@ -839,6 +829,62 @@ public class Player_Move : MonoBehaviour
     {
         tail.SetActive(false);
     }
+
+    void TimePause()
+    {
+        if (Input.GetKeyDown(KeyCode.P) && !timeStop)
+        {
+            Time.timeScale = 0;
+            timeStop = true;
+            //Debug.Log("Time Stop");
+        }
+        else if (Input.GetKeyDown(KeyCode.P) && timeStop)
+        {
+            Time.timeScale = 1;
+            timeStop = false;
+            //Debug.Log("Time Start");
+        }
+    }
+
+    void MarioDeath()
+    {
+        isDeadSound = true;
+        Time.timeScale = 0;
+        deadSound.Play();
+        hitBox.enabled = false;
+        StartCoroutine(StartDeathAnim());
+
+    }
+    IEnumerator StartDeathAnim()
+    {
+
+        yield return new WaitForSecondsRealtime(1f);
+        Debug.Log("Death Anim Play");
+        //올라갈 때
+        float h = 0;
+        float addH = 0;
+        while(addH < 5)
+        {
+            h = Time.unscaledTime * 0.02f;
+            transform.position = new Vector2(transform.position.x, transform.position.y + h );
+            addH += h ;
+            Debug.Log(addH);
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+        h = 0;
+        addH = 0;
+        //내려갈 때
+        while(addH < 20)
+        {
+            h = Time.unscaledTime * 0.03f;
+            transform.position = new Vector2(transform.position.x, transform.position.y - h );
+            addH += h ;
+            Debug.Log(addH);
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+
+    }
+
     //Effect
     public void marioBlink()
     {
