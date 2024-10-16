@@ -12,6 +12,7 @@ TagManager:
   - Items
   - Shell
   - PlayerAttack
+  - PlayerFire
   layers:
   - Default
   - TransparentFX

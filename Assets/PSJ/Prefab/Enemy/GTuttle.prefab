@@ -447,7 +447,7 @@ MonoBehaviour:
   nextJumpTime: 0
   movingLeft: 1
   wings: {fileID: 7314245458803404002}
-  DeadSound: {fileID: 0}
+  DeadSound: {fileID: 733948145248247659}
   shellSpeed: 8
 --- !u!50 &803565490071417140
 Rigidbody2D:

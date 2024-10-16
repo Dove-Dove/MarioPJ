@@ -35,7 +35,10 @@ public class Boo : MonoBehaviour
 
     Animator animator;
 
+    public AudioSource DeadSound;
+
     private bool movingLeft = true;
+
 
     // Start is called before the first frame update
     void Start()
@@ -128,6 +131,8 @@ public class Boo : MonoBehaviour
 
     void booDead()
     {
+        DeadSound.Play();
+        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, gameObject.GetComponent<Rigidbody2D>().velocity.y);
         animator.SetTrigger("IsDead");
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         Invoke("destroy", 1.0f);
@@ -144,7 +149,10 @@ public class Boo : MonoBehaviour
         {
             booDead();
         }
-        //else if(collision.gameObject.CompareTag("Attack"))
+        else if(collision.gameObject.CompareTag("PlayerAttack"))
+        {
+            booDead();
+        }
         
     }
 }

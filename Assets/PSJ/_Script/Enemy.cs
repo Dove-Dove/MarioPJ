@@ -124,28 +124,24 @@ public class Enemy : MonoBehaviour
         else if (collision.gameObject.CompareTag("MovingShell"))
         {
             DeadSound.Play();
-
+            hasWing = false;
             currentState = State.Dead;
         }
         else if(collision.gameObject.CompareTag("Shell"))
         {
             Flip();
         }
-        else if (collision.gameObject.CompareTag("Player"))
+        else if (collision.gameObject.CompareTag("PlayerAttack"))
         {
             DeadSound.Play();
 
             if (hasWing)
             {
-                Debug.Log(collision.gameObject.name);
-
                 hasWing = false;
                 currentState = State.Move;
             }
             else
             {
-                Debug.Log(collision.gameObject.name);
-
                 currentState = State.Dead;
             }
         }
@@ -190,6 +186,7 @@ public class Enemy : MonoBehaviour
     {
         animator.SetTrigger("IsDead");
         rb.gravityScale = 0;
+        rb.velocity = Vector2.zero;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         currentState = State.Dead;
         Invoke("destroy", 1.0f);

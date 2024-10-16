@@ -51,8 +51,30 @@ public class Tuttle : Enemy
         {
             Flip();
         }
-        else if (collision.gameObject.tag.Contains("Attack")) //공격 충돌
+        else if (collision.gameObject.CompareTag("PlayerAttack")) //공격 충돌
         {
+            if (hasWing)
+            {
+                hasWing = false;
+                currentState = State.Move;
+            }
+            else if (!hasWing && currentState == State.Move)
+            {
+                DeadSound.Play();
+                currentState = State.Shell;
+            }
+            else if (!hasWing && currentState == State.Shell)
+            {
+                if (player.GetComponentInChildren<Player_Move>().isKick == true)
+                {
+                    currentState = State.ShellMove;
+                }
+            }
+
+        }
+        else if (collision.gameObject.CompareTag("PlayerFire"))
+        {
+            DeadSound.Play();
             currentState = State.Dead;
         }
         else if (collision.gameObject.CompareTag("MovingShell")) //움직이는 껍질과충돌
@@ -61,8 +83,10 @@ public class Tuttle : Enemy
             {
                 Flip();
             }
-            else
+            else if(currentState != State.Shell)
             {
+                hasWing = false;
+                DeadSound.Play();
                 currentState = State.Dead;
             }
         }
@@ -72,17 +96,7 @@ public class Tuttle : Enemy
         }
         else if (collision.gameObject.CompareTag("Player")) //플레이어와 충돌
         {
-            if (hasWing)
-            {
-                hasWing = false;
-                currentState = State.Move;
-            }
-            else if (!hasWing && currentState == State.Move)
-            {
-                currentState = State.Shell;
-                DeadSound.Play();
-            }
-            else if (!hasWing && currentState == State.Shell)
+            if (!hasWing && currentState == State.Shell)
             {
                 if (player.GetComponentInChildren<Player_Move>().isKick == true)
                 {
@@ -129,7 +143,7 @@ public class Tuttle : Enemy
     }
 
 
-    private float shellElapsedTime = 0; // 클래스 필드로 선언
+    private float shellElapsedTime = 0;
 
     void enemyShell()
     {
@@ -163,6 +177,10 @@ public class Tuttle : Enemy
     {
         Tuttleanim.SetTrigger("IsDead");
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
+
+        //gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, gameObject.GetComponent<Rigidbody2D>().velocity.y);
+
 
         currentState = State.Dead;
         Invoke("destroy", 1.0f);
