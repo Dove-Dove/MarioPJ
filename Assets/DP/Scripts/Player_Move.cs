@@ -159,7 +159,8 @@ public class Player_Move : MonoBehaviour
     public bool timeStop=false;
     private Vector2 LMarioHitboxSize = new Vector2(0.9f, 0.9f);
     private Vector2 SMarioHitboxSize = new Vector2(0.9f, 1.7f);
-
+    //디버그
+    public LayerMask enemyLayer; // LayerMask for enemies
     private void Awake()
     {                                  
         hitBox = GetComponent<BoxCollider2D>();
@@ -391,6 +392,11 @@ public class Player_Move : MonoBehaviour
             }
         }
     }
+
+    private void FixedUpdate()
+    {
+        
+    }
     //====================함수==================//
     //==========================================//
 
@@ -605,14 +611,25 @@ public class Player_Move : MonoBehaviour
             { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; gameObject.tag = "Player"; }
 
         }
+        //겹치므로 일단 보류
+        //RaycastHit2D marioAttackHit = Physics2D.Raycast(rigid.position, Vector2.down, 0.8f, LayerMask.GetMask("Enemy"));
+        //if(marioAttackHit.collider != null)
+        //{
+        //    isEnemy = true;
+        //    gameObject.tag = "PlayerAttack";
+        //}
+        //else { isEnemy = false; gameObject.tag = "Player"; isAttack = false; }
 
-        RaycastHit2D marioAttackHit = Physics2D.Raycast(rigid.position, Vector2.down, 0.7f, LayerMask.GetMask("Enemy"));
-        if(marioAttackHit.collider != null)
+
+        RaycastHit2D marioAttackHit2 = Physics2D.BoxCast(rigid.position,new Vector2(0.8f,0.2f), 0, Vector2.down,0.3f, LayerMask.GetMask("Enemy"));
+        if (marioAttackHit2.collider != null)
         {
             isEnemy = true;
             gameObject.tag = "PlayerAttack";
         }
         else { isEnemy = false; gameObject.tag = "Player"; isAttack = false; }
+
+        DrawBoxCast(rigid.position, new Vector2(0.8f, 0.2f), 0, Vector2.down, 0.3f, marioAttackHit2);
     }
 
     public void UpdateMarioStatusAndHP(MarioStatus status)
@@ -946,6 +963,41 @@ public class Player_Move : MonoBehaviour
         {
             ishit = false;
             ishitSound = false;
+        }
+    }
+
+    // 박스캐스트 디버그용
+    void DrawBoxCast(Vector2 origin, Vector2 size, float angle, Vector2 direction, float distance, RaycastHit2D hit)
+    {
+        // Calculate the four corners of the box at the origin
+        Vector2 halfSize = size / 2;
+        Quaternion rotation = Quaternion.Euler(0, 0, angle);
+
+        // Get the corner points (top-left, top-right, bottom-left, bottom-right)
+        Vector2 topLeft = (Vector2)(rotation * new Vector3(-halfSize.x, halfSize.y, 0)) + origin;
+        Vector2 topRight = (Vector2)(rotation * new Vector3(halfSize.x, halfSize.y, 0)) + origin;
+        Vector2 bottomLeft = (Vector2)(rotation * new Vector3(-halfSize.x, -halfSize.y, 0)) + origin;
+        Vector2 bottomRight = (Vector2)(rotation * new Vector3(halfSize.x, -halfSize.y, 0)) + origin;
+
+        // Move the box along the direction of the cast
+        Vector2 castOffset = direction.normalized * distance;
+
+        // Draw the box at the starting position (before cast)
+        Debug.DrawLine(topLeft, topRight, Color.green);
+        Debug.DrawLine(topRight, bottomRight, Color.green);
+        Debug.DrawLine(bottomRight, bottomLeft, Color.green);
+        Debug.DrawLine(bottomLeft, topLeft, Color.green);
+
+        // Draw the box at the end position (after cast)
+        Debug.DrawLine(topLeft + castOffset, topRight + castOffset, Color.red);
+        Debug.DrawLine(topRight + castOffset, bottomRight + castOffset, Color.red);
+        Debug.DrawLine(bottomRight + castOffset, bottomLeft + castOffset, Color.red);
+        Debug.DrawLine(bottomLeft + castOffset, topLeft + castOffset, Color.red);
+
+        // If the box hits something, mark the hit point
+        if (hit.collider != null)
+        {
+            Debug.DrawRay(hit.point, hit.normal * 0.5f, Color.blue);  // Draw the hit point and normal
         }
     }
 }

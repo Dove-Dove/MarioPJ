@@ -1186,7 +1186,7 @@ MonoBehaviour:
   slideAddForcd: 3
   isSit: 0
   groundRayLen: 0.1
-  hillRayLen: 0.6
+  hillRayLen: 0.8
   LMarioGroundRayLen: 0.1
   LMarioHillRayLen: 0.6
   SMarioGroundRayLen: 0.1
@@ -1209,6 +1209,9 @@ MonoBehaviour:
   kickSound: {fileID: 4686523666133636090}
   tailAttackSound: {fileID: 820552285589299018}
   timeStop: 0
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!251 &1664150266099608943
 PlatformEffector2D:
   m_ObjectHideFlags: 0
@@ -1266,7 +1269,7 @@ Transform:
   m_GameObject: {fileID: 8630369031337912106}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.66018796, y: 1.0192362, z: -0.069508284}
+  m_LocalPosition: {x: -3.37, y: 2.73, z: -0.069508284}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
