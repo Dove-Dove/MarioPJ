@@ -3,8 +3,16 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
+public enum BoxType
+{
+    Items,
+    Coin
+}
+
 public class blocks : MonoBehaviour
 {
+ 
+
     //
     public bool itemBocksOpen;
     //아이템 프리펩
@@ -12,6 +20,7 @@ public class blocks : MonoBehaviour
     //아이템 박스 열린 이후 이미지
     public Sprite OpenImg;
 
+    public GameObject coin;
     public Animator animator;
 
     //사운드
@@ -22,6 +31,8 @@ public class blocks : MonoBehaviour
     //충돌 관련 오브젝트
     public GameObject under;
     public GameObject BlockWall;
+
+    public BoxType boxType = BoxType.Items;
 
     void Start()
     {
@@ -38,7 +49,7 @@ public class blocks : MonoBehaviour
             itemBocksOpen = true;
 
         //터치가 되었을 경우 아이템은 비 활성화 상태로 변경
-        if (itemBocksOpen)
+        if (itemBocksOpen && boxType == BoxType.Items)
         {
             GetComponent<SpriteRenderer>().sprite = OpenImg;
             
@@ -51,6 +62,13 @@ public class blocks : MonoBehaviour
                 itemPrefab.SetActive(true);
                 gameObject.GetComponent<blocks>().enabled = false;
             }
+        }
+
+        else if(itemBocksOpen && boxType == BoxType.Coin)
+        {
+            coin.SetActive(true);
+            animator.SetBool("Use", true);
+            gameObject.GetComponent<blocks>().enabled = false;
         }
         
         
