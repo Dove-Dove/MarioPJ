@@ -11,7 +11,7 @@ public class coinObj : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             getCoinSound.Play();
-            GameObject.Find("GameManager").GetComponent<GameManager>().GetCoin();
+            GameObject.Find("GameManager").GetComponent<GameManager>().CoinGet();
             gameObject.SetActive(false);
         }
     }

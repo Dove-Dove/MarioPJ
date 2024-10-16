@@ -48,7 +48,7 @@ public class boxCoin : MonoBehaviour
     void pointget()
     {
         //게임 메니저에게 값을 전달 
-        GameObject.Find("GameManager").GetComponent<GameManager>().GetCoin();
+        GameObject.Find("GameManager").GetComponent<GameManager>().CoinGet();
         GameObject.Find("GameManager").GetComponent<GameManager>().GetPoint(100);
     }
 
