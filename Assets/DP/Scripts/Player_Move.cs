@@ -15,7 +15,8 @@ public enum MarioStatus
     SuperMario,
     FireMario,
     RaccoonMario,
-    InvincibleMario
+    InvincibleMario,
+    Death
 }
 
 public class Player_Move : MonoBehaviour
@@ -798,6 +799,13 @@ public class Player_Move : MonoBehaviour
                 UpdateMarioStatusAndHP(marioStatus);
                 SetSMario();
                 break;
+            case MarioStatus.Death:
+                animator.Play("Mario_Dead");
+                animator.SetBool("ChangeSuperMario", false);
+                animator.SetBool("ChangeRaccoonMario", false);
+                animator.SetBool("ChangeFireMario", false);
+                MarioDeath();
+                break;
         }
     }
      void SetLMario()
@@ -859,7 +867,6 @@ public class Player_Move : MonoBehaviour
     {
 
         yield return new WaitForSecondsRealtime(1f);
-        Debug.Log("Death Anim Play");
         //올라갈 때
         float h = 0;
         float addH = 0;
@@ -868,7 +875,6 @@ public class Player_Move : MonoBehaviour
             h = Time.unscaledTime * 0.02f;
             transform.position = new Vector2(transform.position.x, transform.position.y + h );
             addH += h ;
-            Debug.Log(addH);
             yield return new WaitForSecondsRealtime(0.01f);
         }
         h = 0;
@@ -879,7 +885,6 @@ public class Player_Move : MonoBehaviour
             h = Time.unscaledTime * 0.03f;
             transform.position = new Vector2(transform.position.x, transform.position.y - h );
             addH += h ;
-            Debug.Log(addH);
             yield return new WaitForSecondsRealtime(0.01f);
         }
 
