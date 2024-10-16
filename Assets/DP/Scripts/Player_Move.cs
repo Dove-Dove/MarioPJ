@@ -64,8 +64,7 @@ public class Player_Move : MonoBehaviour
     private bool isClear= false;
     //마리오 방향
     public bool isRight = false;
-    //공중에 있을 때
-    public bool inAir;
+
 
     //==이동
     private Vector2 destination;
@@ -110,10 +109,10 @@ public class Player_Move : MonoBehaviour
     private float groundRayLen=0;
     [SerializeField]
     private float hillRayLen=0;
-    public float LMarioGroundRayLen = 0.6f;
-    public float LMarioHillRayLen = 1.3f;
-    public float SMarioGroundRayLen = 1.1f;
-    public float SMarioHillRayLen = 1.8f;
+    public float LMarioGroundRayLen = 0.3f;
+    public float LMarioHillRayLen = 0.6f;
+    public float SMarioGroundRayLen = 0.3f;
+    public float SMarioHillRayLen = 0.6f;
     //공격
     public bool isEnemy=false;
     public bool isAttack = false;
@@ -364,9 +363,13 @@ public class Player_Move : MonoBehaviour
                 //더블점프 방지
                 noDoubleJump = true;
                 jumpTimer = 0;
+
             }
             //=='Z'버튼
             InputActionButton();
+            //너구리 활공
+            RMarioSpecialActtion();
+
             //슬라이드 
             if (isSilding)
             {
@@ -466,9 +469,11 @@ public class Player_Move : MonoBehaviour
         //버튼입력확인용.
         onceInputJumpBoutton = true;
         //점프 입력 시간 제한
-        if (jumpTimer > jumpInputTime) 
+        if (jumpTimer > jumpInputTime)
+        {
             onceInputJumpBoutton = false;
-            
+            animator.SetBool("isJump", false);
+        }   
         //사운드 한번만 나오게
         if (Input.GetKeyDown(KeyCode.X) && !onAir)
             { 
@@ -477,7 +482,6 @@ public class Player_Move : MonoBehaviour
             }
 
         jumpPower = LMrio_Jump_pow;
-        //Debug.Log(jumpPower);
         //addforce
         if (onceInputJumpBoutton &&!noDoubleJump)
         {
@@ -859,7 +863,10 @@ public class Player_Move : MonoBehaviour
         isDeadSound = true;
         Time.timeScale = 0;
         deadSound.Play();
+        //히트박스끄기
         hitBox.enabled = false;
+        //마리오가 제일 앞으로
+        sprite.sortingOrder = 99;
         StartCoroutine(StartDeathAnim());
 
     }
@@ -882,10 +889,32 @@ public class Player_Move : MonoBehaviour
         //내려갈 때
         while(addH < 20)
         {
-            h = Time.unscaledTime * 0.03f;
+            h = Time.unscaledTime * 0.02f;
             transform.position = new Vector2(transform.position.x, transform.position.y - h );
             addH += h ;
             yield return new WaitForSecondsRealtime(0.01f);
+        }
+
+    }
+
+    void RMarioSpecialActtion()
+    {
+        //너구리마리오일 때 만 사용가능
+        if(marioStatus!=MarioStatus.RaccoonMario)
+            return;
+
+        if(Input.GetKey(KeyCode.X) &&onAir)
+        {
+            animator.SetBool("isInputX",true);
+
+            //var direction = new Vector2(0, 7);
+            //rigid.AddForce(direction, ForceMode2D.Impulse);
+            rigid.gravityScale = 0.1f;
+        }
+        else if(Input.GetKeyUp(KeyCode.X))
+        {
+            animator.SetBool("isInputX", false);
+            rigid.gravityScale = 3;
         }
 
     }
