@@ -189,18 +189,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   moveSpeed: 3
-  distance: 5
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  rayDistance: 1
   groundDetect1: {fileID: 8917158125798241624}
   groundDetect2: {fileID: 8787422308108030875}
+  jumpDetect1: {fileID: 0}
+  jumpDetect2: {fileID: 0}
   hasWing: 1
-  jumpForce: 5
-  jumpInterveal: 2
-  nextJumpTime: 0
-  movingLeft: 1
   wings: {fileID: 8669840533290037523}
   DeadSound: {fileID: 7831402883876151090}
 --- !u!61 &7216777945344596723

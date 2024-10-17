@@ -5,11 +5,11 @@ using UnityEngine;
 
 public class Tuttle : Enemy
 {
-    public float shellSpeed = 8.0f;
+    protected float shellSpeed = 8.0f;
 
-    private float shellTimer = 8.0f;
+    protected float shellTimer = 8.0f;
 
-    Animator Tuttleanim;
+    protected Animator Tuttleanim;
 
     private GameObject player;
 
@@ -55,6 +55,7 @@ public class Tuttle : Enemy
         {
             if (hasWing)
             {
+                DeadSound.Play();
                 hasWing = false;
                 currentState = State.Move;
             }
@@ -98,7 +99,7 @@ public class Tuttle : Enemy
         {
             if (!hasWing && currentState == State.Shell)
             {
-                if (player.GetComponentInChildren<Player_Move>().isKick == true)
+                if (GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Player_Move>().isKick == true)
                 {
                     currentState = State.ShellMove;
                 }
@@ -143,9 +144,9 @@ public class Tuttle : Enemy
     }
 
 
-    private float shellElapsedTime = 0;
+    protected float shellElapsedTime = 0;
 
-    void enemyShell()
+    public void enemyShell()
     {
         Tuttleanim.SetBool("IsShell", true);
         gameObject.tag = "Shell";
@@ -160,7 +161,7 @@ public class Tuttle : Enemy
         }
     }
 
-    void enemyShellMove()
+    public void enemyShellMove()
     {
         gameObject.tag = "MovingShell";
         gameObject.layer = 11;

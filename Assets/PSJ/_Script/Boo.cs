@@ -23,19 +23,21 @@ public class Boo : MonoBehaviour
     public bool inRange;
 
     private Transform player;
-    private float attackCooldown = 1.5f; // 부메랑을 던지는 쿨타임
+    private float attackCooldown = 1f; // 부메랑을 던지는 쿨타임
     public float nextAttackTime;
 
     public float projectileSpeed = 12f; // 발사체 속도
     public GameObject projectilePrefab;
     public Transform throwPoint;
 
-    public int maxBoomerangs = 3; //부메랑 최대 개수
+    public int maxBoomerangs = 4; //부메랑 최대 개수
     private int currentBoomerangs = 0; //부메랑 현재 개수
 
-    Animator animator;
+    public Transform ThrowDistance;
 
+    Animator animator;
     public AudioSource DeadSound;
+    public AudioSource ThrowSound;
 
     private bool movingLeft = true;
 
@@ -104,6 +106,7 @@ public class Boo : MonoBehaviour
     void ShootProjectile()
     {
         // 발사체 생성 및 플레이어를 향해 발사
+        ThrowSound.Play();
         GameObject projectile = Instantiate(projectilePrefab, throwPoint.position, Quaternion.identity);
         Vector2 direction = (player.position - throwPoint.position).normalized;
         Boomerang boomerang = projectile.GetComponent<Boomerang>();

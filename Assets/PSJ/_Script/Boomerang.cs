@@ -9,7 +9,7 @@ public class Boomerang : MonoBehaviour
     private Vector2 targetPosition; // 목표 지점
     private Vector2 startPosition; // 시작 위치
 
-    private float minDistance = 3f; //부메랑 최소 거리
+    private float minDistance = 5f; //부메랑 최소 거리
     private float maxY = 10f; //부메랑 위아래 각도 제한
 
     private bool isReturning = false; // 되돌아오고 있는지 여부
@@ -23,10 +23,11 @@ public class Boomerang : MonoBehaviour
     {
         rb = GetComponent<Rigidbody2D>();
         startPosition = transform.position;
-        origin = GameObject.FindGameObjectWithTag("Enemy").transform; // 부메랑을 던진 적의 위치
+        origin = GameObject.Find("Boo").transform; // 부메랑을 던진 적의 위치
 
         // 부메랑이 처음에 목표할 위치를 플레이어로 설정
-        targetPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+        //targetPosition = GameObject.FindGameObjectWithTag("Player").transform.position;
+        targetPosition = shooter.ThrowDistance.position;
 
         // 부메랑 위아래 범위제한
         targetPosition.y = Mathf.Clamp(targetPosition.y, startPosition.y - maxY, startPosition.y + maxY);
@@ -36,6 +37,9 @@ public class Boomerang : MonoBehaviour
 
         // 일정 시간이 지나면 되돌아오도록
         Invoke("ReturnToOrigin", travelTime);
+
+        // 3초 지나면 무조건 파괴
+        Invoke("DestroyBoomerang", 4f);
     }
 
     void Update()
@@ -57,6 +61,7 @@ public class Boomerang : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
     }
 
     public void SetShooter(Boo shooter)
@@ -84,7 +89,7 @@ public class Boomerang : MonoBehaviour
             //Debug.Log("Player hit by boomerang!");
         }
 
-        if (collision.CompareTag("Enemy") && isReturning)
+        if (collision.gameObject.name.Contains("Boo") && isReturning)
         {
             DestroyBoomerang();
         }
@@ -92,10 +97,7 @@ public class Boomerang : MonoBehaviour
 
     void DestroyBoomerang()
     {
-        if(shooter != null)
-        {
-            shooter.DecreaseBoomerangCount();
-            Destroy(gameObject);
-        }
+        shooter.DecreaseBoomerangCount();
+        Destroy(gameObject);
     }
 }

@@ -529,21 +529,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   currentState: 0
   moveSpeed: 3
-  distance: 5
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
-  rayDistance: 1
   groundDetect1: {fileID: 5080659809364553141}
   groundDetect2: {fileID: 4905773745955596424}
   hasWing: 0
-  jumpForce: 5
-  jumpInterveal: 2
-  nextJumpTime: 0
-  movingLeft: 1
   wings: {fileID: 7291920726449197426}
   DeadSound: {fileID: 4903202067772683238}
-  shellSpeed: 8
 --- !u!50 &2295153187754541945
 Rigidbody2D:
   serializedVersion: 4
@@ -580,7 +573,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 7045806753876404370}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 16e8788ef093ef145a9d3bbe220b9368, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

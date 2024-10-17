@@ -21,14 +21,13 @@ public class Boss : MonoBehaviour
     public State currentState = State.Attack;
 
     public float moveSpeed = 3f;
-    public float moveSpeedup = 4f;
 
     public LayerMask groundLayer;
 
     private Rigidbody2D rb;
 
     private Transform player;
-    private float attackCooldown = 2f;
+    private float attackCooldown = 4f;
     public float nextAttackTime;
 
     public float jumpForce = 10f;
@@ -41,7 +40,7 @@ public class Boss : MonoBehaviour
 
     Animator animator;
 
-    //public AudioSource DeadSound;
+    public AudioSource HitSound;
 
 
 
@@ -58,6 +57,11 @@ public class Boss : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(bossHp == 1)
+        {
+            moveSpeed = 4f;
+        }
+        
         switch(currentState)
         {
             case State.Attack:
@@ -87,27 +91,13 @@ public class Boss : MonoBehaviour
     {
         isJumping = false;
         gameObject.tag = "Enemy";
-        if(bossHp > 1)
+        if (transform.position.x >= player.position.x)
         {
-            if (transform.position.x >= player.position.x)
-            {
-                transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
-            }
-            else
-            {
-                transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
-            }
+            transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
         }
-        else if(bossHp ==1)
+        else
         {
-            if (transform.position.x >= player.position.x)
-            {
-                transform.Translate(Vector2.left * moveSpeedup * Time.deltaTime);
-            }
-            else
-            {
-                transform.Translate(Vector2.right * moveSpeedup * Time.deltaTime);
-            }
+            transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
         }
 
         if (Time.time >= nextAttackTime)
@@ -136,7 +126,9 @@ public class Boss : MonoBehaviour
         if(collision.gameObject.CompareTag("PlayerAttack") &&
             currentState == State.Move)
         {
-            if(bossHp > 1)
+            HitSound.Play();
+
+            if (bossHp > 1)
             {
                 bossHp--;
                 rb.velocity = Vector2.zero;

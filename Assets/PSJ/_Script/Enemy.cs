@@ -15,22 +15,22 @@ public class Enemy : MonoBehaviour
 
     
     public float moveSpeed = 3f;
-    public float distance = 5f;
+    protected float distance = 5f;
 
     public LayerMask groundLayer;
     //public LayerMask wallLayer;
-    public float rayDistance = 1f;
+    protected float rayDistance = 1f;
     public Transform groundDetect1, groundDetect2;
 
     public bool hasWing;
     private bool isJumping;
 
-    public float jumpForce = 5f;
-    public float jumpInterveal = 2f;
+    protected float jumpForce = 5f;
+    protected float jumpInterveal = 2f;
 
     private Rigidbody2D rb;
-    public float nextJumpTime;
-    public bool movingLeft = true;
+    protected float nextJumpTime;
+    protected bool movingLeft = true;
 
     Animator animator;
     public GameObject wings;
@@ -66,6 +66,7 @@ public class Enemy : MonoBehaviour
 
     public void enemyMove()
     {
+        Vector2 direction = movingLeft ? Vector2.left : Vector2.right;
         transform.Translate(Vector2.left * moveSpeed * Time.deltaTime * (movingLeft ? 1 : -1));
 
         // 발판 확인
@@ -112,7 +113,8 @@ public class Enemy : MonoBehaviour
     public void Jump()
     {
         isJumping = true;
-        rb.velocity = new Vector2(rb.velocity.x, jumpForce);
+        gameObject.GetComponent<Rigidbody2D>().velocity 
+            = new Vector2(gameObject.GetComponent<Rigidbody2D>().velocity.x, jumpForce);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
