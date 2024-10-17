@@ -1196,10 +1196,7 @@ MonoBehaviour:
   isLift: 0
   isKick: 1
   stopMoment: 0
-  acceleGauge: 20
-  maxAcceleGauge: 20
   marioHp: 0
-  isLookRight: 0
   jumpSound: {fileID: 1074671512603017806}
   turnSound: {fileID: 8112689971012946348}
   powerUpSound: {fileID: 2872304124451691269}
@@ -1208,10 +1205,14 @@ MonoBehaviour:
   runSound: {fileID: 4397281470096832283}
   kickSound: {fileID: 4686523666133636090}
   tailAttackSound: {fileID: 820552285589299018}
+  invisibleTimeCount: 0
+  invisibleCount: 0
   timeStop: 0
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
+  isGlideButton: 0
+  isChargedP: 0
+  isUseP: 0
+  PCheckTimeCount: 0
+  PLimitTimeCount: 0
 --- !u!251 &1664150266099608943
 PlatformEffector2D:
   m_ObjectHideFlags: 0
