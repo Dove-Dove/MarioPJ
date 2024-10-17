@@ -126,15 +126,10 @@ public class Player_Move : MonoBehaviour
     //중간중간 전체 애니메이션 멈춤제어하는 불형
     [SerializeField]
     private bool stopMoment;
-    //가속도 게이지
-    [SerializeField]
-    private float acceleGauge = 0;    
-    [SerializeField]
-    private float maxAcceleGauge = 20;
+
+    //HP
     [SerializeField]
     private int marioHp;
-    [SerializeField]
-    private bool isLookRight;
 
     private Vector2 marioPos;
 
@@ -154,13 +149,24 @@ public class Player_Move : MonoBehaviour
     private bool isTailAttackSound=false;
     //===이펙트
     private Color originalColor;
-
+    [SerializeField]
+    private float invisibleTimeCount = 0;
+    [SerializeField]
+    private float invisibleCount = 0;
     //기타
     public bool timeStop=false;
     private Vector2 LMarioHitboxSize = new Vector2(0.9f, 0.9f);
     private Vector2 SMarioHitboxSize = new Vector2(0.9f, 1.7f);
-    //디버그
-    public LayerMask enemyLayer; // LayerMask for enemies
+    //마리오별 특별기능용
+    public bool isGlideButton=false;
+    public bool isChargedP = false;
+    public bool isUseP=false;
+    [SerializeField]
+    private float PCheckTimeCount=0;
+    [SerializeField]
+    private float PLimitTimeCount=0;
+
+
     private void Awake()
     {                                  
         hitBox = GetComponent<BoxCollider2D>();
@@ -173,7 +179,7 @@ public class Player_Move : MonoBehaviour
         hitBox.offset = new Vector2(0, 0.9f);
         isSuperMario = false;
         isLittleMario = true;
-        //TODO:이후 레이로 바닦확인
+
         onGround = true;
 
         //rigid.gravityScale = 2;
@@ -183,7 +189,6 @@ public class Player_Move : MonoBehaviour
 
     }
 
-    // Start is called before the first frame update
     void Start()
     {
         //시작 시 오른쪽으로
@@ -210,7 +215,6 @@ public class Player_Move : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        originalColor = sprite.material.color;
         marioPos =rigid.position;
         //플레이어 이동불가 조건
         if(ishit && !isInvincible)
@@ -249,13 +253,11 @@ public class Player_Move : MonoBehaviour
             }
 
 
-            if(!ishitSound)
+            if(!ishitSound && marioHp > 1)
             {
                 ishitSound = true;
                 hitSound.Play();
             }
-            //TODO:컬러문제인거 같지만 일단 보류
-            //marioBlink();
             
             return;
         }
@@ -368,6 +370,8 @@ public class Player_Move : MonoBehaviour
             }
             //=='Z'버튼
             InputActionButton();
+            //P 판단
+            TurnOnP();
             //너구리 활공
             RMarioSpecialActtion();
 
@@ -391,6 +395,7 @@ public class Player_Move : MonoBehaviour
                 setChangeStatus();
             }
         }
+
     }
 
     private void FixedUpdate()
@@ -506,7 +511,7 @@ public class Player_Move : MonoBehaviour
         Debug.DrawRay(rigid.position, new Vector2(0,-groundRayLen), new Color(1,0,0));
         Debug.DrawRay(rigid.position, new Vector2(0,-hillRayLen), new Color(0,1,0));
 
-        RaycastHit2D groundHit = Physics2D.Raycast(rigid.position, Vector2.down, groundRayLen,LayerMask.GetMask("Ground"));
+        RaycastHit2D groundHit = Physics2D.BoxCast(rigid.position, new Vector2(0.9f, 0.2f), 0, Vector2.down, 0.1f, LayerMask.GetMask("Ground"));
         if (groundHit.collider != null)
         {
             //Debug.Log("onGround");
@@ -525,10 +530,10 @@ public class Player_Move : MonoBehaviour
                 switch (marioStatus)
                 {
                     case MarioStatus.NormalMario:
-                         break;
+                        break;
                     case MarioStatus.SuperMario:
                         animator.Play("SMario_sit");
-                         break;
+                        break;
                     case MarioStatus.FireMario:
                         animator.Play("FMario_sit"); break;
                     case MarioStatus.RaccoonMario:
@@ -542,9 +547,9 @@ public class Player_Move : MonoBehaviour
                 animator.SetBool("isSit", false);
                 //히트박스 사이즈 조정
                 if (marioStatus == MarioStatus.NormalMario)
-                    { hitBox.size = LMarioHitboxSize; hitBox.offset = new Vector2(0, 0.5f); }
+                { hitBox.size = LMarioHitboxSize; hitBox.offset = new Vector2(0, 0.5f); }
                 else
-                    { hitBox.size = SMarioHitboxSize; hitBox.offset =new Vector2(0,0.9f); }
+                { hitBox.size = SMarioHitboxSize; hitBox.offset = new Vector2(0, 0.9f); }
             }
         }
         else
@@ -583,7 +588,7 @@ public class Player_Move : MonoBehaviour
             }
 
             //언덕위에서 이동입력없으면 정지
-            //TODO:슬라이드 작동되도록
+
             if (input_x == 0 &&!isSilding &&!onAir)
             {
                 //미끄러지기
@@ -621,7 +626,7 @@ public class Player_Move : MonoBehaviour
         //else { isEnemy = false; gameObject.tag = "Player"; isAttack = false; }
 
 
-        RaycastHit2D marioAttackHit2 = Physics2D.BoxCast(rigid.position,new Vector2(0.8f,0.2f), 0, Vector2.down,0.3f, LayerMask.GetMask("Enemy"));
+        RaycastHit2D marioAttackHit2 = Physics2D.BoxCast(rigid.position,new Vector2(0.9f,0.2f), 0, Vector2.down, 0.3f, LayerMask.GetMask("Enemy"));
         if (marioAttackHit2.collider != null)
         {
             isEnemy = true;
@@ -778,6 +783,8 @@ public class Player_Move : MonoBehaviour
     //히트후 무적
     IEnumerator HitInvincible()
     {
+        //깜박임& 무적
+        marioBlink();
         yield return new WaitForSecondsRealtime(1f);
         isInvincible = false;
     }
@@ -819,6 +826,10 @@ public class Player_Move : MonoBehaviour
                 animator.SetBool("ChangeFireMario", true);
                 UpdateMarioStatusAndHP(marioStatus);
                 SetSMario();
+                break;
+            case MarioStatus.InvincibleMario:
+                //추가
+
                 break;
             case MarioStatus.Death:
                 animator.Play("Mario_Dead");
@@ -913,7 +924,44 @@ public class Player_Move : MonoBehaviour
         }
 
     }
+    //P 차지및 판단
+    void TurnOnP()
+    {
+        //p값이 최고속도값이 도달하고
+        var limitP = LimitVelocity + addLimitVelocity;
 
+        if (limitP == Math.Abs(rigid.velocity.x))
+        {
+            PCheckTimeCount += Time.deltaTime;
+            if(PCheckTimeCount>0.5f)
+                isChargedP = true;
+
+            if(isChargedP && Input.GetKeyDown(KeyCode.X))
+            { 
+                isUseP = true;
+                animator.SetBool("isUseP",true);
+            }
+           
+        }
+        else
+        {
+            PCheckTimeCount = 0;
+            isChargedP = false;
+        }
+        if(isUseP)
+        {
+            PLimitTimeCount += Time.deltaTime;
+        }
+        if (isUseP && PLimitTimeCount > 4)
+        {
+            isUseP = false;
+            PLimitTimeCount = 0;
+            animator.SetBool("isUseP", false);
+        }
+    }
+
+
+    //너구리 마리오 활공
     void RMarioSpecialActtion()
     {
         //너구리마리오일 때 만 사용가능
@@ -922,21 +970,53 @@ public class Player_Move : MonoBehaviour
 
         if(Input.GetKey(KeyCode.X) &&onAir)
         {
-            animator.SetBool("isInputX",true);
+            if(!isUseP)
+            {
+                if (!isGlideButton && rigid.velocity.y < 0)
+                {
+                    animator.SetBool("isInputX", true);
 
-            //var direction = new Vector2(0, 7);
-            //rigid.AddForce(direction, ForceMode2D.Impulse);
-            rigid.gravityScale = 0.1f;
+                    var direction = new Vector2(0, 200);
+                    isGlideButton = true;
+                    rigid.AddForce(direction, ForceMode2D.Force);
+                    StartCoroutine(ButtonAvailable());
+                }
+            }
+            else if(isUseP)
+            {
+                if (!isGlideButton )
+                {
+                    animator.SetBool("isInputX", true);
+
+                    var direction = new Vector2(0, 7);
+                    isGlideButton = true;
+                    rigid.AddForce(direction, ForceMode2D.Impulse);
+                    StartCoroutine(ButtonAvailable2());
+                }
+            }
+            
         }
         else if(Input.GetKeyUp(KeyCode.X))
         {
-            animator.SetBool("isInputX", false);
-            rigid.gravityScale = 3;
-        }
 
+        }
     }
 
-    //Effect
+    IEnumerator ButtonAvailable()
+    {
+        yield return new WaitForSeconds(0.13f);
+        isGlideButton = false;
+        animator.SetBool("isInputX", false);
+    }
+    IEnumerator ButtonAvailable2()
+    {
+        yield return new WaitForSeconds(0.2f);
+        isGlideButton = false;
+        animator.SetBool("isInputX", false);
+    }
+
+
+    //===Effect
     public void marioBlink()
     {
         StartCoroutine(Blink(0, true));
@@ -955,7 +1035,7 @@ public class Player_Move : MonoBehaviour
         
         yield return new WaitForSecondsRealtime(0.2f);
 
-        if(count<3)
+        if(count<5)
         {
             StartCoroutine (Blink(count+1, !makeBlink));
         }
@@ -964,6 +1044,46 @@ public class Player_Move : MonoBehaviour
             ishit = false;
             ishitSound = false;
         }
+    }
+
+    //무적효과
+    public void marioInvisibleEffect()
+    {
+
+
+        if (invisibleTimeCount > 7)
+        {
+            Debug.Log("무적끝");
+            StopCoroutine("Blink");
+            GetComponent<SpriteRenderer>().material.color = originalColor;
+            invisibleTimeCount = 0;
+        }
+        else
+        {
+            invisibleTimeCount += Time.deltaTime;
+            StartCoroutine(StarEffect());
+            invisibleCount++;
+
+        }
+
+    }
+
+    private IEnumerator StarEffect()
+    {
+        if (0 == invisibleCount % 3)
+        {
+            GetComponent<SpriteRenderer>().material.color = new Color(originalColor.r, originalColor.g, 0.5f - originalColor.b, 255);
+        }
+        else if (1 == invisibleCount % 3)
+        {
+            GetComponent<SpriteRenderer>().material.color = new Color(102, originalColor.g, 102, 255);
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().material.color = originalColor;
+        }
+
+        yield return new WaitForSecondsRealtime(0.1f);
     }
 
     // 박스캐스트 디버그용
