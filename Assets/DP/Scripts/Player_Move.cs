@@ -375,7 +375,8 @@ public class Player_Move : MonoBehaviour
 
             }
             //=='Z'버튼
-            InputActionButton();
+            if(!onAir)
+                InputActionButton();
             //P 판단
             TurnOnP();
             //너구리 활공
@@ -646,25 +647,31 @@ public class Player_Move : MonoBehaviour
 
     void CheckHeadCrush()//TODO
     {
-        //디버그용
-        Debug.DrawRay(rigid.position + new Vector2(0, 1), new Vector2(0, groundRayLen), new Color(1, 0, 0));
-
         float len;
         if (marioStatus == MarioStatus.NormalMario)
         { len = 0.5f; }
         else
         { len = 0.9f; }
 
-        RaycastHit2D marioHeadBoxHit = Physics2D.Raycast(rigid.position + new Vector2(0, 1), Vector2.up, len, LayerMask.GetMask("Box"));
-        RaycastHit2D marioHeadGroundHit = Physics2D.Raycast(rigid.position + new Vector2(0, 1), Vector2.up, len, LayerMask.GetMask("Ground"));
 
-        if (marioHeadBoxHit.collider != null || marioHeadGroundHit.collider)
+        RaycastHit2D marioHeadBoxHit = Physics2D.Raycast(rigid.position + new Vector2(-0.4f, 1), Vector2.up, len, LayerMask.GetMask("Box"));
+        RaycastHit2D marioHeadBoxHit2 = Physics2D.Raycast(rigid.position + new Vector2(0.4f, 1), Vector2.up, len, LayerMask.GetMask("Box"));
+        RaycastHit2D marioHeadGroundHit = Physics2D.Raycast(rigid.position + new Vector2(-0.4f, 1), Vector2.up, len, LayerMask.GetMask("Ground"));
+        RaycastHit2D marioHeadGroundHit2 = Physics2D.Raycast(rigid.position + new Vector2(0.4f, 1), Vector2.up, len, LayerMask.GetMask("Ground"));
+
+        //RaycastHit2D marioHeadBoxHit = Physics2D.BoxCast(rigid.position + new Vector2(0, 1), new Vector2(0.9f, 0.2f), 0, Vector2.up, len, LayerMask.GetMask("Box"));
+        //RaycastHit2D marioHeadGroundHit = Physics2D.BoxCast(rigid.position + new Vector2(0, 1), new Vector2(0.9f, 0.2f), 0, Vector2.up, len, LayerMask.GetMask("Box"));
+
+
+        if (marioHeadBoxHit.collider != null || marioHeadGroundHit.collider || marioHeadBoxHit2.collider != null || marioHeadGroundHit2.collider)
         {
-            //rigid.velocity = new Vector2(rigid.velocity.x,-4);
-            //onceInputJumpBoutton = false;
             isJumpInput=false;
             Debug.Log("머리 충돌");
         }
+
+        //디버그용
+        Debug.DrawRay(rigid.position + new Vector2(-0.4f, 1), new Vector2(0, groundRayLen), new Color(1, 0, 0));
+        Debug.DrawRay(rigid.position + new Vector2(0.4f, 1), new Vector2(0, groundRayLen), new Color(1, 0, 0));
 
     }
 
