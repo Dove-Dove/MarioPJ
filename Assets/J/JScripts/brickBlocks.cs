@@ -23,6 +23,8 @@ public class brickBlocks : MonoBehaviour
     //작은 마리오가 벽돌 칠때 
     private Vector2 nowPos;
     private Vector2 movePos;
+    public bool shakeBlocks = false;
+
     float moveTime = 0.0f;
 
     //큰 마리오 + 안에 코인이 있을때
@@ -62,6 +64,7 @@ public class brickBlocks : MonoBehaviour
                 soundPlay++;
             }
             transform.position = Vector2.MoveTowards(transform.position, movePos, 10.0f * 0.021f);
+            shakeBlocks = true;
             moveTime += Time.deltaTime;
 
         }
@@ -69,6 +72,7 @@ public class brickBlocks : MonoBehaviour
         {
             moveTime = 0.0f;
             transform.position = Vector2.MoveTowards(transform.position, nowPos, 10.0f * 0.021f);
+            shakeBlocks = false;
             notOpen = false;
             soundPlay = 0;
         }
@@ -84,6 +88,7 @@ public class brickBlocks : MonoBehaviour
 
        else if(open)
         {
+            shakeBlocks = true;
             BreakBlockSound.Play(); 
             gameObject.SetActive(false);
         }

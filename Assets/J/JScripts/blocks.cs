@@ -11,16 +11,19 @@ public enum BoxType
 
 public class blocks : MonoBehaviour
 {
- 
 
-    //
+    public BoxType boxType = BoxType.Items;
+    
+    // 오븐 상태 확인
     public bool itemBocksOpen;
+
     //아이템 프리펩
     public GameObject itemPrefab;
-    //아이템 박스 열린 이후 이미지
-    public Sprite OpenImg;
 
+    //코인 오브젝트
     public GameObject coin;
+
+    //애니메이션
     public Animator animator;
 
     //사운드
@@ -32,7 +35,7 @@ public class blocks : MonoBehaviour
     public GameObject under;
     public GameObject BlockWall;
 
-    public BoxType boxType = BoxType.Items;
+
 
     void Start()
     {
@@ -51,7 +54,6 @@ public class blocks : MonoBehaviour
         //터치가 되었을 경우 아이템은 비 활성화 상태로 변경
         if (itemBocksOpen && boxType == BoxType.Items)
         {
-            GetComponent<SpriteRenderer>().sprite = OpenImg;
             
             if (itemPrefab != null)
             {

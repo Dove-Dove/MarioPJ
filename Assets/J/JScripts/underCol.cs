@@ -7,6 +7,8 @@ public class underCol : MonoBehaviour
 {
     public bool WallUnderOpen = false;
     public bool big = false;
+    float time = 0.5f;
+    float nowTime = 0;
 
     private void OnCollisionEnter2D(Collision2D collision)
     {

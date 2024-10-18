@@ -35,7 +35,9 @@ public class GameManager : MonoBehaviour
     private int Ones = 1;
     //»ç¿îµå
     public AudioSource mapAudio;
+    public AudioSource CoinSound;
     public AudioClip[] AllSound;
+    
 
     void Start()
     {
@@ -114,6 +116,7 @@ public class GameManager : MonoBehaviour
 
     public void CoinGet()
     {
+        CoinSound.Play();
         coin++;
         print(coin);
     }
