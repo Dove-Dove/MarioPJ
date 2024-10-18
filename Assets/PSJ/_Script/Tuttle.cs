@@ -2,6 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//플레이어와 부딪히는 방향에따라 shellmove조정
+//발판블럭 파괴시 바로 죽음
+//발판블럭 흔들리면 등껌질상태
+//shellmove에서 블럭파괴
 
 public class Tuttle : Enemy
 {
@@ -11,7 +15,8 @@ public class Tuttle : Enemy
 
     protected Animator Tuttleanim;
 
-    private GameObject player;
+    protected bool reverse = false;
+    protected GameObject player;
 
     void Start()
     {
@@ -84,7 +89,7 @@ public class Tuttle : Enemy
             {
                 Flip();
             }
-            else if(currentState != State.Shell)
+            else if (currentState != State.Shell)
             {
                 hasWing = false;
                 DeadSound.Play();
@@ -103,6 +108,16 @@ public class Tuttle : Enemy
                 {
                     currentState = State.ShellMove;
                 }
+            }
+        }
+        else if(collision.gameObject.CompareTag("Tail"))
+        {
+            if(currentState == State.Shell)
+            {
+                Vector3 theScale = transform.localScale;
+                theScale.y *= -1;
+                transform.localScale = theScale;
+                reverse = true;
             }
         }
 
@@ -154,6 +169,12 @@ public class Tuttle : Enemy
         shellElapsedTime += Time.deltaTime; // timer를 누적
         if (shellElapsedTime >= shellTimer)
         {
+            if(reverse)
+            {
+                Vector3 theScale = transform.localScale;
+                theScale.y *= -1;
+                transform.localScale = theScale;
+            }
             Tuttleanim.SetBool("IsShell", false);
             currentState = State.Move;
             gameObject.tag = "Enemy";
@@ -186,7 +207,6 @@ public class Tuttle : Enemy
         currentState = State.Dead;
         Invoke("destroy", 1.0f);
     }
-
 
 }
 

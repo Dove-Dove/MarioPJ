@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class Dummy : MonoBehaviour
 {
+    //2개
     public GameObject Fire;
 
     public float distance = 4f; //반지름

@@ -37,6 +37,8 @@ public class Enemy : MonoBehaviour
 
     public AudioSource DeadSound;
 
+    protected RaycastHit2D BlockCheck;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -62,6 +64,7 @@ public class Enemy : MonoBehaviour
         {
             wings.SetActive(false);
         }
+
     }
 
     public void enemyMove()
@@ -72,6 +75,7 @@ public class Enemy : MonoBehaviour
         // 발판 확인
         RaycastHit2D groundInfo1 = Physics2D.Raycast(groundDetect1.position, Vector2.down, rayDistance, groundLayer);
         RaycastHit2D groundInfo2 = Physics2D.Raycast(groundDetect2.position, Vector2.down, rayDistance, groundLayer);
+
 
         bool isGrounded = groundInfo1 || groundInfo2;
 
@@ -129,7 +133,7 @@ public class Enemy : MonoBehaviour
             hasWing = false;
             currentState = State.Dead;
         }
-        else if(collision.gameObject.CompareTag("Shell"))
+        else if (collision.gameObject.CompareTag("Shell"))
         {
             Flip();
         }
@@ -146,6 +150,10 @@ public class Enemy : MonoBehaviour
             {
                 currentState = State.Dead;
             }
+        }
+        else if (collision.gameObject.CompareTag("Tale"))
+        {
+
         }
 
 
