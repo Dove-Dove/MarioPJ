@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditor;
 using UnityEditor.Tilemaps;
+using UnityEditor.XR;
 using UnityEngine;
 using static UnityEngine.EventSystems.PointerEventData;
 using static UnityEngine.RuleTile.TilingRuleOutput;
@@ -98,6 +99,7 @@ public class Player_Move : MonoBehaviour
     private bool noDoubleJump = false;
     public float jumpInputTime = 0.5f;
     private float jumpPower;
+    private bool isJumpInput=true;
     //미끄러지기
     public bool isSilding = false;
     public float slideAddForcd=5f;
@@ -355,11 +357,14 @@ public class Player_Move : MonoBehaviour
 
             //바닦체크
             CheckOnGround();
+            //머리체크
+            CheckHeadCrush();
 
            //==점프
            if (Input.GetKey(KeyCode.X) || isAttack)
             {
-                Jump();
+                if(isJumpInput)
+                    Jump();
             }
            else if(Input.GetKeyUp(KeyCode.X))
             { 
@@ -396,7 +401,6 @@ public class Player_Move : MonoBehaviour
                 setChangeStatus();
             }
         }
-
     }
 
     private void FixedUpdate()
@@ -497,7 +501,7 @@ public class Player_Move : MonoBehaviour
         //addforce
         if (onceInputJumpBoutton &&!noDoubleJump)
         {
-            //Debug.Log("Jump");
+            Debug.Log("Jump");
             var direction = new Vector2(0, jumpPower);
             rigid.AddForce(direction, ForceMode2D.Impulse);
             //힘 제한
@@ -509,8 +513,8 @@ public class Player_Move : MonoBehaviour
     void CheckOnGround()
     {
         //디버그용
-        Debug.DrawRay(rigid.position, new Vector2(0,-groundRayLen), new Color(1,0,0));
-        Debug.DrawRay(rigid.position, new Vector2(0,-hillRayLen), new Color(0,1,0));
+        //Debug.DrawRay(rigid.position, new Vector2(0,-groundRayLen), new Color(1,0,0));
+        //Debug.DrawRay(rigid.position, new Vector2(0,-hillRayLen), new Color(0,1,0));
 
         RaycastHit2D groundHit = Physics2D.BoxCast(rigid.position, new Vector2(0.9f, 0.2f), 0, Vector2.down, 0.1f, LayerMask.GetMask("Ground"));
         if (groundHit.collider != null)
@@ -519,6 +523,7 @@ public class Player_Move : MonoBehaviour
             onAir = false;
             onGround = true;//뱡향전환효과 온오프용
             noDoubleJump = false;//점프입력가능
+            isJumpInput = true;
             animator.SetBool("isJump", false);
 
             //앉기
@@ -568,6 +573,7 @@ public class Player_Move : MonoBehaviour
             onGround = true;
             onAir = false;
             animator.SetBool("isJump", false);
+            isJumpInput = true;
 
             //미끄러지기
             if (Input.GetKey(KeyCode.DownArrow) && !isSilding)
@@ -636,6 +642,30 @@ public class Player_Move : MonoBehaviour
         else { isEnemy = false; gameObject.tag = "Player"; isAttack = false; }
 
         DrawBoxCast(rigid.position, new Vector2(0.8f, 0.2f), 0, Vector2.down, 0.3f, marioAttackHit2);
+    }
+
+    void CheckHeadCrush()//TODO
+    {
+        //디버그용
+        Debug.DrawRay(rigid.position + new Vector2(0, 1), new Vector2(0, groundRayLen), new Color(1, 0, 0));
+
+        float len;
+        if (marioStatus == MarioStatus.NormalMario)
+        { len = 0.5f; }
+        else
+        { len = 0.9f; }
+
+        RaycastHit2D marioHeadBoxHit = Physics2D.Raycast(rigid.position + new Vector2(0, 1), Vector2.up, len, LayerMask.GetMask("Box"));
+        RaycastHit2D marioHeadGroundHit = Physics2D.Raycast(rigid.position + new Vector2(0, 1), Vector2.up, len, LayerMask.GetMask("Ground"));
+
+        if (marioHeadBoxHit.collider != null || marioHeadGroundHit.collider)
+        {
+            //rigid.velocity = new Vector2(rigid.velocity.x,-4);
+            //onceInputJumpBoutton = false;
+            isJumpInput=false;
+            Debug.Log("머리 충돌");
+        }
+
     }
 
     public void UpdateMarioStatusAndHP(MarioStatus status)
