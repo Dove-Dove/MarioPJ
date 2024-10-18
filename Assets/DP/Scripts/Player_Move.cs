@@ -93,7 +93,8 @@ public class Player_Move : MonoBehaviour
     //점프
     public bool isJump=false;
     public bool onAir=false;
-    private bool onceInputJumpBoutton=false;
+    //점프시간 유지용
+    public bool onceInputJumpBoutton=false;
     private bool noDoubleJump = false;
     public float jumpInputTime = 0.5f;
     private float jumpPower;
