@@ -13,6 +13,7 @@ TagManager:
   - Shell
   - PlayerAttack
   - PlayerFire
+  - Tail
   layers:
   - Default
   - TransparentFX

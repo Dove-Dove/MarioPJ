@@ -900,7 +900,6 @@ public class Player_Move : MonoBehaviour
     }
     IEnumerator StartDeathAnim()
     {
-
         yield return new WaitForSecondsRealtime(1f);
         //올라갈 때
         float h = 0;
@@ -921,7 +920,7 @@ public class Player_Move : MonoBehaviour
             transform.position = new Vector2(transform.position.x, transform.position.y - h );
             addH += h ;
             yield return new WaitForSecondsRealtime(0.01f);
-        }
+        }        
 
     }
     //P 차지및 판단
