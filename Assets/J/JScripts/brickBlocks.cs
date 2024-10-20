@@ -33,6 +33,7 @@ public class brickBlocks : MonoBehaviour
     //사용후 이미지
     public Sprite usingBlock;
 
+
     void Start()
     {
         nowPos = new Vector2(transform.position.x, transform.position.y);
@@ -63,15 +64,15 @@ public class brickBlocks : MonoBehaviour
                 hitBlockSound.Play();
                 soundPlay++;
             }
-            transform.position = Vector2.MoveTowards(transform.position, movePos, 10.0f * 0.021f);
+            transform.position = Vector2.MoveTowards(transform.position, movePos, Time.deltaTime * 3);
             shakeBlocks = true;
             moveTime += Time.deltaTime;
 
         }
-       else if ( transform.position.y >= nowPos.y )
+       else if ( transform.position.y >= nowPos.y ) 
         {
             moveTime = 0.0f;
-            transform.position = Vector2.MoveTowards(transform.position, nowPos, 10.0f * 0.021f);
+            transform.position = Vector2.MoveTowards(transform.position, nowPos, Time.deltaTime * 3);
             shakeBlocks = false;
             notOpen = false;
             soundPlay = 0;

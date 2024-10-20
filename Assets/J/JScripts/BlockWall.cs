@@ -10,6 +10,9 @@ public class BlockWall : MonoBehaviour
     {
         if (collision.gameObject.tag == "MovingShell")
             WallOpen = true;
-
+    }
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        WallOpen = false;
     }
 }

@@ -18,6 +18,7 @@ public class items : MonoBehaviour
     public Sprite[] itemImg;
     public Itemtypy itemtypys;
 
+
     //아이템이 올라오는 위치 
     public Vector2 target;
     //아이템 이동속도(버섯, 별)
@@ -31,12 +32,13 @@ public class items : MonoBehaviour
     public float rayDistance = 0.1f;
     public LayerMask groundLayer;   
 
+
     void Start()
     {
         target = new Vector2(transform.position.x, transform.position.y+1);
         randomWay = (Random.value > 0.5f);
-
         GetComponent<BoxCollider2D>().enabled = false;
+        GetComponent<Rigidbody2D>().gravityScale = 0;
     }
 
     // Update is called once per frame
@@ -97,7 +99,7 @@ public class items : MonoBehaviour
         {
             openItem = false;
             GetComponent<BoxCollider2D>().enabled = true;
-            
+            GetComponent<Rigidbody2D>().gravityScale = 1;
         }
 
             

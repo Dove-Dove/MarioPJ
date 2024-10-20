@@ -28,6 +28,6 @@ public class underCol : MonoBehaviour
     {
         WallUnderOpen = false;
         big = false;
-}
+    }
 }
 

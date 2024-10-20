@@ -27,7 +27,6 @@ public class blocks : MonoBehaviour
     public Animator animator;
 
     //»ç¿îµå
-    public AudioSource itemSound;
     public AudioSource hitFloorSound;
     public AudioSource coinSound;
 
@@ -60,7 +59,6 @@ public class blocks : MonoBehaviour
                 Instantiate(itemPrefab, transform.position, Quaternion.identity);
                 animator.SetBool("Use", true);
                 hitFloorSound.Play();
-                itemSound.Play();
                 itemPrefab.SetActive(true);
                 gameObject.GetComponent<blocks>().enabled = false;
             }
