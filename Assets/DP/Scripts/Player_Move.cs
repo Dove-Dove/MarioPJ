@@ -86,9 +86,15 @@ public class Player_Move : MonoBehaviour
     public float LimitVelocity = 4;
     public float addedLimitVelocity;
     public float addLimitVelocity = 3;
+    //FireMario
+    public GameObject FireBall;
+    public float fireSpeed = 10;
+    public UnityEngine.Transform firePoint;
+    private GameObject[] FireBalls=new GameObject[2];
+    private bool isFireBall = false;
+
     //==애니메이션
     public UnityEngine.KeyCode curKey=KeyCode.None;
-
     //좌우
     public float input_x;
     //점프
@@ -150,6 +156,8 @@ public class Player_Move : MonoBehaviour
     private bool iskcikSound = false;
     public AudioSource tailAttackSound;
     private bool isTailAttackSound=false;
+    public AudioSource FireSound;
+    private bool isFireSound = false;
     //===이펙트
     private Color originalColor;
     [SerializeField]
@@ -212,7 +220,7 @@ public class Player_Move : MonoBehaviour
         //기본마리오일때 바닥감지
         groundRayLen=LMarioGroundRayLen;
         hillRayLen=LMarioHillRayLen;
-        
+
     }
 
     // Update is called once per frame
@@ -375,8 +383,7 @@ public class Player_Move : MonoBehaviour
 
             }
             //=='Z'버튼
-            if(!onAir)
-                InputActionButton();
+            InputActionButton();
             //P 판단
             TurnOnP();
             //너구리 활공
@@ -502,7 +509,7 @@ public class Player_Move : MonoBehaviour
         //addforce
         if (onceInputJumpBoutton &&!noDoubleJump)
         {
-            Debug.Log("Jump");
+            //Debug.Log("Jump");
             var direction = new Vector2(0, jumpPower);
             rigid.AddForce(direction, ForceMode2D.Impulse);
             //힘 제한
@@ -566,8 +573,8 @@ public class Player_Move : MonoBehaviour
             animator.SetBool("isJump", true);
         }
 
-            //언덕위에 있을 때 
-            RaycastHit2D onDownhill = Physics2D.Raycast(rigid.position, Vector2.down, hillRayLen, LayerMask.GetMask("DownHill"));
+        //언덕위에 있을 때 
+        RaycastHit2D onDownhill = Physics2D.Raycast(rigid.position, Vector2.down, hillRayLen, LayerMask.GetMask("DownHill"));
         if (onDownhill.collider != null)
         {
             //Debug.Log(onDownhill.collider.name);
@@ -666,7 +673,6 @@ public class Player_Move : MonoBehaviour
         if (marioHeadBoxHit.collider != null || marioHeadGroundHit.collider || marioHeadBoxHit2.collider != null || marioHeadGroundHit2.collider)
         {
             isJumpInput=false;
-            Debug.Log("머리 충돌");
         }
 
         //디버그용
@@ -708,7 +714,9 @@ public class Player_Move : MonoBehaviour
 
             addedLimitVelocity = LimitVelocity + addLimitVelocity;
             //액션키 누르면 최대속도 addAnimSpeed 만큼 추가
-            addedMaxAnimSpeed = maxAnimSpeed + addAnimSpeed;
+            //공중이 아닐 때
+            if(onAir!)
+                addedMaxAnimSpeed = maxAnimSpeed + addAnimSpeed;
             //이동 시
             if (curAnimSpeed > maxAnimSpeed)
             {
@@ -737,7 +745,7 @@ public class Player_Move : MonoBehaviour
             //Debug.Log("Input 'Z'button");
             switch (marioStatus)
             {
-                //상태에 따른 최대속도변경
+                //상태에 따른 
                 case MarioStatus.NormalMario:
                     break;
                 //슈퍼마리오
@@ -745,6 +753,21 @@ public class Player_Move : MonoBehaviour
                     break;
                 //불꽃마리오
                 case MarioStatus.FireMario:
+                    //TODO:다시 함수로 만들기
+                    if (Input.GetKeyDown(KeyCode.Z))
+                    {
+                        ShootFire();
+                        if (!isFireBall)
+                        {
+                            isFireBall = true;
+                            animator.SetBool("isInputX", true);
+                        }
+                    }
+                    else
+                    {
+                        isFireBall=false;
+                        animator.SetBool("isInputX", false);
+                    }
                     break;
                 //너구리마리오
                 case MarioStatus.RaccoonMario:
@@ -1051,7 +1074,22 @@ public class Player_Move : MonoBehaviour
         isGlideButton = false;
         animator.SetBool("isInputX", false);
     }
+    //불꽃 마리오
+    void ShootFire()
+    {
+        //불 두개가 발사중이면
+        //if (FireBalls[0] != null && FireBalls[1] != null)
+        //    return;
 
+        Vector2 direction;
+        // 발사체 생성 및 플레이어를 향해 발사
+        GameObject projectile = Instantiate(FireBall, firePoint.position, Quaternion.identity);
+        if(isRight)
+            direction = new Vector2(1,-1);
+        else
+            direction = new Vector2(-1, -1);
+        projectile.GetComponent<Rigidbody2D>().velocity = direction * fireSpeed;
+    }
 
     //===Effect
     public void marioBlink()

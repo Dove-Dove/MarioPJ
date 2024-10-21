@@ -31,6 +31,7 @@ public class MarioFootCollision : MonoBehaviour
         {
             playerCom.GetComponentInChildren<Player_Move>().isAttack = true;
             Debug.Log("Attack!");
+            Destroy(this);
         }
 
     }

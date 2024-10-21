@@ -9,8 +9,9 @@ public class MaterialTest : MonoBehaviour
     public Color originalColor;
     [SerializeField]
     private float invisibleTimeCount = 0;
+    private float cutTimeCount = 0;
     [SerializeField]
-    private float invisibleCount = 0;
+    private int invisibleCount = 0;
     bool effectOn=true;
 
 
@@ -45,28 +46,42 @@ public class MaterialTest : MonoBehaviour
         else
         {
             invisibleTimeCount += Time.deltaTime;
-            StartCoroutine(StarEffect());
-            invisibleCount++;
+            cutTimeCount += Time.deltaTime;
+            if(cutTimeCount > 0.1f)
+            { 
+                StartCoroutine(ChangeFireMarioEffect());
+                invisibleCount++;
+                cutTimeCount = 0;
+            }
             
         }
 
     }
 
-    private IEnumerator StarEffect()
+    private IEnumerator ChangeFireMarioEffect()
     {
-        if (0 == invisibleCount % 3)
+        int num = invisibleCount;
+
+        if (0 == num % 4)
         {
-            GetComponent<SpriteRenderer>().material.color = new Color(originalColor.r, originalColor.g, 0.5f - originalColor.b, 255);
+            GetComponent<SpriteRenderer>().material.color = new Color(255, 155, 56, 255);
+            //GetComponent<SpriteRenderer>().material.color = Color.green;
         }
-        else if (1 == invisibleCount % 3)
+        else if (1 == num % 4)
         {
-            GetComponent<SpriteRenderer>().material.color = new Color(102, originalColor.g, 102, 255);
+            GetComponent<SpriteRenderer>().material.color = new Color(155, 255, 233, 255);
+        }
+        else if (2 == num % 4)
+        {
+            GetComponent<SpriteRenderer>().material.color = new Color(58, 58, 58, 255);
         }
         else
         {
             GetComponent<SpriteRenderer>().material.color = originalColor;
         }
 
+
         yield return new WaitForSecondsRealtime(0.1f);
+
     }
 }

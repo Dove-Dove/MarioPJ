@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6357486960012989046}
   m_Layer: 20
   m_Name: Tail
-  m_TagString: PlayerAttack
+  m_TagString: Tail
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -565,6 +565,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &4554613341051122087
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2492991456684306946}
+  m_Layer: 0
+  m_Name: FirePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2492991456684306946
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4554613341051122087}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.42, y: 0.9, z: -0.123125}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1742523096837631264}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5505287627408423119
 GameObject:
   m_ObjectHideFlags: 0
@@ -987,6 +1018,7 @@ Transform:
   m_Children:
   - {fileID: 8921601462556757932}
   - {fileID: 6710651860044273582}
+  - {fileID: 2492991456684306946}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!61 &5248906049530070142
@@ -1105,7 +1137,7 @@ Rigidbody2D:
   m_Material: {fileID: 6200000, guid: 176b9f9904019b142864706ebceaca8f, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1048576
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -1157,7 +1189,7 @@ MonoBehaviour:
   mario_AddedJumpPowLevel: 2.5
   isSuperMario: 0
   isLittleMario: 0
-  marioStatus: 4
+  marioStatus: 3
   hp: 0
   isFireMario: 0
   isRaccoonMario: 0
@@ -1177,10 +1209,14 @@ MonoBehaviour:
   LimitVelocity: 4
   addedLimitVelocity: 0
   addLimitVelocity: 3
+  FireBall: {fileID: 35377387227039817, guid: e75911c1c8098504d9591379c97d30d5, type: 3}
+  fireSpeed: 10
+  firePoint: {fileID: 2492991456684306946}
   curKey: 0
   input_x: 0
   isJump: 0
   onAir: 0
+  onceInputJumpBoutton: 0
   jumpInputTime: 0.4
   isSilding: 0
   slideAddForcd: 3
@@ -1205,6 +1241,7 @@ MonoBehaviour:
   runSound: {fileID: 4397281470096832283}
   kickSound: {fileID: 4686523666133636090}
   tailAttackSound: {fileID: 820552285589299018}
+  FireSound: {fileID: 0}
   invisibleTimeCount: 0
   invisibleCount: 0
   timeStop: 0
