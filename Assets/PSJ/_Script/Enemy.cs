@@ -14,7 +14,7 @@ public class Enemy : MonoBehaviour
     public State currentState = State.Move;
 
     
-    public float moveSpeed = 3f;
+    public float moveSpeed = 6f;
     protected float distance = 5f;
 
     public LayerMask groundLayer;

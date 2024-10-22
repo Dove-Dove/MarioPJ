@@ -21,7 +21,7 @@ public class FlowerEnemy : MonoBehaviour
     private Vector2 originPos;
     private Vector2 upPos;
 
-    public int speed = 5;
+    public int speed = 2;
 
 
     public bool inRange;
@@ -48,7 +48,6 @@ public class FlowerEnemy : MonoBehaviour
         if (Vector2.Distance(gameObject.transform.position, player.position) < attackRange)
         {
             animator.SetBool("IsHide", false);
-            Movedown();
             gameObject.tag = "Enemy";
             inRange = true;
             animator.SetBool("InRange",true);
@@ -56,12 +55,22 @@ public class FlowerEnemy : MonoBehaviour
         else
         {
             animator.SetBool("IsHide", false);
-            MoveUp();
             gameObject.tag = "Untagged";
             inRange = false;
             animator.SetBool("InRange", false);
         }
         SetDirectionAndAnimation();
+
+        if (animator.GetCurrentAnimatorStateInfo(0).IsName("RFlowerMoveDown") == true)
+        {
+            MoveUp();
+        }
+        else if (animator.GetCurrentAnimatorStateInfo(0).IsName("RFlowerMoveUp") == true)
+        {
+            Movedown();
+        }
+
+
     }
 
 
@@ -110,8 +119,6 @@ public class FlowerEnemy : MonoBehaviour
     public void Movedown()
     {
         transform.position = Vector3.MoveTowards(transform.position, upPos, speed * Time.deltaTime);
-
-
     }
 
     public void MoveUp()
