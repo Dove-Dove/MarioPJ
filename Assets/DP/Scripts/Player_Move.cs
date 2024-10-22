@@ -583,6 +583,9 @@ public class Player_Move : MonoBehaviour
             animator.SetBool("isJump", false);
             isJumpInput = true;
 
+            //오를때 테스트
+            transform.position += Vector3.up * (0.1f - onDownhill.distance);
+
             //미끄러지기
             if (Input.GetKey(KeyCode.DownArrow) && !isSilding)
             {
@@ -612,6 +615,7 @@ public class Player_Move : MonoBehaviour
                 {
                     animator.SetBool("isSlide", true);
                     isSilding = true;
+
                     rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
                     if (isRight)
                     {
@@ -628,9 +632,36 @@ public class Player_Move : MonoBehaviour
                 rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
             }
             else
-            { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; gameObject.tag = "Player"; }
+            { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; /*gameObject.tag = "Player";*/ }
 
         }
+
+        RaycastHit2D onPipe = Physics2D.Raycast(rigid.position, Vector2.down, hillRayLen, LayerMask.GetMask("Pipe"));
+        if(onPipe.collider !=null)
+        {
+            //앉기
+            if (Input.GetKey(KeyCode.DownArrow))
+            {
+                //timeScale을 조정할지는 차후
+                //마리오 상태별 애니메이션으로 바로 전환
+                switch (marioStatus)
+                {
+                    case MarioStatus.NormalMario:
+                        animator.Play("Mario_inpipe");
+                        break;
+                    case MarioStatus.SuperMario:
+                        animator.Play("SMario_inpipe");
+                        break;
+                    case MarioStatus.FireMario:
+                        animator.Play("FMario_inpipe"); break;
+                    case MarioStatus.RaccoonMario:
+                        animator.Play("RMario_inpipe"); break;
+                    case MarioStatus.InvincibleMario:
+                        break;
+                }
+            }
+        }
+
         //겹치므로 일단 보류
         //RaycastHit2D marioAttackHit = Physics2D.Raycast(rigid.position, Vector2.down, 0.8f, LayerMask.GetMask("Enemy"));
         //if(marioAttackHit.collider != null)
