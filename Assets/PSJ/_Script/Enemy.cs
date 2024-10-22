@@ -137,7 +137,7 @@ public class Enemy : MonoBehaviour
         {
             Flip();
         }
-        else if (collision.gameObject.CompareTag("PlayerAttack") && collision.gameObject.CompareTag("Tail"))
+        else if (collision.gameObject.CompareTag("PlayerAttack") || collision.gameObject.CompareTag("Tail"))
         {
             DeadSound.Play();
 

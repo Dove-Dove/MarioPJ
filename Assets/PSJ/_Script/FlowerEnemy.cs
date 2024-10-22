@@ -18,6 +18,11 @@ public class FlowerEnemy : MonoBehaviour
     public float projectileSpeed = 10f;
     public GameObject projectilePrefab;
     public Transform firePoint;
+    private Vector2 originPos;
+    private Vector2 upPos;
+
+    public int speed = 5;
+
 
     public bool inRange;
     private Transform player;
@@ -30,30 +35,33 @@ public class FlowerEnemy : MonoBehaviour
     void Start()
     {
         animator = GetComponent<Animator>();
-
         animator.SetBool("IsHide", true);
         player = GameObject.FindGameObjectWithTag("Player").transform;
         inRange = false;
+        originPos = transform.position;
+        upPos = new Vector2(transform.position.x, transform.position.y + 2);
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(transform.position, player.position) < attackRange)
+        if (Vector2.Distance(gameObject.transform.position, player.position) < attackRange)
         {
             animator.SetBool("IsHide", false);
+            Movedown();
+            gameObject.tag = "Enemy";
             inRange = true;
             animator.SetBool("InRange",true);
         }
         else
         {
             animator.SetBool("IsHide", false);
+            MoveUp();
+            gameObject.tag = "Untagged";
             inRange = false;
             animator.SetBool("InRange", false);
         }
         SetDirectionAndAnimation();
-
-
     }
 
 
@@ -101,12 +109,14 @@ public class FlowerEnemy : MonoBehaviour
 
     public void Movedown()
     {
-        transform.position = new Vector2(transform.position.x, transform.position.y - 2);
+        transform.position = Vector3.MoveTowards(transform.position, upPos, speed * Time.deltaTime);
+
+
     }
 
     public void MoveUp()
     {
-        transform.position = new Vector2(transform.position.x, transform.position.y + 2);
+        transform.position = Vector3.MoveTowards(transform.position, originPos, speed * Time.deltaTime);
     }
 }
 

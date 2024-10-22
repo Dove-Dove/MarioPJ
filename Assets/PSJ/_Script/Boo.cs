@@ -157,7 +157,7 @@ public class Boo : MonoBehaviour
         {
             booDead();
         }
-        else if(collision.gameObject.CompareTag("PlayerAttack"))
+        else if(collision.gameObject.CompareTag("PlayerAttack") || collision.gameObject.CompareTag("Tail"))
         {
             booDead();
         }
