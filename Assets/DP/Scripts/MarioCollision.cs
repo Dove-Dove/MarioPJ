@@ -89,7 +89,7 @@ public class MarioCollision : MonoBehaviour
         }
 
         //에너미
-        if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "E_Attack")
+        if (collision.gameObject.tag == "Enemy")
         {
             if(playerCom.GetComponentInChildren<Player_Move>().isEnemy)
             {
@@ -118,5 +118,20 @@ public class MarioCollision : MonoBehaviour
     private void OnCollisionExit2D(Collision2D collision)
     {
         
+    }
+    //트리거(E_Attack)
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        //에너미
+        if ( collision.gameObject.tag == "E_Attack")
+        {
+            if (playerCom.GetComponentInChildren<Player_Move>().isEnemy)
+            {
+                playerCom.GetComponentInChildren<Player_Move>().isAttack = true;
+            }
+            else
+            { playerCom.GetComponentInChildren<Player_Move>().ishit = true; }
+
+        }
     }
 }

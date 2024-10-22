@@ -641,7 +641,7 @@ public class Player_Move : MonoBehaviour
         //else { isEnemy = false; gameObject.tag = "Player"; isAttack = false; }
 
 
-        RaycastHit2D marioAttackHit2 = Physics2D.BoxCast(rigid.position,new Vector2(0.9f,0.2f), 0, Vector2.down, 0.3f, LayerMask.GetMask("Enemy"));
+        RaycastHit2D marioAttackHit2 = Physics2D.BoxCast(rigid.position,new Vector2(0.8f,0.2f), 0, Vector2.down, 0.3f, LayerMask.GetMask("Enemy"));
         if (marioAttackHit2.collider != null)
         {
             isEnemy = true;
