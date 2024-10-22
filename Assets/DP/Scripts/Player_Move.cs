@@ -679,7 +679,7 @@ public class Player_Move : MonoBehaviour
         //RaycastHit2D marioHeadGroundHit = Physics2D.BoxCast(rigid.position + new Vector2(0, 1), new Vector2(0.9f, 0.2f), 0, Vector2.up, len, LayerMask.GetMask("Box"));
 
 
-        if (marioHeadBoxHit.collider != null || marioHeadGroundHit.collider || marioHeadBoxHit2.collider != null || marioHeadGroundHit2.collider)
+        if (marioHeadBoxHit.collider != null || marioHeadBoxHit2.collider != null )
         {
             isJumpInput=false;
         }
