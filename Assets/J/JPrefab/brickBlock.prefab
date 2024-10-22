@@ -568,7 +568,7 @@ GameObject:
   - component: {fileID: 637819652496476828}
   - component: {fileID: 1428878910920654868}
   - component: {fileID: 4841947676623482643}
-  m_Layer: 6
+  m_Layer: 8
   m_Name: Under
   m_TagString: Box
   m_Icon: {fileID: 0}
