@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1998588199734592566}
   - component: {fileID: 5095226210129356549}
   - component: {fileID: 7605096719068664927}
+  - component: {fileID: 4420564675615224171}
   m_Layer: 10
   m_Name: RFlower
   m_TagString: Enemy
@@ -125,6 +126,51 @@ MonoBehaviour:
   projectilePrefab: {fileID: 35377387227039817, guid: 33766a1070780114d8915ea610836c82, type: 3}
   firePoint: {fileID: 5452874396247507993}
   inRange: 0
+--- !u!61 &4420564675615224171
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2577442875480010558}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 7415
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 7415
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: -0.010417938, y: 0.0026043952}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0.5, y: 0.5}
+    oldSize: {x: 1, y: 2}
+    newSize: {x: 1, y: 2}
+    adaptiveTilingThreshold: 0.5
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 1.0208359, y: 2.0052087}
+  m_EdgeRadius: 0
 --- !u!1 &5748349744535770704
 GameObject:
   m_ObjectHideFlags: 0

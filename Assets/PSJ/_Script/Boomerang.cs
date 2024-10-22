@@ -54,14 +54,9 @@ public class Boomerang : MonoBehaviour
         {
             // 되돌아오는 중일 때
             Vector2 returnDirection = ((Vector2)origin.position - (Vector2)transform.position).normalized;
-            rb.velocity = returnDirection * speed;
+            Vector2 direction2 = new Vector2(returnDirection.x, 0);
+            rb.velocity = direction2 * speed;
         }
-
-        if(shooter == null)
-        {
-            Destroy(gameObject);
-        }
-
     }
 
     public void SetShooter(Boo shooter)

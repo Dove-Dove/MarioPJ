@@ -137,7 +137,7 @@ public class Enemy : MonoBehaviour
         {
             Flip();
         }
-        else if (collision.gameObject.CompareTag("PlayerAttack"))
+        else if (collision.gameObject.CompareTag("PlayerAttack") && collision.gameObject.CompareTag("Tail"))
         {
             DeadSound.Play();
 
@@ -151,12 +151,6 @@ public class Enemy : MonoBehaviour
                 currentState = State.Dead;
             }
         }
-        else if (collision.gameObject.CompareTag("Tale"))
-        {
-
-        }
-
-
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

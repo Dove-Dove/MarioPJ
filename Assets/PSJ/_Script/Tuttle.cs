@@ -56,7 +56,7 @@ public class Tuttle : Enemy
         {
             Flip();
         }
-        else if (collision.gameObject.CompareTag("PlayerAttack")) //공격 충돌
+        else if (collision.gameObject.CompareTag("PlayerAttack") || collision.gameObject.CompareTag("Tail")) //공격 충돌
         {
             if (hasWing)
             {
@@ -75,6 +75,10 @@ public class Tuttle : Enemy
                 {
                     currentState = State.ShellMove;
                 }
+            }
+            else if(currentState == State.ShellMove)
+            {
+                currentState = State.Shell;
             }
 
         }
@@ -106,6 +110,8 @@ public class Tuttle : Enemy
             {
                 if (GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Player_Move>().isKick == true)
                 {
+                    movingLeft = !GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Player_Move>().isRight;
+                        
                     currentState = State.ShellMove;
                 }
             }

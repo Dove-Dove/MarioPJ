@@ -118,6 +118,7 @@ public class Boss : MonoBehaviour
     void bossDead()
     {
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        rb.velocity = Vector2.zero;
         Invoke("destroy", 3.0f);
     }
 

@@ -46,6 +46,7 @@ public class Boo : MonoBehaviour
     void Start()
     {
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        rb = gameObject.GetComponent<Rigidbody2D>();
         startXPosition = transform.position.x; // 시작 위치 저장
         inRange = false;
         nextAttackTime = Time.time;
@@ -55,30 +56,33 @@ public class Boo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Move();
+        if(animator.GetCurrentAnimatorStateInfo(0).IsName("booDead") == false)
+        {
+            Move();
 
-        if(Vector2.Distance(transform.position,player.position)< attackRange)
-        {
-            inRange = true;
-        }
-        else
-        {
-            inRange = false;
-        }
-
-        // 공격 쿨타임이 지나면 공격 실행
-        if (Time.time >= nextAttackTime && inRange)
-        {
-            //부메랑 3개이하 유지
-            if (currentBoomerangs < maxBoomerangs)
+            if(Vector2.Distance(transform.position,player.position)< attackRange)
             {
-                ShootProjectile();
-                nextAttackTime = Time.time + attackCooldown; // 다음 공격 시간 갱신
+                inRange = true;
             }
-        }
+            else
+            {
+                inRange = false;
+            }
 
-        // 방향 설정
-        SetDirectionAndAnimation();
+            // 공격 쿨타임이 지나면 공격 실행
+            if (Time.time >= nextAttackTime && inRange)
+            {
+                //부메랑 3개이하 유지
+                if (currentBoomerangs < maxBoomerangs)
+                {
+                    ShootProjectile();
+                    nextAttackTime = Time.time + attackCooldown; // 다음 공격 시간 갱신
+                }
+            }
+
+            // 방향 설정
+            SetDirectionAndAnimation();
+        }
     }
 
     // 적이 좌우로 일정 범위를 반복해서 이동
@@ -135,9 +139,10 @@ public class Boo : MonoBehaviour
     void booDead()
     {
         DeadSound.Play();
-        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, gameObject.GetComponent<Rigidbody2D>().velocity.y);
+        //rb.gravityScale = 0;
+        rb.velocity = Vector2.zero;
         animator.SetTrigger("IsDead");
-        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
         Invoke("destroy", 1.0f);
     }
 
@@ -155,6 +160,10 @@ public class Boo : MonoBehaviour
         else if(collision.gameObject.CompareTag("PlayerAttack"))
         {
             booDead();
+        }
+        else if(collision.gameObject.CompareTag("Player"))
+        {
+
         }
         
     }

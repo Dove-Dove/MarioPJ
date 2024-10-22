@@ -98,6 +98,16 @@ public class FlowerEnemy : MonoBehaviour
             }
         }
     }
+
+    public void Movedown()
+    {
+        transform.position = new Vector2(transform.position.x, transform.position.y - 2);
+    }
+
+    public void MoveUp()
+    {
+        transform.position = new Vector2(transform.position.x, transform.position.y + 2);
+    }
 }
 
 
