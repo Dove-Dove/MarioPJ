@@ -91,22 +91,24 @@ public class MarioCollision : MonoBehaviour
         //에너미
         if (collision.gameObject.tag == "Enemy")
         {
-            if(playerCom.GetComponentInChildren<Player_Move>().isEnemy)
+            if(player.isEnemy)
             {
-                playerCom.GetComponentInChildren<Player_Move>().isAttack = true;
+                player.isAttack = true;
             }
             else
-           { playerCom.GetComponentInChildren<Player_Move>().ishit = true; }
+           { player.ishit = true; }
             
         }
         //에너미
         if (collision.gameObject.tag == "Shell")
         {
-            playerCom.GetComponentInChildren<Player_Move>().isLift = true;
+            player.isLift = true;
             shell = collision.gameObject;
         }
         else
-        { shell=null; }
+        {
+            shell=null; 
+        }
 
     }
 
@@ -125,12 +127,12 @@ public class MarioCollision : MonoBehaviour
         //에너미
         if ( collision.gameObject.tag == "E_Attack")
         {
-            if (playerCom.GetComponentInChildren<Player_Move>().isEnemy)
+            if (player.isEnemy)
             {
-                playerCom.GetComponentInChildren<Player_Move>().isAttack = true;
+                player.isAttack = true;
             }
             else
-            { playerCom.GetComponentInChildren<Player_Move>().ishit = true; }
+            { player.ishit = true; }
 
         }
     }

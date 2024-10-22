@@ -650,9 +650,18 @@ public class Player_Move : MonoBehaviour
         else { isEnemy = false; gameObject.tag = "Player"; isAttack = false; }
 
         DrawBoxCast(rigid.position, new Vector2(0.8f, 0.2f), 0, Vector2.down, 0.3f, marioAttackHit2);
+
+
+        RaycastHit2D marioAttackHit3 = Physics2D.BoxCast(rigid.position, new Vector2(0.8f, 0.2f), 0, Vector2.down, 0.3f, LayerMask.GetMask("MovingShell"));
+        if (marioAttackHit2.collider != null)
+        {
+            isEnemy = true;
+            gameObject.tag = "PlayerAttack";
+        }
+        else { isEnemy = false; gameObject.tag = "Player"; isAttack = false; }
     }
 
-    void CheckHeadCrush()//TODO
+    void CheckHeadCrush()
     {
         float len;
         if (marioStatus == MarioStatus.NormalMario)
@@ -663,14 +672,14 @@ public class Player_Move : MonoBehaviour
 
         RaycastHit2D marioHeadBoxHit = Physics2D.Raycast(rigid.position + new Vector2(-0.4f, 1), Vector2.up, len, LayerMask.GetMask("Box"));
         RaycastHit2D marioHeadBoxHit2 = Physics2D.Raycast(rigid.position + new Vector2(0.4f, 1), Vector2.up, len, LayerMask.GetMask("Box"));
-        RaycastHit2D marioHeadGroundHit = Physics2D.Raycast(rigid.position + new Vector2(-0.4f, 1), Vector2.up, len, LayerMask.GetMask("Ground"));
-        RaycastHit2D marioHeadGroundHit2 = Physics2D.Raycast(rigid.position + new Vector2(0.4f, 1), Vector2.up, len, LayerMask.GetMask("Ground"));
+        //RaycastHit2D marioHeadGroundHit = Physics2D.Raycast(rigid.position + new Vector2(-0.4f, 1), Vector2.up, len, LayerMask.GetMask("Ground"));
+        //RaycastHit2D marioHeadGroundHit2 = Physics2D.Raycast(rigid.position + new Vector2(0.4f, 1), Vector2.up, len, LayerMask.GetMask("Ground"));
 
         //RaycastHit2D marioHeadBoxHit = Physics2D.BoxCast(rigid.position + new Vector2(0, 1), new Vector2(0.9f, 0.2f), 0, Vector2.up, len, LayerMask.GetMask("Box"));
         //RaycastHit2D marioHeadGroundHit = Physics2D.BoxCast(rigid.position + new Vector2(0, 1), new Vector2(0.9f, 0.2f), 0, Vector2.up, len, LayerMask.GetMask("Box"));
 
 
-        if (marioHeadBoxHit.collider != null || marioHeadGroundHit.collider || marioHeadBoxHit2.collider != null || marioHeadGroundHit2.collider)
+        if (marioHeadBoxHit.collider != null || marioHeadBoxHit2.collider != null )
         {
             isJumpInput=false;
         }
