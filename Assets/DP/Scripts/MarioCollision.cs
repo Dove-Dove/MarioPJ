@@ -89,7 +89,7 @@ public class MarioCollision : MonoBehaviour
         }
 
         //¿¡³Ê¹Ì
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "E_Attack")
         {
             if(playerCom.GetComponentInChildren<Player_Move>().isEnemy)
             {

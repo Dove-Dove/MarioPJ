@@ -715,7 +715,7 @@ public class Player_Move : MonoBehaviour
             addedLimitVelocity = LimitVelocity + addLimitVelocity;
             //액션키 누르면 최대속도 addAnimSpeed 만큼 추가
             //공중이 아닐 때
-            if(onAir!)
+            if(!onAir)
                 addedMaxAnimSpeed = maxAnimSpeed + addAnimSpeed;
             //이동 시
             if (curAnimSpeed > maxAnimSpeed)
@@ -874,7 +874,7 @@ public class Player_Move : MonoBehaviour
                 break;
             case MarioStatus.RaccoonMario:
                 animator.SetBool("ChangeSuperMario", false);
-                animator.Play("RMario_idle");
+                animator.Play("SmokeEffect");
                 animator.SetBool("ChangeRaccoonMario", true);
                 animator.SetBool("ChangeFireMario", false);
                 UpdateMarioStatusAndHP(marioStatus);
@@ -988,6 +988,7 @@ public class Player_Move : MonoBehaviour
     void TurnOnP()
     {
         //p값이 최고속도값이 도달하고
+        //TODO:충돌 시 P꺼지게 
         var limitP = LimitVelocity + addLimitVelocity;
 
         if (limitP == Math.Abs(rigid.velocity.x))

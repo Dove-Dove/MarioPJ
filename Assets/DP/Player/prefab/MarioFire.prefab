@@ -131,7 +131,7 @@ Rigidbody2D:
   m_Material: {fileID: 6200000, guid: 2438a53b5063d414589362f7156c1299, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1048576
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
