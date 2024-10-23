@@ -39,9 +39,11 @@ public class Enemy : MonoBehaviour
 
     protected RaycastHit2D BlockCheck;
 
-    public float angle;
-    public Vector2 perp;
-    public bool isSlope;
+    protected float angle;
+    protected Vector2 perp;
+    protected bool isSlope;
+
+    protected bool attackedbyTail;
 
     // Start is called before the first frame update
     void Start()
@@ -204,6 +206,17 @@ public class Enemy : MonoBehaviour
             }
             else
             {
+                if(collision.gameObject.CompareTag("PlayerAttack"))
+                {
+                    animator.SetTrigger("IsDead");
+                    rb.gravityScale = 0;
+                    rb.velocity = Vector2.zero;
+                }
+                else if (collision.gameObject.CompareTag("Tail"))
+                {
+                    Jump();
+                    animator.SetTrigger("IsDead2");
+                }
                 currentState = State.Dead;
             }
         }
@@ -244,11 +257,7 @@ public class Enemy : MonoBehaviour
 
     public void enemyDead()
     {
-        animator.SetTrigger("IsDead");
-        rb.gravityScale = 0;
-        rb.velocity = Vector2.zero;
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
-        currentState = State.Dead;
         Invoke("destroy", 1.0f);
     }
 

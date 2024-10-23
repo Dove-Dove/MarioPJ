@@ -39,7 +39,7 @@ public class Boomerang : MonoBehaviour
         Invoke("ReturnToOrigin", travelTime);
 
         // 3초 지나면 무조건 파괴
-        Invoke("DestroyBoomerang", 4f);
+        Invoke("DestroyBoomerang", 2f);
     }
 
     void Update()
