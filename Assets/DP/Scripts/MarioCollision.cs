@@ -37,14 +37,16 @@ public class MarioCollision : MonoBehaviour
             switch(type)
             {
                 case Itemtypy.mushroom://¹ö¼¸
-                    if (player.getMarioStatus() == MarioStatus.NormalMario)
+                    if(player.getMarioStatus() == MarioStatus.SuperMario 
+                        || player.getMarioStatus() == MarioStatus.RaccoonMario 
+                        || player.getMarioStatus() == MarioStatus.FireMario)
+                    {
+                        Destroy(collision.gameObject); return; //Á¡¼öÃß°¡
+                    }
+                    else if (player.getMarioStatus() == MarioStatus.NormalMario)
                     {
                         player.setMarioStatus(MarioStatus.SuperMario);
                         player.setChangeStatus();
-                    }
-                    else
-                    {
-                        Destroy(collision.gameObject); return; //Á¡¼öÃß°¡
                     }
                     break;
                 case Itemtypy.leaf://³ª¹µÀÙ

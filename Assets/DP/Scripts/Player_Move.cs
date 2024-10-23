@@ -17,7 +17,8 @@ public enum MarioStatus
     FireMario,
     RaccoonMario,
     InvincibleMario,
-    Death
+    Death,
+    Clear
 }
 
 public class Player_Move : MonoBehaviour
@@ -61,8 +62,7 @@ public class Player_Move : MonoBehaviour
     get { return notInput; } 
     set { notInput = value; }
     }
-    [SerializeField]
-    private bool isClear= false;
+    public bool isClear= false;
     //마리오 방향
     public bool isRight = false;
 
@@ -131,6 +131,7 @@ public class Player_Move : MonoBehaviour
     public bool isKick=true;
 
     //죽음
+    private Vector2 clearVelocity=Vector2.zero;
 
     //중간중간 전체 애니메이션 멈춤제어하는 불형
     [SerializeField]
@@ -227,8 +228,9 @@ public class Player_Move : MonoBehaviour
     void Update()
     {
         marioPos =rigid.position;
+
         //플레이어 이동불가 조건
-        if(ishit && !isInvincible)
+        if (ishit && !isInvincible)
         {
             //dead확인
             if(marioHp <= 1)
@@ -275,15 +277,17 @@ public class Player_Move : MonoBehaviour
         //입력불가 상황
         else if(notInput)
         {
-            //Debug.Log("notInput");
+
             ChangeSuperMario();
             setChangeStatus();
             return;
+
         }
         //클리어
         else if(isClear)
         {
             //땅위라면 이동 애니메이션 출력 + 이동
+            MarioClear();
             return;
         }
         //기본 입력가능상태
@@ -941,6 +945,8 @@ public class Player_Move : MonoBehaviour
                 animator.SetBool("ChangeFireMario", false);
                 MarioDeath();
                 break;
+            case MarioStatus.Clear:
+                isClear = true; break;
         }
     }
      void SetLMario()
@@ -1009,7 +1015,7 @@ public class Player_Move : MonoBehaviour
         float addH = 0;
         while(addH < 5)
         {
-            h = Time.unscaledTime * 0.02f;
+            h = Time.unscaledDeltaTime * 50f;
             transform.position = new Vector2(transform.position.x, transform.position.y + h );
             addH += h ;
             yield return new WaitForSecondsRealtime(0.01f);
@@ -1019,7 +1025,7 @@ public class Player_Move : MonoBehaviour
         //내려갈 때
         while(addH < 20)
         {
-            h = Time.unscaledTime * 0.02f;
+            h = Time.unscaledDeltaTime * 50f;
             transform.position = new Vector2(transform.position.x, transform.position.y - h );
             addH += h ;
             yield return new WaitForSecondsRealtime(0.01f);
@@ -1132,6 +1138,61 @@ public class Player_Move : MonoBehaviour
         else
             direction = new Vector2(-1, -1);
         projectile.GetComponent<Rigidbody2D>().velocity = direction * fireSpeed;
+    }
+    //클리어
+    void MarioClear()
+    {
+        gameObject.tag = "Untagged";
+        CheckOnGround();
+        Time.timeScale = 0;
+        if (onGround)
+        {
+            isRight = true;
+            curAnimSpeed = addedMaxAnimSpeed;
+
+            //Anim :run
+            animator.SetBool("isRun", true);
+            moveTimer += Time.unscaledDeltaTime;
+
+            curAnimSpeed = moveTimer * animAccel;
+            //최고속도 고정
+            if (curAnimSpeed > addedMaxAnimSpeed)
+                curAnimSpeed = addedMaxAnimSpeed;
+
+            animator.SetFloat("Speed", curAnimSpeed);
+
+            var direction = new Vector2(10, 0);
+            rigid.AddForce(direction);
+            rigid.velocity = direction;
+
+
+            Vector3 move = new Vector3(1, 0, 0) * 3 * Time.unscaledDeltaTime;
+            //transform.Translate(move);
+            transform.position += move;
+            //rigid.MovePosition(new Vector2(100,0));
+            //if (rigid.velocity.x > addedLimitVelocity)
+            //    rigid.velocity = new Vector2(addedLimitVelocity, rigid.velocity.y);
+        }
+        else 
+        {
+            //수동으로 Phsics돌리기
+            if (Time.timeScale == 0)
+            {
+                //Physics.autoSimulation = false;
+                //Physics.Simulate(Time.unscaledDeltaTime);
+                ApplyCustomGravity();
+            }
+        }
+    }
+
+    //timeScale=0일 때 사용
+    void ApplyCustomGravity()
+    {
+        // 중력 벡터를 Rigidbody2D의 속도에 적용
+        clearVelocity += Vector2.down * 9.8f * Time.unscaledDeltaTime;
+        Debug.Log("TimeZeroVelocity"+clearVelocity.y);
+        Vector2 newPosition = rigid.position + clearVelocity * Time.unscaledDeltaTime;
+        rigid.transform.position = newPosition;
     }
 
     //===Effect

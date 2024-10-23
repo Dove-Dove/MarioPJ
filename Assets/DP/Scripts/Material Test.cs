@@ -7,19 +7,26 @@ public class MaterialTest : MonoBehaviour
 {
     public SpriteRenderer sprite;
     public Color originalColor;
+    public Color changeColor;
+    public Material originalMate;
+    public Material mate;
     [SerializeField]
     private float invisibleTimeCount = 0;
     private float cutTimeCount = 0;
     [SerializeField]
     private int invisibleCount = 0;
     bool effectOn=true;
+    public Color Color1;
+    public Color Color2;
+    public Color Color3;
 
 
     // Start is called before the first frame update
     void Start()
     {
         sprite = GetComponent<SpriteRenderer>();
-        originalColor=sprite.material.color;
+        originalColor =sprite.material.color;
+        changeColor = new Color(mate.color.r, mate.color.g, mate.color.b, 0);
     }
 
     // Update is called once per frame
@@ -27,7 +34,7 @@ public class MaterialTest : MonoBehaviour
     {
         if (effectOn)
         {
-        marioInvisibleEffect();
+            marioInvisibleEffect();
         }
     }
 
@@ -40,20 +47,67 @@ public class MaterialTest : MonoBehaviour
             Debug.Log("公利场");
             StopCoroutine("Blink");
             GetComponent<SpriteRenderer>().material.color = originalColor;
+            GetComponent<SpriteRenderer>().material = originalMate;
             invisibleTimeCount = 0;
             effectOn = false;
         }
         else
         {
-            invisibleTimeCount += Time.deltaTime;
-            cutTimeCount += Time.deltaTime;
+            invisibleTimeCount += Time.unscaledDeltaTime;
+            cutTimeCount += Time.unscaledDeltaTime;
             if(cutTimeCount > 0.1f)
             { 
+                StartCoroutine(InvincibilityEffect());
+                invisibleCount++;
+                cutTimeCount = 0;
+            }
+           
+        }
+
+    }
+
+    private IEnumerator InvincibilityEffect()
+    {
+        int num = invisibleCount;
+
+        if (0 == num % 2)
+        {
+            GetComponent<SpriteRenderer>().material = mate;
+            GetComponent<SpriteRenderer>().material.color = changeColor;
+        }
+
+        else
+        {
+            GetComponent<SpriteRenderer>().material = originalMate;
+            GetComponent<SpriteRenderer>().material.color = originalColor;
+        }
+
+        yield return new WaitForSecondsRealtime(0.1f);
+    }
+
+    public void ChangeFireMario()
+    {
+
+
+        if (invisibleTimeCount > 7)
+        {
+            Debug.Log("公利场");
+            StopCoroutine("Blink");
+            GetComponent<SpriteRenderer>().material.color = originalColor;
+            invisibleTimeCount = 0;
+            effectOn = false;
+        }
+        else
+        {
+            invisibleTimeCount += Time.unscaledDeltaTime;
+            cutTimeCount += Time.unscaledDeltaTime;
+            if (cutTimeCount > 0.1f)
+            {
                 StartCoroutine(ChangeFireMarioEffect());
                 invisibleCount++;
                 cutTimeCount = 0;
             }
-            
+
         }
 
     }
@@ -64,24 +118,22 @@ public class MaterialTest : MonoBehaviour
 
         if (0 == num % 4)
         {
-            GetComponent<SpriteRenderer>().material.color = new Color(255, 155, 56, 255);
-            //GetComponent<SpriteRenderer>().material.color = Color.green;
+            GetComponent<SpriteRenderer>().material.color = Color1;
         }
         else if (1 == num % 4)
         {
-            GetComponent<SpriteRenderer>().material.color = new Color(155, 255, 233, 255);
+            GetComponent<SpriteRenderer>().material.color = Color2;
         }
         else if (2 == num % 4)
         {
-            GetComponent<SpriteRenderer>().material.color = new Color(58, 58, 58, 255);
+            GetComponent<SpriteRenderer>().material.color = Color3;
         }
         else
         {
             GetComponent<SpriteRenderer>().material.color = originalColor;
         }
 
-
         yield return new WaitForSecondsRealtime(0.1f);
-
     }
+
 }
