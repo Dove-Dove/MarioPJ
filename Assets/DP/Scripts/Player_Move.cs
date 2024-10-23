@@ -109,7 +109,7 @@ public class Player_Move : MonoBehaviour
     //미끄러지기
     public bool isSilding = false;
     public float slideAddForcd=5f;
-    public const float friction = 1;
+    public const float friction = 0.1f;
     public const float hillFriction = 0.1f;
     
     //앉기
@@ -584,7 +584,7 @@ public class Player_Move : MonoBehaviour
             isJumpInput = true;
 
             //오를때 테스트
-            transform.position += Vector3.up * (0.1f - onDownhill.distance);
+            //transform.position += Vector3.up * (0.1f - onDownhill.distance);
 
             //미끄러지기
             if (Input.GetKey(KeyCode.DownArrow) && !isSilding)
@@ -636,6 +636,8 @@ public class Player_Move : MonoBehaviour
 
         }
 
+        //파이프 애니메이션 동작
+        //필요시 머리도 감지해서 작동할 수 있도록
         RaycastHit2D onPipe = Physics2D.Raycast(rigid.position, Vector2.down, hillRayLen, LayerMask.GetMask("Pipe"));
         if(onPipe.collider !=null)
         {
@@ -1236,5 +1238,6 @@ public class Player_Move : MonoBehaviour
             Debug.DrawRay(hit.point, hit.normal * 0.5f, Color.blue);  // Draw the hit point and normal
         }
     }
+
 }
 

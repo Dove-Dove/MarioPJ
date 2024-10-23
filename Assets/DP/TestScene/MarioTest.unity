@@ -368,6 +368,7 @@ GameObject:
   m_Component:
   - component: {fileID: 205075603}
   - component: {fileID: 205075604}
+  - component: {fileID: 205075605}
   m_Layer: 6
   m_Name: Ground (7)
   m_TagString: Ground
@@ -435,6 +436,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 37.213104, y: 2.7699115}
   m_EdgeRadius: 0
+--- !u!50 &205075605
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 205075602}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 6200000, guid: c735e7e9f5e5bc844aca13ef99c63283, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &454357390 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8602179114985834585, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
@@ -455,6 +483,7 @@ GameObject:
   m_Component:
   - component: {fileID: 463546986}
   - component: {fileID: 463546987}
+  - component: {fileID: 463546988}
   m_Layer: 7
   m_Name: DownHill (2)
   m_TagString: Ground
@@ -522,6 +551,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.9505768, y: 6.005019}
   m_EdgeRadius: 0
+--- !u!50 &463546988
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 463546985}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 6200000, guid: 688cfbd77c37cad42996603a67f29c53, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &473553764
 GameObject:
   m_ObjectHideFlags: 0
@@ -785,6 +841,7 @@ GameObject:
   m_Component:
   - component: {fileID: 828286788}
   - component: {fileID: 828286789}
+  - component: {fileID: 828286790}
   m_Layer: 6
   m_Name: Ground (8)
   m_TagString: Ground
@@ -852,6 +909,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 5.1946535, y: 2.7699115}
   m_EdgeRadius: 0
+--- !u!50 &828286790
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 828286787}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 6200000, guid: c735e7e9f5e5bc844aca13ef99c63283, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1001 &876110692
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2302,6 +2386,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1112582836}
   - component: {fileID: 1112582837}
+  - component: {fileID: 1112582838}
   m_Layer: 7
   m_Name: DownHill
   m_TagString: Ground
@@ -2369,6 +2454,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.9505768, y: 4.3791437}
   m_EdgeRadius: 0
+--- !u!50 &1112582838
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1112582835}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 6200000, guid: 688cfbd77c37cad42996603a67f29c53, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &1200302037
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2497,6 +2609,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1408267828}
   - component: {fileID: 1408267829}
+  - component: {fileID: 1408267830}
   m_Layer: 6
   m_Name: Ground (9)
   m_TagString: Ground
@@ -2564,6 +2677,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 18.5668, y: 2.7699115}
   m_EdgeRadius: 0
+--- !u!50 &1408267830
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1408267827}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 6200000, guid: c735e7e9f5e5bc844aca13ef99c63283, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1001 &1446189656
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2956,6 +3096,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1623793005}
   - component: {fileID: 1623793006}
+  - component: {fileID: 1623793007}
   m_Layer: 7
   m_Name: DownHill (1)
   m_TagString: Ground
@@ -3023,6 +3164,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.9505768, y: 6.005019}
   m_EdgeRadius: 0
+--- !u!50 &1623793007
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1623793004}
+  m_BodyType: 2
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 6200000, guid: 688cfbd77c37cad42996603a67f29c53, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1001 &1624154971
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3301,6 +3469,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1753230217}
   - component: {fileID: 1753230218}
+  - component: {fileID: 1753230219}
   m_Layer: 6
   m_Name: Ground
   m_TagString: Ground
@@ -3368,6 +3537,33 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 18.5668, y: 2.7699115}
   m_EdgeRadius: 0
+--- !u!50 &1753230219
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1753230216}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 6200000, guid: c735e7e9f5e5bc844aca13ef99c63283, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &1768262765
 GameObject:
   m_ObjectHideFlags: 0

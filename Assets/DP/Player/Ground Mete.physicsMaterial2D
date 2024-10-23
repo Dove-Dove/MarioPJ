@@ -6,6 +6,6 @@ PhysicsMaterial2D:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Mario Physics Material 2D
-  friction: 0.1
+  m_Name: Ground Mete
+  friction: 1
   bounciness: 0
