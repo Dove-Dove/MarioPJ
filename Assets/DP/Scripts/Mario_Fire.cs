@@ -81,13 +81,13 @@ public class MarioFire : MonoBehaviour
         if(isRight && isGround)
         {
             //rigid.AddForce(new Vector2(1, 10), ForceMode2D.Impulse);
-            rigid.velocity = new Vector2(5,5);
+            rigid.velocity = new Vector2(6,5);
         }
 
         if (!isRight && isGround) 
         {
             //rigid.AddForce(new Vector2(-1, 10), ForceMode2D.Impulse);
-            rigid.velocity = new Vector2(-5, 5);
+            rigid.velocity = new Vector2(-6, 5);
         }
     }
 

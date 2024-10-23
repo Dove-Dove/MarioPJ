@@ -109,7 +109,7 @@ public class Player_Move : MonoBehaviour
     //¹Ì²ô·¯Áö±â
     public bool isSilding = false;
     public float slideAddForcd=5f;
-    public const float friction = 0.1f;
+    public const float friction = 0.4f;
     public const float hillFriction = 0.1f;
     
     //¾É±â
