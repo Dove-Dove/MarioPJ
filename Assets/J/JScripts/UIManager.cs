@@ -25,7 +25,7 @@ public class UIManager : MonoBehaviour
     private int nowPoint = 0;
     private int nowTime = 0;
  
-
+    //배열 (텍스트를 따로 못써서 이미지를 사용)
     private int[] arrCoin = new int[2];
     private int[] arrLife = new int[2];
     private int[] arrPoint = new int[7];
