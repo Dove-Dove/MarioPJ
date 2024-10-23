@@ -14,11 +14,11 @@ public class Enemy : MonoBehaviour
     public State currentState = State.Move;
 
     
-    public float moveSpeed = 6f;
+    public float moveSpeed = 3f;
     protected float distance = 5f;
 
     public LayerMask groundLayer;
-    //public LayerMask wallLayer;
+    public LayerMask slopeLayer;
     protected float rayDistance = 1f;
     public Transform groundDetect1, groundDetect2;
 
@@ -30,7 +30,7 @@ public class Enemy : MonoBehaviour
 
     private Rigidbody2D rb;
     protected float nextJumpTime;
-    protected bool movingLeft = true;
+    public bool movingLeft = true;
 
     Animator animator;
     public GameObject wings;
@@ -38,6 +38,10 @@ public class Enemy : MonoBehaviour
     public AudioSource DeadSound;
 
     protected RaycastHit2D BlockCheck;
+
+    public float angle;
+    public Vector2 perp;
+    public bool isSlope;
 
     // Start is called before the first frame update
     void Start()
@@ -70,16 +74,53 @@ public class Enemy : MonoBehaviour
     public void enemyMove()
     {
         Vector2 direction = movingLeft ? Vector2.left : Vector2.right;
-        transform.Translate(Vector2.left * moveSpeed * Time.deltaTime * (movingLeft ? 1 : -1));
 
         // 발판 확인
-        RaycastHit2D groundInfo1 = Physics2D.Raycast(groundDetect1.position, Vector2.down, rayDistance, groundLayer);
-        RaycastHit2D groundInfo2 = Physics2D.Raycast(groundDetect2.position, Vector2.down, rayDistance, groundLayer);
+        RaycastHit2D groundleft = Physics2D.Raycast(groundDetect1.position, Vector2.down, rayDistance, groundLayer);
+        RaycastHit2D groundright = Physics2D.Raycast(groundDetect2.position, Vector2.down, rayDistance, groundLayer);
 
+        bool isGrounded = groundleft || groundright;
 
-        bool isGrounded = groundInfo1 || groundInfo2;
+        RaycastHit2D hit = Physics2D.Raycast(groundDetect1.position, Vector2.down, rayDistance, groundLayer);
+        RaycastHit2D fronthit;
 
-        if(!isGrounded)
+        if (movingLeft)
+        {
+            fronthit = Physics2D.Raycast(groundDetect1.position, Vector2.left, 0.1f, slopeLayer);
+            Debug.DrawLine(fronthit.point ,Vector2.left, Color.magenta);
+        }
+        else
+        {
+            fronthit = Physics2D.Raycast(groundDetect1.position, Vector2.right, 0.1f, slopeLayer);
+            Debug.DrawLine(fronthit.point, Vector2.right, Color.magenta);
+        }
+
+        //Debug.DrawLine(hit.point, hit.point + hit.normal, Color.blue);
+        //Debug.DrawLine(hit.point, hit.point + perp, Color.red);
+
+        if (hit || fronthit)
+        {
+            if (fronthit)
+            {
+                //Debug.Log("angle = " + angle);
+                slopeChk(fronthit);
+            }
+            else
+                slopeChk(hit);
+        }
+
+        if(!isSlope)
+        {
+            transform.Translate(Vector2.left * moveSpeed * Time.deltaTime * (movingLeft ? 1 : -1));
+        }
+        else if(isSlope)
+        {
+            gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+            transform.Translate(new Vector2(perp.x * moveSpeed * Time.deltaTime * (movingLeft ? 1 : -1), perp.y * moveSpeed * Time.deltaTime *(movingLeft ? 1 : -1)));
+
+        }
+
+        if (!isGrounded)
         {
             if(hasWing && Time.time >= nextJumpTime && !isJumping)
             {
@@ -89,7 +130,7 @@ public class Enemy : MonoBehaviour
             }
             else if(!hasWing)
             {
-                Flip();
+                //Flip();
                 nextJumpTime = Time.time + jumpInterveal;
             }
         }
@@ -105,6 +146,21 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void slopeChk(RaycastHit2D hit)
+    {
+        perp = Vector2.Perpendicular(hit.normal).normalized;
+        angle = Vector2.Angle(hit.normal, Vector2.up);
+
+        if (angle != 0)
+        {
+            isSlope = true;
+        }
+        else
+        {
+            isSlope = false;
+        }
+
+    }
 
     public void Flip()
     {

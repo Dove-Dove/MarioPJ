@@ -25,7 +25,7 @@ Transform:
   m_GameObject: {fileID: 2310779709509573076}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.5, y: 0, z: 0}
+  m_LocalPosition: {x: 0.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -300,11 +300,18 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  slopeLayer:
+    serializedVersion: 2
+    m_Bits: 128
   groundDetect1: {fileID: 385307376193796732}
   groundDetect2: {fileID: 6484367060156814757}
   hasWing: 0
+  movingLeft: 1
   wings: {fileID: 4057867206654937971}
   DeadSound: {fileID: 1371046071564210024}
+  angle: 0
+  perp: {x: 0, y: 0}
+  isSlope: 0
 --- !u!61 &8953865356117380398
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -366,7 +373,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 16e8788ef093ef145a9d3bbe220b9368, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -402,7 +409,7 @@ Transform:
   m_GameObject: {fileID: 5039614876345618912}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.5, y: 0, z: 0}
+  m_LocalPosition: {x: -0.5, y: -0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

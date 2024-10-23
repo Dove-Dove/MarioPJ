@@ -373,11 +373,18 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  slopeLayer:
+    serializedVersion: 2
+    m_Bits: 128
   groundDetect1: {fileID: 5941740442251922314}
   groundDetect2: {fileID: 264932901184164661}
   hasWing: 0
+  movingLeft: 1
   wings: {fileID: 6734681474347816033}
   DeadSound: {fileID: 6108802971390646365}
+  angle: 0
+  perp: {x: 0, y: 0}
+  isSlope: 0
   reviveTimer: 5
   reviveTime: 0
 --- !u!50 &1624072890342603920

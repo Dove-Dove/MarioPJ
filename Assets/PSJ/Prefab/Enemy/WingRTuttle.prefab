@@ -458,11 +458,18 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  slopeLayer:
+    serializedVersion: 2
+    m_Bits: 128
   groundDetect1: {fileID: 521776276218916161}
   groundDetect2: {fileID: 3372178321492306412}
   hasWing: 1
+  movingLeft: 1
   wings: {fileID: 5573768119654490160}
   DeadSound: {fileID: 2577059178138869604}
+  angle: 0
+  perp: {x: 0, y: 0}
+  isSlope: 0
 --- !u!50 &4731498403704730164
 Rigidbody2D:
   serializedVersion: 4
