@@ -549,9 +549,9 @@ GameObject:
   - component: {fileID: 2285977624966374381}
   - component: {fileID: 2442261598874425756}
   - component: {fileID: 6734325234643464854}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Up
-  m_TagString: Box
+  m_TagString: NoteBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -21,6 +21,8 @@ public class noteBlocks : MonoBehaviour
     //위에서 충돌인지 아래에서 충돌 확인
     private bool jumping = false;
     private bool Down = false;
+    //위에서 충돌시 올라가게 하는 값
+    private bool DownAUp = false;
 
     // 벡터 값 (위, 아래 , 원위치 )
     private Vector2 upBlock;
@@ -52,13 +54,17 @@ public class noteBlocks : MonoBehaviour
             Down = true;
       
 
-        if(jumping)
+        if(jumping )
             MoveBlock(upBlock);
-        else if(Down)
+        else if(Down && !DownAUp)
             MoveBlock(downBlock);
         else
         {
             transform.position = Vector2.MoveTowards(transform.position, BlockPos, Time.deltaTime * 3);
+            if(DownAUp && transform.position.y >= BlockPos.y)
+            {
+                DownAUp = false;
+            }
             if (count == 1 && isItems)
             {
                 Items.SetActive(true);
@@ -72,6 +78,7 @@ public class noteBlocks : MonoBehaviour
     {
 
         transform.position = Vector2.MoveTowards(transform.position, pos, Time.deltaTime * 3);
+        
         if(count == 0)
         {
             hitBlockSound.Play();
@@ -79,8 +86,11 @@ public class noteBlocks : MonoBehaviour
 
         }
 
-        if (transform.position.y >= upBlock.y || transform.position.y <= downBlock.y) 
+        if ((transform.position.y >= upBlock.y || transform.position.y <= downBlock.y) && !DownAUp)
+        {
             jumping = Down = false;
+            DownAUp = true;
+        }
 
     }
 }
