@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 8688102}
   m_Layer: 6
   m_Name: pipe2
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -325,7 +325,7 @@ GameObject:
   - component: {fileID: 69135988}
   m_Layer: 6
   m_Name: Pipe
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -367,7 +367,7 @@ GameObject:
   - component: {fileID: 75647184}
   m_Layer: 6
   m_Name: pipe1
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -497,7 +497,7 @@ GameObject:
   - component: {fileID: 82660289}
   m_Layer: 6
   m_Name: Hill (25)
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -675,7 +675,7 @@ GameObject:
   - component: {fileID: 111139038}
   m_Layer: 6
   m_Name: Hill (8)
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -803,7 +803,7 @@ GameObject:
   - component: {fileID: 120172878}
   m_Layer: 6
   m_Name: GroundGroup
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1042,7 +1042,7 @@ GameObject:
   - component: {fileID: 229882846}
   m_Layer: 6
   m_Name: ground1
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1502,7 +1502,7 @@ GameObject:
   - component: {fileID: 403665163}
   m_Layer: 6
   m_Name: Hill (3)
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1781,7 +1781,7 @@ GameObject:
   - component: {fileID: 501502331}
   m_Layer: 6
   m_Name: pipe3
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2139,7 +2139,7 @@ GameObject:
   - component: {fileID: 587602943}
   m_Layer: 6
   m_Name: ground4
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2269,7 +2269,7 @@ GameObject:
   - component: {fileID: 639263939}
   m_Layer: 6
   m_Name: Hill (14)
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3049,7 +3049,7 @@ GameObject:
   - component: {fileID: 799675267}
   m_Layer: 6
   m_Name: Hill (20)
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12242,7 +12242,7 @@ GameObject:
   - component: {fileID: 903148397}
   m_Layer: 6
   m_Name: ground3
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12434,7 +12434,7 @@ GameObject:
   - component: {fileID: 1002214885}
   m_Layer: 6
   m_Name: Hill (18)
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -12818,7 +12818,7 @@ GameObject:
   - component: {fileID: 1166684440}
   m_Layer: 6
   m_Name: pipe8
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13094,7 +13094,7 @@ GameObject:
   - component: {fileID: 1205520821}
   m_Layer: 6
   m_Name: ground2
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -13224,7 +13224,7 @@ GameObject:
   - component: {fileID: 1220837079}
   m_Layer: 6
   m_Name: Hill (16)
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107247,7 +107247,7 @@ GameObject:
   - component: {fileID: 1498635674}
   m_Layer: 6
   m_Name: Hill (12)
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107507,7 +107507,7 @@ GameObject:
   - component: {fileID: 1542668303}
   m_Layer: 6
   m_Name: Hill (1)
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -107829,7 +107829,7 @@ GameObject:
   - component: {fileID: 1630689064}
   m_Layer: 6
   m_Name: pipe7
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108089,7 +108089,7 @@ GameObject:
   - component: {fileID: 1788728291}
   m_Layer: 6
   m_Name: pipe5
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108281,7 +108281,7 @@ GameObject:
   - component: {fileID: 1833319438}
   m_Layer: 6
   m_Name: Hill (7)
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108411,7 +108411,7 @@ GameObject:
   - component: {fileID: 1861900197}
   m_Layer: 6
   m_Name: pipe4
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -108541,7 +108541,7 @@ GameObject:
   - component: {fileID: 1862831257}
   m_Layer: 6
   m_Name: pipe9
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -111313,7 +111313,7 @@ GameObject:
   - component: {fileID: 2001557009}
   m_Layer: 6
   m_Name: pipe6
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

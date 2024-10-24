@@ -16,7 +16,6 @@ public enum MarioStatus
     SuperMario,
     FireMario,
     RaccoonMario,
-    InvincibleMario,
     Death,
     Clear
 }
@@ -177,6 +176,8 @@ public class Player_Move : MonoBehaviour
     private float PCheckTimeCount=0;
     [SerializeField]
     private float PLimitTimeCount=0;
+    public bool isNoteblock = false;
+    public bool isNoteblockJump = false;
 
 
     private void Awake()
@@ -373,7 +374,7 @@ public class Player_Move : MonoBehaviour
             CheckHeadCrush();
 
            //==점프
-           if (Input.GetKey(KeyCode.X) || isAttack)
+           if (Input.GetKey(KeyCode.X) || isAttack || isNoteblockJump)
             {
                 if(isJumpInput)
                     Jump();
@@ -392,6 +393,12 @@ public class Player_Move : MonoBehaviour
             TurnOnP();
             //너구리 활공
             RMarioSpecialActtion();
+            //별 무적(임시)
+            //if (Input.GetKeyDown(KeyCode.T) && !isInvincibleStar)
+            //{
+            //    MarioInvisibleEffect();
+            //    isInvincibleStar = true;
+            //}
 
             //슬라이드 
             if (isSilding)
@@ -417,7 +424,6 @@ public class Player_Move : MonoBehaviour
 
     private void FixedUpdate()
     {
-        
     }
     //====================함수==================//
     //==========================================//
@@ -556,8 +562,7 @@ public class Player_Move : MonoBehaviour
                         animator.Play("FMario_sit"); break;
                     case MarioStatus.RaccoonMario:
                         animator.Play("RMario_sit"); break;
-                    case MarioStatus.InvincibleMario:
-                        break;
+
                 }
             }
             else
@@ -662,8 +667,7 @@ public class Player_Move : MonoBehaviour
                         animator.Play("FMario_inpipe"); break;
                     case MarioStatus.RaccoonMario:
                         animator.Play("RMario_inpipe"); break;
-                    case MarioStatus.InvincibleMario:
-                        break;
+
                 }
             }
         }
@@ -679,7 +683,8 @@ public class Player_Move : MonoBehaviour
 
 
         RaycastHit2D marioAttackHit2 = Physics2D.BoxCast(rigid.position,new Vector2(0.8f,0.2f), 0, Vector2.down, 0.3f, LayerMask.GetMask("Enemy"));
-        if (marioAttackHit2.collider != null)
+        RaycastHit2D marioAttackHit3 = Physics2D.BoxCast(rigid.position, new Vector2(0.8f, 0.2f), 0, Vector2.down, 0.3f, LayerMask.GetMask("MovingShell"));
+        if (marioAttackHit2.collider != null || marioAttackHit3.collider != null)
         {
             isEnemy = true;
             gameObject.tag = "PlayerAttack";
@@ -689,13 +694,12 @@ public class Player_Move : MonoBehaviour
         DrawBoxCast(rigid.position, new Vector2(0.8f, 0.2f), 0, Vector2.down, 0.3f, marioAttackHit2);
 
 
-        RaycastHit2D marioAttackHit3 = Physics2D.BoxCast(rigid.position, new Vector2(0.8f, 0.2f), 0, Vector2.down, 0.3f, LayerMask.GetMask("MovingShell"));
-        if (marioAttackHit2.collider != null)
+        RaycastHit2D marioNoteBlockJumpHit = Physics2D.BoxCast(rigid.position, new Vector2(0.8f, 0.2f), 0, Vector2.down, 0.3f, LayerMask.GetMask("NoteBlock"));
+        if (marioNoteBlockJumpHit.collider != null)
         {
-            isEnemy = true;
-            gameObject.tag = "PlayerAttack";
+            isNoteblock = true;
         }
-        else { isEnemy = false; gameObject.tag = "Player"; isAttack = false; }
+        else { isNoteblock = false; }
     }
 
     void CheckHeadCrush()
@@ -743,8 +747,6 @@ public class Player_Move : MonoBehaviour
                 marioHp = 3; break;
             case MarioStatus.RaccoonMario:
                 marioHp = 3; break;
-            case MarioStatus.InvincibleMario:
-                isInvincibleStar=true; break;
         }
 
         //TODO: 필요하면 스테이터스에 맞는 효과작성
@@ -934,10 +936,7 @@ public class Player_Move : MonoBehaviour
                 UpdateMarioStatusAndHP(marioStatus);
                 SetSMario();
                 break;
-            case MarioStatus.InvincibleMario:
-                //추가
 
-                break;
             case MarioStatus.Death:
                 animator.Play("Mario_Dead");
                 animator.SetBool("ChangeSuperMario", false);
@@ -1007,6 +1006,8 @@ public class Player_Move : MonoBehaviour
         StartCoroutine(StartDeathAnim());
 
     }
+
+    //TODO:수정필요
     IEnumerator StartDeathAnim()
     {
         yield return new WaitForSecondsRealtime(1f);
@@ -1113,7 +1114,7 @@ public class Player_Move : MonoBehaviour
 
     IEnumerator ButtonAvailable()
     {
-        yield return new WaitForSeconds(0.13f);
+        yield return new WaitForSeconds(0.3f);
         isGlideButton = false;
         animator.SetBool("isInputX", false);
     }
@@ -1139,6 +1140,7 @@ public class Player_Move : MonoBehaviour
             direction = new Vector2(-1, -1);
         projectile.GetComponent<Rigidbody2D>().velocity = direction * fireSpeed;
     }
+
     //클리어
     void MarioClear()
     {
@@ -1226,9 +1228,8 @@ public class Player_Move : MonoBehaviour
     }
 
     //무적효과
-    public void marioInvisibleEffect()
+    public void MarioInvisibleEffect()
     {
-
 
         if (invisibleTimeCount > 7)
         {
@@ -1236,6 +1237,7 @@ public class Player_Move : MonoBehaviour
             StopCoroutine("Blink");
             GetComponent<SpriteRenderer>().material.color = originalColor;
             invisibleTimeCount = 0;
+            isInvincibleStar = false;
         }
         else
         {

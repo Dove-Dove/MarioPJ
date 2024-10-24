@@ -81,17 +81,13 @@ public class MarioCollision : MonoBehaviour
                         player.setChangeStatus();
                     }
                     break;
-                case Itemtypy.star://별 TODO: 만들어야함
-                    player.setMarioStatus(MarioStatus.InvincibleMario);
-                    player.setChangeStatus();
-                    break;
             }
             //TODO:정확한 확인과정 추가
             Destroy(collision.gameObject);
         }
 
         //에너미
-        if (collision.gameObject.tag == "Enemy")
+        if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "MovingShell")
         {
             if(player.isEnemy)
             {
@@ -107,21 +103,38 @@ public class MarioCollision : MonoBehaviour
             player.isLift = true;
             shell = collision.gameObject;
         }
-        else
+
+
+        //에너미
+        if (collision.gameObject.tag == "NoteBlock")
         {
-            shell=null; 
+            if (player.isNoteblock)
+            {
+                Debug.Log("노트박스");
+                player.isNoteblockJump = true;
+            }
+            else
+            { player.isNoteblockJump = false; }
+
         }
 
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        
+        if (collision.gameObject.tag == "Shell")
+        {
+            if(player.isKick)
+            {
+                shell.GetComponent<Tuttle>().currentState = Enemy.State.ShellMove;
+                shell = null;
+            }
+        }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-        
+
     }
     //트리거(E_Attack)
     private void OnTriggerEnter2D(Collider2D collision)
