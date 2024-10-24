@@ -21,8 +21,12 @@ public class noteBlocks : MonoBehaviour
     //위에서 충돌인지 아래에서 충돌 확인
     private bool jumping = false;
     private bool Down = false;
+
     //위에서 충돌시 올라가게 하는 값
     private bool DownAUp = false;
+
+    //점프 타이밍 값
+    public bool Jump = false; 
 
     // 벡터 값 (위, 아래 , 원위치 )
     private Vector2 upBlock;
@@ -64,6 +68,7 @@ public class noteBlocks : MonoBehaviour
             if(DownAUp && transform.position.y >= BlockPos.y)
             {
                 DownAUp = false;
+                Jump = true;
             }
             if (count == 1 && isItems)
             {
@@ -89,8 +94,10 @@ public class noteBlocks : MonoBehaviour
         if ((transform.position.y >= upBlock.y || transform.position.y <= downBlock.y) && !DownAUp)
         {
             jumping = Down = false;
+            Jump = false;
             DownAUp = true;
         }
 
     }
+
 }
