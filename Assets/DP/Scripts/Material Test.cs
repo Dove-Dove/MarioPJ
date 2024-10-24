@@ -34,7 +34,8 @@ public class MaterialTest : MonoBehaviour
     {
         if (effectOn)
         {
-            marioInvisibleEffect();
+            //marioInvisibleEffect();
+            ChangeFireMario();
         }
     }
 
@@ -89,9 +90,8 @@ public class MaterialTest : MonoBehaviour
     {
 
 
-        if (invisibleTimeCount > 7)
+        if (invisibleTimeCount > 3)
         {
-            Debug.Log("¹«Àû³¡");
             StopCoroutine("Blink");
             GetComponent<SpriteRenderer>().material.color = originalColor;
             invisibleTimeCount = 0;
@@ -101,7 +101,7 @@ public class MaterialTest : MonoBehaviour
         {
             invisibleTimeCount += Time.unscaledDeltaTime;
             cutTimeCount += Time.unscaledDeltaTime;
-            if (cutTimeCount > 0.1f)
+            if (cutTimeCount > 0.05f)
             {
                 StartCoroutine(ChangeFireMarioEffect());
                 invisibleCount++;

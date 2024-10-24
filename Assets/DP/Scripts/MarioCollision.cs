@@ -30,7 +30,7 @@ public class MarioCollision : MonoBehaviour
         {
             
 
-            //playerCom.GetComponent<Player_Move>().setMarioTransform(MarioStatus.SuperMario);
+            //이동불가 및 변신
             player.NotInput = true;
             //아이템 종류별 효과적용
             var type = collision.gameObject.GetComponent<items>().itemtypys;
@@ -105,13 +105,17 @@ public class MarioCollision : MonoBehaviour
         }
 
 
-        //에너미
+        //노트블럭
         if (collision.gameObject.tag == "NoteBlock")
         {
             if (player.isNoteblock)
             {
-                Debug.Log("노트박스");
-                player.isNoteblockJump = true;
+                if(collision.gameObject.GetComponentInChildren<noteBlocks>().Jump)
+                {
+                    //player.isNoteblockJump = true;
+                    //player.isJumpInput = true;
+                    player.isAttack = true;
+                }
             }
             else
             { player.isNoteblockJump = false; }
@@ -134,7 +138,13 @@ public class MarioCollision : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
+        //노트블럭
+        if (collision.gameObject.tag == "NoteBlock")
+        {
 
+            player.isNoteblockJump = false;
+ 
+        }
     }
     //트리거(E_Attack)
     private void OnTriggerEnter2D(Collider2D collision)

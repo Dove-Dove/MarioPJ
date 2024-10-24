@@ -104,7 +104,7 @@ public class Player_Move : MonoBehaviour
     private bool noDoubleJump = false;
     public float jumpInputTime = 0.5f;
     private float jumpPower;
-    private bool isJumpInput=true;
+    public bool isJumpInput=true;
     //미끄러지기
     public bool isSilding = false;
     public float slideAddForcd=5f;
@@ -159,11 +159,20 @@ public class Player_Move : MonoBehaviour
     public AudioSource FireSound;
     private bool isFireSound = false;
     //===이펙트
-    private Color originalColor;
     [SerializeField]
     private float invisibleTimeCount = 0;
     [SerializeField]
-    private float invisibleCount = 0;
+    private int invisibleCount = 0;
+
+    public Color originalColor;
+    public Color changeColor;
+
+    private float cutTimeCount = 0;
+    bool effectOn = true;
+    public Color Color1;
+    public Color Color2;
+    public Color Color3;
+
     //기타
     public bool timeStop=false;
     private Vector2 LMarioHitboxSize = new Vector2(0.9f, 0.9f);
@@ -266,13 +275,11 @@ public class Player_Move : MonoBehaviour
                 }
             }
 
-
             if(!ishitSound && marioHp > 1)
             {
                 ishitSound = true;
                 hitSound.Play();
             }
-            
             return;
         }
         //입력불가 상황
@@ -697,9 +704,12 @@ public class Player_Move : MonoBehaviour
         RaycastHit2D marioNoteBlockJumpHit = Physics2D.BoxCast(rigid.position, new Vector2(0.8f, 0.2f), 0, Vector2.down, 0.3f, LayerMask.GetMask("NoteBlock"));
         if (marioNoteBlockJumpHit.collider != null)
         {
-            isNoteblock = true;
+            isEnemy = true;
         }
-        else { isNoteblock = false; }
+        else 
+        {
+            isEnemy = false;
+        }
     }
 
     void CheckHeadCrush()
@@ -856,19 +866,16 @@ public class Player_Move : MonoBehaviour
 
     void ChangeSuperMario()
     {
-        if (isSuperMario)
+        //각종 수치 변경
+        //Debug.Log("SuperMario!!");
+        //사운드 출력
+        if (!isPowerUp)
         {
-            //각종 수치 변경
-            //Debug.Log("SuperMario!!");
-            //사운드 출력
-            if (!isPowerUp)
-            {
-                powerUpSound.Play();
-                isPowerUp = true;
-            }
-            Time.timeScale = 0;
-            StartCoroutine(MarioChangeTimeStart());
+            powerUpSound.Play();
+            isPowerUp = true;
         }
+        Time.timeScale = 0;
+        StartCoroutine(MarioChangeTimeStart());
     }
     IEnumerator MarioChangeTimeStart()
     {
@@ -876,11 +883,6 @@ public class Player_Move : MonoBehaviour
         Time.timeScale = 1;
         notInput = false;
         isPowerUp = false;
-        //애니메이션 변경: 슈퍼마리오
-        
-        animator.SetBool("ChangeSuperMario",true);
-        //이넘변수 변경 : 슈퍼마리오
-        //Debug.Log("EndChange MarioForm");
     }
     //마리오 변신상태 get set
     public void setMarioStatus(MarioStatus marioForm)
@@ -933,6 +935,7 @@ public class Player_Move : MonoBehaviour
                 animator.Play("FMario_idle");
                 animator.SetBool("ChangeRaccoonMario", false);
                 animator.SetBool("ChangeFireMario", true);
+                ChangeFireMario();
                 UpdateMarioStatusAndHP(marioStatus);
                 SetSMario();
                 break;
@@ -1258,6 +1261,52 @@ public class Player_Move : MonoBehaviour
         else if (1 == invisibleCount % 3)
         {
             GetComponent<SpriteRenderer>().material.color = new Color(102, originalColor.g, 102, 255);
+        }
+        else
+        {
+            GetComponent<SpriteRenderer>().material.color = originalColor;
+        }
+
+        yield return new WaitForSecondsRealtime(0.1f);
+    }
+    //파이어 마리오 이펙트
+    public void ChangeFireMario()
+    {
+        if (invisibleTimeCount > 3)
+        {
+            StopCoroutine("Blink");
+            GetComponent<SpriteRenderer>().material.color = originalColor;
+            invisibleTimeCount = 0;
+            effectOn = false;
+        }
+        else
+        {
+            invisibleTimeCount += Time.unscaledDeltaTime;
+            cutTimeCount += Time.unscaledDeltaTime;
+            if (cutTimeCount > 0.05f)
+            {
+                StartCoroutine(ChangeFireMarioEffect());
+                invisibleCount++;
+                cutTimeCount = 0;
+            }
+        }
+    }
+
+    private IEnumerator ChangeFireMarioEffect()
+    {
+        int num = invisibleCount;
+
+        if (0 == num % 4)
+        {
+            GetComponent<SpriteRenderer>().material.color = Color1;
+        }
+        else if (1 == num % 4)
+        {
+            GetComponent<SpriteRenderer>().material.color = Color2;
+        }
+        else if (2 == num % 4)
+        {
+            GetComponent<SpriteRenderer>().material.color = Color3;
         }
         else
         {
