@@ -147,7 +147,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 475784250}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -407,7 +407,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 911635551}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -491,7 +491,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 987989123}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -562,6 +562,7 @@ GameObject:
   - component: {fileID: 1253897932}
   - component: {fileID: 1253897931}
   - component: {fileID: 1253897933}
+  - component: {fileID: 1253897934}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -657,6 +658,19 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &1253897934
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253897930}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ffc5a0684a8148f4697ea789c6baf5db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  status: 1
 --- !u!1 &1338869582
 GameObject:
   m_ObjectHideFlags: 0
@@ -765,7 +779,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1660910235}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
@@ -854,12 +868,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39aba11af7ba2524e80c8a19e50d8ebd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  map1Obj: {fileID: 911635551}
+  map2Obj: {fileID: 987989123}
+  map3Obj: {fileID: 475784250}
+  map4Obj: {fileID: 1660910235}
+  mapBossObj: {fileID: 1968127694}
   StartPos: {fileID: 803535790}
-  map1Pos: {fileID: 911635553}
-  map2Pos: {fileID: 987989125}
-  map3Pos: {fileID: 475784252}
-  map4Pos: {fileID: 1660910237}
-  mapBossPos: {fileID: 1968127696}
   Player: {fileID: 1253897930}
   clearStage: 0
   currentStage: 0
@@ -909,7 +923,7 @@ SpriteRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1968127694}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 0
   m_ReceiveShadows: 0
   m_DynamicOccludee: 1
