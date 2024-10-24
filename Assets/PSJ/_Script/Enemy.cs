@@ -45,6 +45,8 @@ public class Enemy : MonoBehaviour
     protected bool isSlope;
 
     protected bool attackedbyTail;
+    protected GameObject player;
+
 
     // Start is called before the first frame update
     void Start()
@@ -52,12 +54,14 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
         rb = GetComponent<Rigidbody2D>();
         nextJumpTime = Time.time + jumpInterveal;
+        player = GameObject.Find("Mario");
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Vector2.Distance(transform.position,GameObject.FindGameObjectWithTag("Player").transform.position) < range)
+        if(Vector2.Distance(transform.position, player.transform.position) < range)
         {
             switch(currentState)
             {

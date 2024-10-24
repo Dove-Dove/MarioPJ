@@ -172,6 +172,10 @@ MonoBehaviour:
   firePoint: {fileID: 5452874396247507993}
   speed: 2
   inRange: 0
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1048576
+  IsClose: 0
 --- !u!1 &5748349744535770704
 GameObject:
   m_ObjectHideFlags: 0

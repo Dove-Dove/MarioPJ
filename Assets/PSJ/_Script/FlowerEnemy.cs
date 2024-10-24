@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class FlowerEnemy : MonoBehaviour
@@ -30,9 +31,11 @@ public class FlowerEnemy : MonoBehaviour
 
     Animator animator;
     public LayerMask playerLayer;
-    public float rayDistance = 2f;
+
+    protected Vector2 boxSize = new Vector2(1f, 3f);
+    protected Vector2 boxSize2 = new Vector2(2f, 1f);
     public bool IsClose;
-    
+
     // Start is called before the first frame update
     void Start()
     {
@@ -48,22 +51,37 @@ public class FlowerEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        //레이캐스트 박스2d 생성해서 확인
-        RaycastHit2D hit = Physics2D.Raycast(originPos, Vector2.left, rayDistance, playerLayer);
-        Vector2 ray = new Vector2(originPos.x - 2, originPos.y);
-        Debug.DrawLine(originPos, ray, Color.red);
+        if (Vector2.Distance(transform.position, originPos) < 0.1f)
+        {
+            Vector2 pipeOrigin = new Vector2(transform.position.x - 0.5f, transform.position.y - 2f + boxSize.y / 2);
 
-        if (hit)
-            IsClose = true;
-        else
-            IsClose = false;
+            if (player.position.x < transform.position.x)
+                pipeOrigin.x -= 0.5f;
+            else
+                pipeOrigin.x += 1.5f;
+
+            RaycastHit2D hit = Physics2D.BoxCast(pipeOrigin, boxSize, 0f, Vector2.zero, 0f, playerLayer);
+
+            Vector2 pipeUp = new Vector2(transform.position.x, transform.position.y + 1f + boxSize2.y / 2);
+            RaycastHit2D hit2 = Physics2D.BoxCast(pipeUp, boxSize2, 0f, Vector2.zero, 0f, playerLayer);
+
+
+            if((hit.collider != null && hit.collider.tag.Contains("Player"))
+                || (hit2.collider != null && hit2.collider.tag.Contains("Player")))
+                IsClose = true;
+            else
+                IsClose = false;
+
+            //DrawBox(pipeOrigin, boxSize);
+            //DrawBox(pipeUp, boxSize2);
+        }
 
         if (Vector2.Distance(gameObject.transform.position, player.position) < attackRange && !IsClose)
         {
             animator.SetBool("IsHide", false);
             gameObject.tag = "Enemy";
             inRange = true;
-            animator.SetBool("InRange",true);
+            animator.SetBool("InRange", true);
         }
         else
         {
@@ -72,6 +90,7 @@ public class FlowerEnemy : MonoBehaviour
             inRange = false;
             animator.SetBool("InRange", false);
         }
+
         SetDirectionAndAnimation();
 
         if (animator.GetCurrentAnimatorStateInfo(0).IsName("RFlowerMoveDown") == true)
@@ -115,9 +134,9 @@ public class FlowerEnemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))  
+        if (collision.gameObject.CompareTag("Player"))
         {
-            
+
         }
         else if (collision.gameObject.CompareTag("PlayerFire"))
         {
@@ -127,6 +146,7 @@ public class FlowerEnemy : MonoBehaviour
                 gameObject.SetActive(false);
             }
         }
+
     }
 
     public void Movedown()
@@ -137,6 +157,20 @@ public class FlowerEnemy : MonoBehaviour
     public void MoveUp()
     {
         transform.position = Vector3.MoveTowards(transform.position, originPos, speed * Time.deltaTime);
+    }
+
+    public void DrawBox(Vector2 origin, Vector2 size)
+    {
+        Vector2 halfSize = size / 2;
+        Vector2 bottomLeft = origin - halfSize;
+        Vector2 bottomRight = origin + new Vector2(halfSize.x, -halfSize.y);
+        Vector2 topLeft = origin + new Vector2(-halfSize.x, halfSize.y);
+        Vector2 topRight = origin + halfSize;
+
+        Debug.DrawLine(bottomLeft, bottomRight, Color.red);
+        Debug.DrawLine(bottomLeft, topLeft, Color.red);
+        Debug.DrawLine(topLeft, topRight, Color.red);
+        Debug.DrawLine(bottomRight, topRight, Color.red);
     }
 }
 

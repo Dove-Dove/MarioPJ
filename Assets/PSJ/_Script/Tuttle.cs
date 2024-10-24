@@ -16,7 +16,6 @@ public class Tuttle : Enemy
     protected Animator Tuttleanim;
 
     protected bool reverse = false;
-    protected GameObject player;
 
     void Start()
     {
@@ -27,7 +26,7 @@ public class Tuttle : Enemy
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) < range)
+        if (Vector2.Distance(transform.position, player.transform.position) < range)
         {
             switch (currentState)
             {
@@ -55,6 +54,10 @@ public class Tuttle : Enemy
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("EnemyWall") || collision.gameObject.CompareTag("Box")) //º® Ãæµ¹
+        {
+            Flip();
+        }
+        else if(collision.gameObject.name.Contains("Cliff") && currentState == State.Move)
         {
             Flip();
         }

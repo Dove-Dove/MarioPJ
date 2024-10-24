@@ -19,7 +19,32 @@ public class FlowerEnemy2 : FlowerEnemy
 
     void Update()
     {
-        if (Vector2.Distance(gameObject.transform.position, player.position) < attackRange)
+        if (Vector2.Distance(transform.position, originPos) < 0.1f)
+        {
+            Vector2 pipeOrigin = new Vector2(transform.position.x - 0.5f, transform.position.y - 2f + boxSize.y / 2);
+
+            if (player.position.x < transform.position.x)
+                pipeOrigin.x -= 0.5f;
+            else
+                pipeOrigin.x += 1.5f;
+
+            RaycastHit2D hit = Physics2D.BoxCast(pipeOrigin, boxSize, 0f, Vector2.zero, 0f, playerLayer);
+
+            Vector2 pipeUp = new Vector2(transform.position.x, transform.position.y + 1f + boxSize2.y / 2);
+            RaycastHit2D hit2 = Physics2D.BoxCast(pipeUp, boxSize2, 0f, Vector2.zero, 0f, playerLayer);
+
+
+            if ((hit.collider != null && hit.collider.tag.Contains("Player"))
+                || (hit2.collider != null && hit2.collider.tag.Contains("Player")))
+                IsClose = true;
+            else
+                IsClose = false;
+
+            //DrawBox(pipeOrigin, boxSize);
+            //DrawBox(pipeUp, boxSize2);
+        }
+
+        if (Vector2.Distance(gameObject.transform.position, player.position) < attackRange && !IsClose)
         {
             animator2.SetBool("IsHide", false);
             gameObject.tag = "Enemy";
