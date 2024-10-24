@@ -136,7 +136,7 @@ GameObject:
   - component: {fileID: 22844406}
   m_Layer: 6
   m_Name: ground5
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -64965,7 +64965,7 @@ GameObject:
   - component: {fileID: 394552884}
   m_Layer: 6
   m_Name: pipe5
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -65230,7 +65230,7 @@ GameObject:
   - component: {fileID: 488875846}
   m_Layer: 6
   m_Name: pipe6
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -65433,7 +65433,7 @@ GameObject:
   - component: {fileID: 507584885}
   m_Layer: 6
   m_Name: Pipe
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -65731,7 +65731,7 @@ GameObject:
   - component: {fileID: 655869162}
   m_Layer: 6
   m_Name: ground4
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83007,7 +83007,7 @@ GameObject:
   - component: {fileID: 1060226790}
   m_Layer: 6
   m_Name: ground3
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -83517,7 +83517,7 @@ GameObject:
   - component: {fileID: 1168688803}
   m_Layer: 6
   m_Name: ground2
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84209,7 +84209,7 @@ GameObject:
   - component: {fileID: 1290065236}
   m_Layer: 6
   m_Name: pipe3
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84339,7 +84339,7 @@ GameObject:
   - component: {fileID: 1291670031}
   m_Layer: 6
   m_Name: pipe2
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -84868,7 +84868,7 @@ GameObject:
   - component: {fileID: 1530467778}
   m_Layer: 6
   m_Name: pipe4
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -85835,7 +85835,7 @@ GameObject:
   - component: {fileID: 1811449246}
   m_Layer: 6
   m_Name: ground6
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86167,7 +86167,7 @@ GameObject:
   - component: {fileID: 1839414399}
   m_Layer: 6
   m_Name: ground1
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -86616,7 +86616,7 @@ GameObject:
   - component: {fileID: 2029783128}
   m_Layer: 6
   m_Name: pipe1
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -87000,7 +87000,7 @@ GameObject:
   - component: {fileID: 2060512937}
   m_Layer: 6
   m_Name: GroundGroup
-  m_TagString: EnemyWall
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
