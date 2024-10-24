@@ -2,29 +2,29 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-
-public class breakMove : MonoBehaviour
+public class BreakMove : MonoBehaviour
 {
-    [SerializeField] private AnimationCurve x_animationCurve;
-    [SerializeField] private AnimationCurve y_animationCurve;
+    Rigidbody2D ridy;
 
-    private float curTime;
-    [SerializeField] private float period = 2f;
+    float MoveTime = 0.0f;
 
+    public bool left = true;
+    
+    // Start is called before the first frame update
+    void Start()
+    {
+        MoveTime = 0.0f;
+        ridy.gravityScale = -0.1f;
+    }
 
+    // Update is called once per frame
     void Update()
     {
-        curTime += Time.deltaTime;
-        if (curTime >= period)
+        MoveTime += Time.deltaTime; 
+
+        if(left)
         {
-            curTime -= curTime;
+            transform.Translate(Vector2.left * Time.deltaTime *2.0f);
         }
-
-
-        float xValue = x_animationCurve.Evaluate(curTime)  ; 
-        float yValue = y_animationCurve.Evaluate(curTime)   ;
-
-        transform.position = new Vector3(xValue, yValue, 0);
     }
 }
