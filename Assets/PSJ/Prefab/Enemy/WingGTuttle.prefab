@@ -249,7 +249,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 4
   m_Sprite: {fileID: -1744828170, guid: 447b73c424c947247aabb22bdb737492, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -308,9 +308,6 @@ MonoBehaviour:
   movingLeft: 1
   wings: {fileID: 4371783387075329180}
   DeadSound: {fileID: 4475411327967653263}
-  angle: 0
-  perp: {x: 0, y: 0}
-  isSlope: 0
 --- !u!50 &5793780995122261025
 Rigidbody2D:
   serializedVersion: 4

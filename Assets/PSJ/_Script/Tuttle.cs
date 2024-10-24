@@ -52,7 +52,7 @@ public class Tuttle : Enemy
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("EnemyWall")) //벽 충돌
+        if (collision.gameObject.CompareTag("EnemyWall") || collision.gameObject.CompareTag("Box")) //벽 충돌
         {
             Flip();
         }
@@ -76,7 +76,7 @@ public class Tuttle : Enemy
                     currentState = State.ShellMove;
                 }
             }
-            else if(currentState == State.ShellMove)
+            else if(!hasWing && currentState == State.ShellMove)
             {
                 currentState = State.Shell;
             }
@@ -106,12 +106,15 @@ public class Tuttle : Enemy
         }
         else if (collision.gameObject.CompareTag("Player")) //플레이어와 충돌
         {
+            bool playerKick = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Player_Move>().isKick;
+            bool playerIsR = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Player_Move>().isRight;
+
             if (!hasWing && currentState == State.Shell)
             {
-                if (GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Player_Move>().isKick == true)
+                if (playerKick == true)
                 {
-                    movingLeft = !GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Player_Move>().isRight;
-                        
+                    movingLeft = !playerIsR;
+
                     currentState = State.ShellMove;
                 }
             }
@@ -170,6 +173,11 @@ public class Tuttle : Enemy
     public void enemyShell()
     {
         Tuttleanim.SetBool("IsShell", true);
+        Tuttleanim.SetBool("ShellMove", false);
+
+        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, gameObject.GetComponent<Rigidbody2D>().velocity.y);
+
+        gameObject.layer = 10;
         gameObject.tag = "Shell";
 
         shellElapsedTime += Time.deltaTime; // timer를 누적
@@ -193,10 +201,10 @@ public class Tuttle : Enemy
         gameObject.tag = "MovingShell";
         gameObject.layer = 11;
 
-        gameObject.GetComponent<BoxCollider2D>().excludeLayers = LayerMask.NameToLayer("EnemyWall");
+        gameObject.GetComponent<BoxCollider2D>().excludeLayers = LayerMask.NameToLayer("Default");
         if (Tuttleanim.GetCurrentAnimatorStateInfo(0).IsName("ShellMove") == false)
         {
-            Tuttleanim.SetTrigger("ShellMove");
+            Tuttleanim.SetBool("ShellMove", true);
         }
         transform.Translate(Vector2.left * shellSpeed * Time.deltaTime * (movingLeft ? 1 : -1));
     }

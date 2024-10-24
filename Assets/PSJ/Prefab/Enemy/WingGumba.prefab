@@ -142,7 +142,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 4
   m_Sprite: {fileID: 660354557, guid: f46e2b7e1e7148a47ba8ae38c284e6d6, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -201,9 +201,6 @@ MonoBehaviour:
   movingLeft: 1
   wings: {fileID: 8669840533290037523}
   DeadSound: {fileID: 7831402883876151090}
-  angle: 0
-  perp: {x: 0, y: 0}
-  isSlope: 0
 --- !u!61 &7216777945344596723
 BoxCollider2D:
   m_ObjectHideFlags: 0
