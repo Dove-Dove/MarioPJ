@@ -13,8 +13,9 @@ public class SelectSceneManager : MonoBehaviour
     public Transform mapBossPos;
 
     public GameObject Player;
-    
 
+
+    private float moveSpeed = 3f;
 
     public int clearStage; //클리어 스테이지
     public int currentStage = 0; //현재 스테이지
@@ -29,8 +30,8 @@ public class SelectSceneManager : MonoBehaviour
 
     void Update()
     {
-        Debug.Log("currentStage = " + currentStage);
-        Debug.Log("OnRoad: " + onRoad);
+        //Debug.Log("currentStage = " + currentStage);
+        //Debug.Log("OnRoad: " + onRoad);
         switch (currentStage)
         {
             case 0:
@@ -60,6 +61,7 @@ public class SelectSceneManager : MonoBehaviour
                 }
                 else if(Input.GetKey(KeyCode.Z) && !onRoad)
                 {
+                    Debug.Log("Map1-1");
                     //SceneManager.CreateScene("Map1-1"); 씬전환
                     //클리어했다면
                     clearStage = 1;
@@ -94,13 +96,19 @@ public class SelectSceneManager : MonoBehaviour
                 }
                 else if(Input.GetKey(KeyCode.Z) && !onRoad)
                 {
+                    Debug.Log("Map1-2");
                     //SceneManager.CreateScene("Map1-2"); 씬전환
                     //클리어했다면
                     clearStage = 2;
                 }
                 if(clearStage >= 2)
                 {
-
+                    if(Input.GetKey(KeyCode.RightArrow) && !onRoad)
+                    {
+                        Player.transform.position = map3Pos.position;
+                        currentStage = 3;
+                    }
+                    
                 }
                 break;
 

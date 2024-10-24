@@ -18,16 +18,16 @@ public class FlowerEnemy : MonoBehaviour
     public float projectileSpeed = 10f;
     public GameObject projectilePrefab;
     public Transform firePoint;
-    private Vector2 originPos;
-    private Vector2 upPos;
+    protected Vector2 originPos;
+    protected Vector2 upPos;
 
     public int speed = 2;
 
 
     public bool inRange;
-    private Transform player;
-    private float attackCooldown = 3f;
-    private float nextAttackTime;
+    protected Transform player;
+    protected float attackCooldown = 3f;
+    protected float nextAttackTime;
 
     Animator animator;
 
@@ -85,7 +85,7 @@ public class FlowerEnemy : MonoBehaviour
 
 
 
-    void SetDirectionAndAnimation()
+    public void SetDirectionAndAnimation()
     {
         if (player.position.x < transform.position.x)
         {
