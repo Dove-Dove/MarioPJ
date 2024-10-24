@@ -21,7 +21,7 @@ public class GoalObj : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        nextTime += Time.deltaTime;
+        nextTime += Time.unscaledDeltaTime;
         if (nextTime > 0.15f && !PlayerGoal)
         {
             count++;
@@ -32,7 +32,7 @@ public class GoalObj : MonoBehaviour
 
         if (PlayerGoal)
         {
-            transform.Translate(Vector2.up * Time.deltaTime * 10.0f);
+            transform.Translate(Vector2.up * Time.unscaledDeltaTime * 10.0f);
             if (nextTime >=2.0f)
             {
                 GameObject.Find("GameManager").GetComponent<GameManager>().getBouns(count);
@@ -53,7 +53,11 @@ public class GoalObj : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.gameObject.tag == "Player")
+        {
             PlayerGoal = true;
+            GameObject.Find("Mario").GetComponent<Player_Move>().setMarioStatus(MarioStatus.Clear);
+        }
+           
 
     }
 }

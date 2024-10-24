@@ -15,6 +15,7 @@ TagManager:
   - PlayerFire
   - Tail
   - Ground
+  - NoteBlock
   layers:
   - Default
   - TransparentFX
@@ -29,7 +30,7 @@ TagManager:
   - Enemy
   - MovingShell
   - EnemyWall
-  - 
+  - NoteBlock
   - 
   - 
   - 

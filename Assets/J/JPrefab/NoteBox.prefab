@@ -159,9 +159,9 @@ GameObject:
   - component: {fileID: 2408007573688873344}
   - component: {fileID: 6502422648587588046}
   - component: {fileID: 7109396561022483365}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: NoteBox
-  m_TagString: Untagged
+  m_TagString: NoteBlock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -225,7 +225,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 2
+  m_SortingOrder: 4
   m_Sprite: {fileID: 1692655004, guid: fa8b771c351d0e94cae6c13fa80ccffb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
