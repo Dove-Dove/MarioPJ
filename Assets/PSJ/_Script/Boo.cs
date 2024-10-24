@@ -20,6 +20,7 @@ public class Boo : MonoBehaviour
     private Rigidbody2D rb;
 
     private float attackRange = 10f;
+    private float range = 15f;
     public bool inRange;
 
     private Transform player;
@@ -56,32 +57,34 @@ public class Boo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(animator.GetCurrentAnimatorStateInfo(0).IsName("booDead") == false)
+        if (Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) < range)
         {
-            Move();
+            if (animator.GetCurrentAnimatorStateInfo(0).IsName("booDead") == false)
+            {
+                Move();
 
-            if(Vector2.Distance(transform.position,player.position)< attackRange)
-            {
-                inRange = true;
-            }
-            else
-            {
-                inRange = false;
-            }
-
-            // 공격 쿨타임이 지나면 공격 실행
-            if (Time.time >= nextAttackTime && inRange)
-            {
-                //부메랑 3개이하 유지
-                if (currentBoomerangs < maxBoomerangs)
+                if(Vector2.Distance(transform.position,player.position)< attackRange)
                 {
-                    ShootProjectile();
-                    nextAttackTime = Time.time + attackCooldown; // 다음 공격 시간 갱신
+                    inRange = true;
                 }
-            }
+                else
+                {
+                    inRange = false;
+                }
 
-            // 방향 설정
-            SetDirectionAndAnimation();
+                // 공격 쿨타임이 지나면 공격 실행
+                if (Time.time >= nextAttackTime && inRange)
+                {
+                    //부메랑 3개이하 유지
+                    if (currentBoomerangs < maxBoomerangs)
+                    {
+                        ShootProjectile();
+                        nextAttackTime = Time.time + attackCooldown; // 다음 공격 시간 갱신
+                    }
+                }
+                // 방향 설정
+                SetDirectionAndAnimation();
+            }
         }
     }
 

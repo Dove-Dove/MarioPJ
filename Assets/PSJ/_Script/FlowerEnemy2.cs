@@ -14,6 +14,7 @@ public class FlowerEnemy2 : FlowerEnemy
         inRange = false;
         originPos = transform.position;
         upPos = new Vector2(transform.position.x, transform.position.y + 2);
+        IsClose = false;
     }
 
     void Update()

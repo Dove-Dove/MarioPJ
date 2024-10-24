@@ -15,7 +15,7 @@ public class FlowerEnemy : MonoBehaviour
     */
 
     public float attackRange = 10f;
-    public float projectileSpeed = 10f;
+    public float projectileSpeed = 7f;
     public GameObject projectilePrefab;
     public Transform firePoint;
     protected Vector2 originPos;
@@ -23,14 +23,16 @@ public class FlowerEnemy : MonoBehaviour
 
     public int speed = 2;
 
-
     public bool inRange;
     protected Transform player;
     protected float attackCooldown = 3f;
     protected float nextAttackTime;
 
     Animator animator;
-
+    public LayerMask playerLayer;
+    public float rayDistance = 2f;
+    public bool IsClose;
+    
     // Start is called before the first frame update
     void Start()
     {
@@ -40,12 +42,23 @@ public class FlowerEnemy : MonoBehaviour
         inRange = false;
         originPos = transform.position;
         upPos = new Vector2(transform.position.x, transform.position.y + 2);
+        IsClose = false;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(gameObject.transform.position, player.position) < attackRange)
+        //레이캐스트 박스2d 생성해서 확인
+        RaycastHit2D hit = Physics2D.Raycast(originPos, Vector2.left, rayDistance, playerLayer);
+        Vector2 ray = new Vector2(originPos.x - 2, originPos.y);
+        Debug.DrawLine(originPos, ray, Color.red);
+
+        if (hit)
+            IsClose = true;
+        else
+            IsClose = false;
+
+        if (Vector2.Distance(gameObject.transform.position, player.position) < attackRange && !IsClose)
         {
             animator.SetBool("IsHide", false);
             gameObject.tag = "Enemy";

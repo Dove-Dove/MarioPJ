@@ -27,26 +27,28 @@ public class Tuttle : Enemy
     // Update is called once per frame
     void Update()
     {
-        switch (currentState)
+        if (Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) < range)
         {
-            case State.Move:
-                enemyMove();
-                break;
-            case State.Dead:
-                enemyDead();
-                break;
-            case State.Shell:
-                enemyShell();
-                break;
-            case State.ShellMove:
-                enemyShellMove();
-                break;
+            switch (currentState)
+            {
+                case State.Move:
+                    enemyMove();
+                    break;
+                case State.Dead:
+                    enemyDead();
+                    break;
+                case State.Shell:
+                    enemyShell();
+                    break;
+                case State.ShellMove:
+                    enemyShellMove();
+                    break;
+            }
+            if (!hasWing)
+            {
+                wings.SetActive(false);
+            }
         }
-        if (!hasWing)
-        {
-            wings.SetActive(false);
-        }
-
     }
 
 

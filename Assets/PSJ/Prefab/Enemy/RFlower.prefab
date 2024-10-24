@@ -127,6 +127,11 @@ MonoBehaviour:
   firePoint: {fileID: 5452874396247507993}
   speed: 2
   inRange: 0
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1048576
+  rayDistance: 2
+  IsClose: 0
 --- !u!61 &4420564675615224171
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -21,15 +21,18 @@ public class SkulTuttle : Tuttle
 
     void Update()
     {
-        switch (currentState)
+        if (Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) < range)
         {
-            case State.Move:
-                gameObject.tag = "Enemy";
-                enemyMove();
-                break;
-            case State.Dead:
-                enemyHit();
-                break;
+            switch (currentState)
+            {
+                case State.Move:
+                    gameObject.tag = "Enemy";
+                    enemyMove();
+                    break;
+                case State.Dead:
+                    enemyHit();
+                    break;
+            }
         }
     }
 

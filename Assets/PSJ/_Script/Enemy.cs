@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
 
     public State currentState = State.Move;
 
+    protected float range = 15f;
     
     public float moveSpeed = 3f;
     protected float distance = 5f;
@@ -56,19 +57,22 @@ public class Enemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        switch(currentState)
+        if(Vector2.Distance(transform.position,GameObject.FindGameObjectWithTag("Player").transform.position) < range)
         {
-            case State.Move:
-                enemyMove();
-                break;
+            switch(currentState)
+            {
+                case State.Move:
+                    enemyMove();
+                    break;
 
-            case State.Dead:
-                enemyDead();
-                break;
-        }
-        if(!hasWing)
-        {
-            wings.SetActive(false);
+                case State.Dead:
+                    enemyDead();
+                    break;
+            }
+            if(!hasWing)
+            {
+                wings.SetActive(false);
+            }
         }
 
     }
