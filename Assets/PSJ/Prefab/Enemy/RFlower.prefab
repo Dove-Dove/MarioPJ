@@ -122,7 +122,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackRange: 10
-  projectileSpeed: 10
+  projectileSpeed: 7
   projectilePrefab: {fileID: 35377387227039817, guid: 33766a1070780114d8915ea610836c82, type: 3}
   firePoint: {fileID: 5452874396247507993}
   speed: 2
@@ -130,8 +130,6 @@ MonoBehaviour:
   playerLayer:
     serializedVersion: 2
     m_Bits: 1048576
-  boxSize: {x: 1, y: 3}
-  boxSize2: {x: 2, y: 1}
   IsClose: 0
 --- !u!61 &4420564675615224171
 BoxCollider2D:
