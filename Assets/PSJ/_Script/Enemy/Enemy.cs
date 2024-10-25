@@ -78,7 +78,6 @@ public class Enemy : MonoBehaviour
                 wings.SetActive(false);
             }
         }
-
     }
 
     public void enemyMove()
@@ -193,6 +192,10 @@ public class Enemy : MonoBehaviour
         {
             Flip();
         }
+        else if (collision.gameObject.name.Contains("Cliff") && currentState == State.Move)
+        {
+            Flip();
+        }
         else if (collision.gameObject.CompareTag("MovingShell"))
         {
             DeadSound.Play();
@@ -232,33 +235,6 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            if (hasWing)
-            {
-                Debug.Log(collision.tag);
-
-                hasWing = false;
-                currentState = State.Move;
-            }
-            else
-            {
-                Debug.Log(collision.tag);
-
-                currentState = State.Dead;
-            }
-        }
-        else if(collision.gameObject.CompareTag("Enemy"))
-        {
-        }
-        else if (collision.gameObject.tag.Contains("Attack"))
-        {
-            currentState = State.Dead;
-        }
-        else if(collision.gameObject.CompareTag("MovingShell"))
-        {
-            currentState = State.Dead;
-        }
 
 
     }

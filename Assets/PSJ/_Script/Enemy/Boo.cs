@@ -20,7 +20,7 @@ public class Boo : MonoBehaviour
     private Rigidbody2D rb;
 
     private float attackRange = 10f;
-    private float range = 15f;
+    public float range = 15f;
     public bool inRange;
 
     private Transform player;
@@ -57,7 +57,7 @@ public class Boo : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) < range)
+        if (Vector2.Distance(transform.position, player.position) < range)
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsName("booDead") == false)
             {
@@ -164,9 +164,9 @@ public class Boo : MonoBehaviour
         {
             booDead();
         }
-        else if(collision.gameObject.CompareTag("Player"))
+        else if(collision.gameObject.CompareTag("EnemyWall"))
         {
-
+            movingLeft = !movingLeft;
         }
         
     }
