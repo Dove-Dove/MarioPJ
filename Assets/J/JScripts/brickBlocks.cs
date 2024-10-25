@@ -14,6 +14,7 @@ public class brickBlocks : MonoBehaviour
     public GameObject coin;
     public GameObject WallObject;
     public GameObject WallUnderObject;
+    public GameObject BreakAnim;
 
     //사운드
     public AudioSource hitBlockSound;
@@ -26,6 +27,7 @@ public class brickBlocks : MonoBehaviour
     public bool shakeBlocks = false;
 
     float moveTime = 0.0f;
+    float animTime = 0.0f;
 
     //큰 마리오 + 안에 코인이 있을때
     public bool getCoin = false;
@@ -40,6 +42,7 @@ public class brickBlocks : MonoBehaviour
         movePos = nowPos+ new Vector2(0,0.5f);
         soundPlay = 0;
         coin.SetActive(false);
+        BreakAnim.SetActive(false);
     }
 
     // Update is called once per frame
@@ -89,9 +92,14 @@ public class brickBlocks : MonoBehaviour
 
        else if(open)
         {
+            animTime += Time.deltaTime;
             shakeBlocks = true;
-            BreakBlockSound.Play(); 
-            gameObject.SetActive(false);
+            BreakBlockSound.Play();
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            BreakAnim.SetActive(true);
+
+            if (animTime >= 0.5f)
+                gameObject.SetActive(false);
         }
     }
 

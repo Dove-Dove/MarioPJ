@@ -177,4 +177,9 @@ public class GameManager : MonoBehaviour
 
         BounsItem = new int[3]{ 0, 0, 0 };
     }
+
+    void GameClear()
+    {
+
+    }
 }
