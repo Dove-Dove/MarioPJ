@@ -43,7 +43,6 @@ public class TitleSceneAnimContriler : MonoBehaviour
     private bool isSelect = false;
     private bool isSelectEnd = false;
 
-    public AudioSource selectMoveSound;
     public AudioSource selectSound;
 
     void Start()
@@ -151,7 +150,6 @@ public class TitleSceneAnimContriler : MonoBehaviour
                 if (Input.GetKeyDown(KeyCode.DownArrow))
                 {
                     selectIndex = 1;
-                    selectMoveSound.Play();
                 }
             }
             if (selectIndex == 1)
@@ -162,7 +160,6 @@ public class TitleSceneAnimContriler : MonoBehaviour
                 if(Input.GetKeyDown(KeyCode.UpArrow))
                 {
                     selectIndex = 0;
-                    selectMoveSound.Play();
                 }
             }
 
@@ -174,7 +171,8 @@ public class TitleSceneAnimContriler : MonoBehaviour
                     {
                         StartCoroutine(SelecArrowBlink(SelectArrow1));
                     }
-                    isSelectEnd = true;
+                    Invoke("IsSelectEnd", 0.5f);
+                    selectSound.Play();
                 }
                 else
                 {
@@ -182,7 +180,8 @@ public class TitleSceneAnimContriler : MonoBehaviour
                     {
                         StartCoroutine(SelecArrowBlink(SelectArrow2));
                     }
-                    isSelectEnd = true;
+                    Invoke("IsSelectEnd", 0.5f);
+                    selectSound.Play();
                 }
             }
 
@@ -200,12 +199,12 @@ public class TitleSceneAnimContriler : MonoBehaviour
             Num.enabled = false;
             Bottom.SetActive(false);
 
-            Invoke("LordNextScene", 0.1f);
+            Invoke("LordNextScene", 0.5f);
         }
     }
     IEnumerator SelecArrowBlink(GameObject Arrow)
     {
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.3f);
         if (Arrow.activeSelf)
         {
             Arrow.SetActive(false);
@@ -214,8 +213,10 @@ public class TitleSceneAnimContriler : MonoBehaviour
         {
             Arrow.SetActive(true);
         }
+        yield return new WaitForSeconds(0.1f);
     }
-
+    void IsSelectEnd()
+    {    isSelectEnd = true; }
     void LordNextScene()
     {
         SceneManager.LoadScene("SelectScene");
