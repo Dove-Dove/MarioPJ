@@ -36,7 +36,10 @@ public class GameManager : MonoBehaviour
     //»ç¿îµå
     public AudioSource mapAudio;
     public AudioSource CoinSound;
+    public AudioSource ClearSound;
     public AudioClip[] AllSound;
+
+
     
 
     void Start()
@@ -110,8 +113,6 @@ public class GameManager : MonoBehaviour
             PlayerLife++;
         }
 
-
-
     }
 
     public void CoinGet()
@@ -178,8 +179,17 @@ public class GameManager : MonoBehaviour
         BounsItem = new int[3]{ 0, 0, 0 };
     }
 
-    void GameClear()
+    public void StartGame()
     {
 
     }
+
+    public void GameClear()
+    {
+        mapAudio.GetComponent<AudioSource>().Stop();
+        ClearSound.Play();
+        
+    }
+
+   
 }

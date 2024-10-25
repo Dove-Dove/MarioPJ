@@ -2,21 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GoalObj : MonoBehaviour
 {
+    //이미지 전환
     public Sprite[] spr;
 
+    //반복실행 방지
     int count = 1;
     bool PlayerGoal = false;
-
+  
     float nextTime = 0.0f;
 
-    //사운드 재생해야 하는대 사운드 자체가 없음
-
-    void Start()
-    {
-    }
 
     // Update is called once per frame
     void Update()
@@ -36,6 +34,7 @@ public class GoalObj : MonoBehaviour
             if (nextTime >=2.0f)
             {
                 GameObject.Find("GameManager").GetComponent<GameManager>().getBouns(count);
+                SceneManager.LoadScene("UITest");
                 gameObject.SetActive(false); 
             }
         }
@@ -56,6 +55,7 @@ public class GoalObj : MonoBehaviour
         {
             PlayerGoal = true;
             GameObject.Find("Mario").GetComponent<Player_Move>().setMarioStatus(MarioStatus.Clear);
+            GameObject.Find("GameManager").GetComponent<GameManager>().GameClear();
         }
            
 
