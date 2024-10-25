@@ -159,7 +159,7 @@ public class FlowerEnemy : MonoBehaviour
         transform.position = Vector3.MoveTowards(transform.position, originPos, speed * Time.deltaTime);
     }
 
-    public void DrawBox(Vector2 origin, Vector2 size)
+    public static void DrawBox(Vector2 origin, Vector2 size)
     {
         Vector2 halfSize = size / 2;
         Vector2 bottomLeft = origin - halfSize;

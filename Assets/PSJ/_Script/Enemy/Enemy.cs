@@ -20,6 +20,7 @@ public class Enemy : MonoBehaviour
 
     public LayerMask groundLayer;
     public LayerMask slopeLayer;
+    public LayerMask noteLayer;
     protected float rayDistance = 1f;
     public Transform groundDetect1, groundDetect2;
 
@@ -46,7 +47,6 @@ public class Enemy : MonoBehaviour
 
     protected bool attackedbyTail;
     protected GameObject player;
-
 
     // Start is called before the first frame update
     void Start()
@@ -90,18 +90,19 @@ public class Enemy : MonoBehaviour
 
         bool isGrounded = groundleft || groundright;
 
+        //경사확인
         RaycastHit2D hit = Physics2D.Raycast(groundDetect1.position, Vector2.down, rayDistance, groundLayer);
         RaycastHit2D fronthit;
 
         if (movingLeft)
         {
             fronthit = Physics2D.Raycast(groundDetect1.position, Vector2.left, 0.1f, slopeLayer);
-            Debug.DrawLine(fronthit.point ,Vector2.left, Color.magenta);
+            //Debug.DrawLine(fronthit.point ,Vector2.left, Color.magenta);
         }
         else
         {
             fronthit = Physics2D.Raycast(groundDetect1.position, Vector2.right, 0.1f, slopeLayer);
-            Debug.DrawLine(fronthit.point, Vector2.right, Color.magenta);
+            //Debug.DrawLine(fronthit.point, Vector2.right, Color.magenta);
         }
 
         //Debug.DrawLine(hit.point, hit.point + hit.normal, Color.blue);
@@ -118,6 +119,7 @@ public class Enemy : MonoBehaviour
                 slopeChk(hit);
         }
 
+        //경사면에 따른 속도 조정
         if(!isSlope)
         {
             transform.Translate(Vector2.left * moveSpeed * Time.deltaTime * (movingLeft ? 1 : -1));
@@ -126,9 +128,9 @@ public class Enemy : MonoBehaviour
         {
             gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             transform.Translate(new Vector2(perp.x * moveSpeed * Time.deltaTime * (movingLeft ? 1 : -1), perp.y * moveSpeed * Time.deltaTime *(movingLeft ? 1 : -1)));
-
         }
 
+        //점프
         if (!isGrounded)
         {
             if(hasWing && Time.time >= nextJumpTime && !isJumping)
@@ -150,9 +152,31 @@ public class Enemy : MonoBehaviour
                 Jump();
                 nextJumpTime = Time.time + jumpInterveal;
                 isJumping = false;
-
             }
         }
+
+        //블록체크
+        RaycastHit2D blockCheck;
+        RaycastHit2D noteCheck;
+
+        if(movingLeft)
+        {
+            blockCheck = Physics2D.Raycast(groundDetect1.position, Vector2.left, 0.3f, groundLayer);
+            noteCheck = Physics2D.Raycast(groundDetect1.position, Vector2.left, 0.3f, noteLayer);
+        }
+        else
+        {
+            blockCheck = Physics2D.Raycast(groundDetect1.position, Vector2.right, 0.3f, groundLayer);
+            noteCheck = Physics2D.Raycast(groundDetect1.position, Vector2.right, 0.3f, noteLayer);
+        }
+
+        if (blockCheck && blockCheck.collider.CompareTag("Box"))
+        {
+            Flip();
+        }
+
+        if (noteCheck)
+            Flip();
     }
 
     public void slopeChk(RaycastHit2D hit)
@@ -188,7 +212,7 @@ public class Enemy : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("EnemyWall") || collision.gameObject.CompareTag("Box")) //벽 충돌
+        if (collision.gameObject.CompareTag("EnemyWall")) //벽 충돌
         {
             Flip();
         }

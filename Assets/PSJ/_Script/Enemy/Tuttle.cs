@@ -9,7 +9,7 @@ using UnityEngine;
 
 public class Tuttle : Enemy
 {
-    protected float shellSpeed = 8.0f;
+    protected float shellSpeed = 6.0f;
 
     protected float shellTimer = 8.0f;
 
@@ -53,7 +53,7 @@ public class Tuttle : Enemy
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.CompareTag("EnemyWall") || collision.gameObject.CompareTag("Box")) //벽 충돌
+        if (collision.gameObject.CompareTag("EnemyWall")) //벽 충돌
         {
             Flip();
         }
@@ -211,7 +211,39 @@ public class Tuttle : Enemy
         {
             Tuttleanim.SetBool("ShellMove", true);
         }
+        gameObject.GetComponent<Rigidbody2D>().velocity = new Vector2(0, gameObject.GetComponent<Rigidbody2D>().velocity.y);
         transform.Translate(Vector2.left * shellSpeed * Time.deltaTime * (movingLeft ? 1 : -1));
+
+        //블록체크
+        RaycastHit2D blockCheck;
+        RaycastHit2D noteCheck;
+
+        if (movingLeft)
+        {
+            blockCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.left, 0.8f, groundLayer);
+            noteCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.left, 0.8f, noteLayer);
+            Debug.DrawLine(gameObject.transform.position, new Vector2(groundDetect1.position.x - 0.8f, gameObject.transform.position.y), Color.red);
+        }
+        else
+        {
+            blockCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.right, 0.8f, groundLayer);
+            noteCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.right, 0.8f, noteLayer);
+            Debug.DrawLine(gameObject.transform.position, new Vector2(gameObject.transform.position.x + 0.8f, gameObject.transform.position.y), Color.red);
+
+        }
+
+        if (blockCheck && blockCheck.collider.CompareTag("Box"))
+        {
+            Debug.Log("BoxFlip");
+            Flip();
+        }
+
+        if (noteCheck)
+        {
+            Debug.Log("NoteFlip");
+            Flip();
+        }
+
     }
 
     new public void enemyDead()

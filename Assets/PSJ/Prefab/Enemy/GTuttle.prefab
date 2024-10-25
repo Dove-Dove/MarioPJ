@@ -440,6 +440,9 @@ MonoBehaviour:
   slopeLayer:
     serializedVersion: 2
     m_Bits: 128
+  noteLayer:
+    serializedVersion: 2
+    m_Bits: 8192
   groundDetect1: {fileID: 1664534341852924730}
   groundDetect2: {fileID: 5099006714625474734}
   hasWing: 0
