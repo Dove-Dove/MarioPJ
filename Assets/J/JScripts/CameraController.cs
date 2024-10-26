@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class CameraController : MonoBehaviour
@@ -8,13 +9,29 @@ public class CameraController : MonoBehaviour
     [SerializeField] Transform player;
     [SerializeField] float smoothing = 0.2f;
     [SerializeField] Vector2 minCameraBoundary;
-    [SerializeField] Vector2 maxCameraBoundary; 
+    [SerializeField] Vector2 maxCameraBoundary;
 
+    private float MapAnchor;
+    private Vector2 CameraPos;
 
     // Update is called once per frame
-    void FixedUpdate()
-   {
-        Vector3 targetPos = new Vector3(player.position.x, player.position.y + 3, transform.position.z);
-        transform.position =  targetPos;
+    private void Start()
+    {
+        CameraPos = transform.position;
+    }
+
+    void Update()
+    {
+
+        MapAnchor = GameObject.Find("MapManager").GetComponent<mapManager>().transform.position.y;
+
+        Vector3 targetPos;
+        if (MapAnchor <= player.position.y)
+            targetPos = new Vector3(player.position.x, player.position.y , transform.position.z);
+        else 
+            targetPos = new Vector3(player.position.x, CameraPos.y, gameObject.transform.position.z);
+
+        transform.position = targetPos;
+
     }
 }

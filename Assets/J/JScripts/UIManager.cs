@@ -2,12 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using static Unity.Burst.Intrinsics.Arm;
 
 public class UIManager : MonoBehaviour
 {
     //받아올 game object,  이미지
-    public GameObject gameManager;
+    //public GameObject gameManager;
     public Sprite[] num;
     public Sprite[] PowerImg;
     public Sprite[] BounsImg;
@@ -25,7 +24,7 @@ public class UIManager : MonoBehaviour
     private int nowPoint = 0;
     private int nowTime = 0;
  
-    //배열 (텍스트를 따로 못써서 이미지를 사용)
+    //배열 (텍스트를 따로 못써서 이미지를 사용)  
     private int[] arrCoin = new int[2];
     private int[] arrLife = new int[2];
     private int[] arrPoint = new int[7];
@@ -33,10 +32,20 @@ public class UIManager : MonoBehaviour
     private int[] arrBouns;
 
 
+    private GameManager gameManager; // 싱글톤으로 가져올 GameManager
+
+    void Start()
+    {
+        // GameManager 싱글톤 인스턴스 가져오기
+        gameManager = GameManager.Instance;
+    }
+
 
     // Update is called once per frame
     void Update()
     {
+        if (gameManager == null) return;
+
         nowPower = gameManager.GetComponentInChildren<GameManager>().runingTime;
         nowCoin = gameManager.GetComponentInChildren<GameManager>().coin;
         nowLife = gameManager.GetComponentInChildren<GameManager>().PlayerLife;
@@ -91,6 +100,7 @@ public class UIManager : MonoBehaviour
     {
         number(nCoin, arrCoin, arrCoin.Length);
         int count = 0;
+        //10이하로 가면 앞에 10의 자리는 setActive로 안보이게 함
         for (int i = 1; i >= 0; --i)
         {
             if (i == 0 && arrCoin[count] == 0)
@@ -98,10 +108,11 @@ public class UIManager : MonoBehaviour
             else
                 Money[0].SetActive(true);               
             Money[i].GetComponent<Image>().sprite = num[arrCoin[count]];
-               
-                
+                            
             count++;
         }
+
+
     }
 
     void ShowLife(int nLife)

@@ -21,9 +21,11 @@ public class items : MonoBehaviour
     //아이템이 올라오는 위치 
     public Vector2 target;
     //아이템 이동속도(버섯, 별)
-    public float movespeed =2 ;
+    public float movespeed =5 ;
     // 좌우 랜덤용 함수
     public bool randomWay = false;
+
+    private float moveTime = 0 ;
 
     bool openItem = true;
 
@@ -87,21 +89,27 @@ public class items : MonoBehaviour
 
     void upItem()
     {
-     float speed = 1;
 
      //먼저 아이템 위로 올라감 (현재 위치에서 y 좌표 +1 만큼 올라감 )
         if(openItem && (transform.position.y <= target.y-0.1))
         {
-            transform.position = Vector2.MoveTowards(transform.position, target, speed * 0.021f);
+            if (itemtypys == Itemtypy.leaf)
+                movespeed = 10.0f;
+
+            transform.position = Vector2.MoveTowards(transform.position, target, movespeed * Time.deltaTime);
         }
         else
         {
             openItem = false;
             GetComponent<BoxCollider2D>().enabled = true;
-            if(itemtypys != Itemtypy.leaf)
-                GetComponent<Rigidbody2D>().gravityScale = 1;
+            if(itemtypys == Itemtypy.leaf)
+            {
+                GetComponent<Rigidbody2D>().gravityScale = 0.08f;
+                movespeed = 5.0f;
+            }
+               
             else
-                GetComponent<Rigidbody2D>().gravityScale = 0.1f;
+                GetComponent<Rigidbody2D>().gravityScale = 1;
         }
 
             
@@ -118,6 +126,17 @@ public class items : MonoBehaviour
                 transform.Translate(Vector2.left * movespeed * Time.deltaTime);
             else if(!randomWay)
                 transform.Translate(Vector2.right * movespeed * Time.deltaTime);
+        }
+
+        if(itemtypys == Itemtypy.leaf)
+        {
+            moveTime += Time.deltaTime;
+            if(moveTime >= 0.5f)
+            {
+                randomWay = !randomWay;
+                moveTime = 0;
+            }
+                
         }
                
     }
