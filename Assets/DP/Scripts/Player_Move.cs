@@ -736,8 +736,8 @@ public class Player_Move : MonoBehaviour
         }
 
         //디버그용
-        Debug.DrawRay(rigid.position + new Vector2(-0.4f, 1), new Vector2(0, groundRayLen), new Color(1, 0, 0));
-        Debug.DrawRay(rigid.position + new Vector2(0.4f, 1), new Vector2(0, groundRayLen), new Color(1, 0, 0));
+        Debug.DrawRay(rigid.position + new Vector2(-0.4f, 1), new Vector2(0, len), new Color(1, 0, 0));
+        Debug.DrawRay(rigid.position + new Vector2(0.4f, 1), new Vector2(0, len), new Color(1, 0, 0));
 
     }
 
