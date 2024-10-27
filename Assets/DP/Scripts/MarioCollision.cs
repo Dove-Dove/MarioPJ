@@ -28,8 +28,6 @@ public class MarioCollision : MonoBehaviour
         //아이템
         if(collision.collider.tag=="Items")
         {
-            
-
             //이동불가 및 변신
             player.NotInput = true;
             //아이템 종류별 효과적용

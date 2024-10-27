@@ -552,6 +552,7 @@ public class Player_Move : MonoBehaviour
             noDoubleJump = false;//점프입력가능
             isJumpInput = true;
             animator.SetBool("isJump", false);
+            animator.SetBool("onGround", true);
 
             //앉기
             if (Input.GetKey(KeyCode.DownArrow) && input_x == 0)
@@ -589,6 +590,7 @@ public class Player_Move : MonoBehaviour
             onGround = false;
             onAir = true;
             animator.SetBool("isJump", true);
+            animator.SetBool("onGround", false);
         }
 
         //언덕위에 있을 때 
@@ -599,6 +601,7 @@ public class Player_Move : MonoBehaviour
             onGround = true;
             onAir = false;
             animator.SetBool("isJump", false);
+            animator.SetBool("onGround", true);
             isJumpInput = true;
 
             //오를때 테스트
@@ -1244,13 +1247,17 @@ public class Player_Move : MonoBehaviour
             isInvincibleStar = false;
             //태그원상복귀
             gameObject.tag = "Player";
+            //애니메이터 끄기
+            animator.SetBool("isInvincibleStar", false);
             notInput = false;
         }
         else
         {
             invisibleTimeCount += Time.deltaTime;
-            //TODO:태그변화추가
+            //태그변화
             gameObject.tag = "StarInvincible";
+            //애니메이터 켜기
+            animator.SetBool("isInvincibleStar", true);
             StartCoroutine(StarEffect());
             invisibleCount++;
 
