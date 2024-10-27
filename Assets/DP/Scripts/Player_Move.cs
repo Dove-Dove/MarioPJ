@@ -51,6 +51,8 @@ public class Player_Move : MonoBehaviour
     public bool isInvincible = false;
     //별 무적
     public bool isInvincibleStar = false;
+    public bool isInvincibleStarStart = false;
+
     //히트
     public bool ishit = false;
     //입력불가 상태
@@ -240,7 +242,7 @@ public class Player_Move : MonoBehaviour
         marioPos =rigid.position;
 
         //플레이어 이동불가 조건
-        if (ishit && !isInvincible)
+        if (ishit && !isInvincible &&!isInvincibleStar)
         {
             //dead확인
             if(marioHp <= 1)
@@ -255,10 +257,11 @@ public class Player_Move : MonoBehaviour
             }
             else
             { 
+                //아니면 파워다운
                 marioHp--; 
                 ishit = false;
-                isInvincible = true;
                 //1초 무적
+                isInvincible = true;
                 StartCoroutine(HitInvincible());
                 if (marioHp==1)
                 {
@@ -269,7 +272,6 @@ public class Player_Move : MonoBehaviour
                 }
                 else if (marioHp==2)
                 {
-                    //Debug.Log("Set SuperMario");
                     marioStatus = MarioStatus.SuperMario;
                     setChangeStatus();
                 }
@@ -283,7 +285,7 @@ public class Player_Move : MonoBehaviour
             return;
         }
         //입력불가 상황
-        else if(notInput)
+        else if(notInput&& !isInvincibleStar)
         {
 
             ChangeSuperMario();
@@ -298,9 +300,15 @@ public class Player_Move : MonoBehaviour
             MarioClear();
             return;
         }
+
         //기본 입력가능상태
         else
         {
+            //별 무적상태
+            if(isInvincibleStar)
+            {
+                StarInvisibleEffect();
+            }
             input_x = Input.GetAxis("Horizontal");
             animator.SetBool("ChangeDirection", false);
             //오른쪽 이동
@@ -400,12 +408,6 @@ public class Player_Move : MonoBehaviour
             TurnOnP();
             //너구리 활공
             RMarioSpecialActtion();
-            //별 무적(임시)
-            //if (Input.GetKeyDown(KeyCode.T) && !isInvincibleStar)
-            //{
-            //    MarioInvisibleEffect();
-            //    isInvincibleStar = true;
-            //}
 
             //슬라이드 
             if (isSilding)
@@ -696,7 +698,10 @@ public class Player_Move : MonoBehaviour
             isEnemy = true;
             gameObject.tag = "PlayerAttack";
         }
-        else { isEnemy = false; gameObject.tag = "Player"; isAttack = false; }
+        //항상 tag=player로 만드는 곳
+        //슬라이딩과 무적시엔 테그 바뀌도록
+        else if(!isSilding && !isInvincibleStar)
+        { isEnemy = false; gameObject.tag = "Player"; isAttack = false; }
 
         DrawBoxCast(rigid.position, new Vector2(0.8f, 0.2f), 0, Vector2.down, 0.3f, marioAttackHit2);
 
@@ -898,6 +903,7 @@ public class Player_Move : MonoBehaviour
         marioBlink();
         yield return new WaitForSecondsRealtime(1f);
         isInvincible = false;
+        Debug.Log("무적끝");
     }
 
     //마리오 변신 초기화
@@ -1172,19 +1178,14 @@ public class Player_Move : MonoBehaviour
 
 
             Vector3 move = new Vector3(1, 0, 0) * 3 * Time.unscaledDeltaTime;
-            //transform.Translate(move);
+
             transform.position += move;
-            //rigid.MovePosition(new Vector2(100,0));
-            //if (rigid.velocity.x > addedLimitVelocity)
-            //    rigid.velocity = new Vector2(addedLimitVelocity, rigid.velocity.y);
         }
         else 
         {
             //수동으로 Phsics돌리기
             if (Time.timeScale == 0)
             {
-                //Physics.autoSimulation = false;
-                //Physics.Simulate(Time.unscaledDeltaTime);
                 ApplyCustomGravity();
             }
         }
@@ -1231,7 +1232,7 @@ public class Player_Move : MonoBehaviour
     }
 
     //무적효과
-    public void MarioInvisibleEffect()
+    public void StarInvisibleEffect()
     {
 
         if (invisibleTimeCount > 7)
@@ -1241,10 +1242,15 @@ public class Player_Move : MonoBehaviour
             GetComponent<SpriteRenderer>().material.color = originalColor;
             invisibleTimeCount = 0;
             isInvincibleStar = false;
+            //태그원상복귀
+            gameObject.tag = "Player";
+            notInput = false;
         }
         else
         {
             invisibleTimeCount += Time.deltaTime;
+            //TODO:태그변화추가
+            gameObject.tag = "StarInvincible";
             StartCoroutine(StarEffect());
             invisibleCount++;
 

@@ -16,6 +16,7 @@ TagManager:
   - Tail
   - Ground
   - NoteBlock
+  - StarInvincible
   layers:
   - Default
   - TransparentFX

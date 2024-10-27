@@ -81,6 +81,9 @@ public class MarioCollision : MonoBehaviour
                         player.setChangeStatus();
                     }
                     break;
+                case Itemtypy.star://스타
+                    player.isInvincibleStar = true;
+                    break;
             }
             //TODO:정확한 확인과정 추가
             Destroy(collision.gameObject);
