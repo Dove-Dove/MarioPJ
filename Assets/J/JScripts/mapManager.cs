@@ -5,6 +5,7 @@ using UnityEngine;
 public class mapManager : MonoBehaviour
 {
     private GameManager gameManager;
+    int count = 0;
     // Start is called before the first frame update
     void Start()
     {
@@ -16,19 +17,13 @@ public class mapManager : MonoBehaviour
             return;
         }
 
-        if (Time.timeScale == 0)
+        if (Time.timeScale == 0 && count == 0)
         {
             Time.timeScale = 1;
-           // gameManager.SetTime();
+            gameManager.StartMap();
+            count = 1;
         }
 
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-
-        
-    }
 }

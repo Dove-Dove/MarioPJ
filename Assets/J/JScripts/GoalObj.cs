@@ -33,8 +33,9 @@ public class GoalObj : MonoBehaviour
             transform.Translate(Vector2.up * Time.unscaledDeltaTime * 10.0f);
             if (nextTime >=2.0f)
             {
+                Time.timeScale = 1;
                 GameObject.Find("GameManager").GetComponent<GameManager>().getBouns(count);
-                SceneManager.LoadScene("UITest");
+                SceneManager.LoadScene("SelectScene");
                 gameObject.SetActive(false); 
             }
         }

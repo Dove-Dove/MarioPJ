@@ -21,6 +21,9 @@ public class SelectSceneManager : MonoBehaviour
 
     public GameObject Player;
 
+    //----
+    private GameManager gameManager;
+    //==--
 
     private float moveSpeed = 3f;
 
@@ -39,7 +42,13 @@ public class SelectSceneManager : MonoBehaviour
         map4Pos = map4Obj.transform;
         mapBossPos = mapBossObj.transform;
 
-        clearStage = 0;
+        if (Time.timeScale == 0)
+            Time.timeScale = 1;
+
+        gameManager = GameManager.Instance;
+
+        clearStage = gameManager.GetComponent<GameManager>().GameClearStage;
+        //clearStage = 0;
     }
 
     void Update()
@@ -76,7 +85,8 @@ public class SelectSceneManager : MonoBehaviour
                 else if(Input.GetKeyDown(KeyCode.Z) && !onRoad)
                 {
                     Debug.Log("Map1-1");
-                    //SceneManager.CreateScene("Map1-1"); 씬전환
+                    //SceneManager.CreateScene("Map1-1"); //씬전환
+                    SceneManager.LoadScene("Map1-1");
                     //클리어했다면
                     clearStage = 1;
                     map1Obj.GetComponent<SpriteRenderer>().enabled = true;
@@ -117,7 +127,7 @@ public class SelectSceneManager : MonoBehaviour
                 else if(Input.GetKeyDown(KeyCode.Z) && !onRoad)
                 {
                     Debug.Log("Map1-2");
-                    //SceneManager.CreateScene("Map1-2"); 씬전환
+                    //SceneManager.CreateScene("Map1-2"); //씬전환
                     //클리어했다면
                     clearStage = 2;
                     map2Obj.GetComponent<SpriteRenderer>().enabled = true;

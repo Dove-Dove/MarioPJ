@@ -9,6 +9,27 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
+    path: Assets/Scenes/TitleScnen.unity
+    guid: 850cc97b15a57874f805fbf607908f60
+  - enabled: 1
+    path: Assets/Scenes/SelectScene.unity
+    guid: 6ebdfb2444de18449bc03a3e184b7dcd
+  - enabled: 1
+    path: Assets/Scenes/Map1-1.unity
+    guid: a445efa7b1364d24190003b993756e90
+  - enabled: 1
+    path: Assets/Scenes/Map1-2.unity
+    guid: 6e447557be197224cabbbcd77599de92
+  - enabled: 1
+    path: Assets/Scenes/Map1-3.unity
+    guid: a76c727dc6b7b1d4a96028bfa68c38bc
+  - enabled: 1
+    path: Assets/Scenes/Map1-4.unity
+    guid: 0f42ece3154b4ea44be6dbaec1a9b1a7
+  - enabled: 1
+    path: Assets/Scenes/MapBoss.unity
+    guid: bb13fc5c49e688241b60a79983984cfe
+  - enabled: 1
     path: Assets/J/TsetScene/Test.unity
     guid: 0690c9382447e7d4a94a3bba35f35e28
   - enabled: 1

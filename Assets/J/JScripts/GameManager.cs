@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour
     public AudioSource ClearSound;
     public AudioClip[] AllSound;
 
+    public int GameClearStage = 0;
+
 
     private void Awake()
     {
@@ -62,6 +64,8 @@ public class GameManager : MonoBehaviour
 
         Player = GameObject.Find("Mario");
 
+        // 씬 로드 이벤트 등록
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
 
@@ -92,10 +96,11 @@ public class GameManager : MonoBehaviour
 
     }
 
-
-
     void Update()
     {
+        if (SceneManager.GetActiveScene().name == "SelectScene")
+            return;
+
         if (Player == null)
         {
             Player = GameObject.Find("Mario");  // "Mario"는 Player 오브젝트의 이름으로 설정해주세요
@@ -154,6 +159,20 @@ public class GameManager : MonoBehaviour
         }
 
     }
+
+    private void OnDestroy()
+    {
+        // 씬 로드 이벤트 해제
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
+
+    // 씬이 로드될 때 호출되는 메서드
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        SetTime();  // 씬 전환 시 SetTime() 호출
+    }
+
+
 
     public void CoinGet()
     {
@@ -237,6 +256,7 @@ public class GameManager : MonoBehaviour
     {
         mapAudio.GetComponent<AudioSource>().Stop();
         ClearSound.Play();
+        GameClearStage++;
     }
 
 
