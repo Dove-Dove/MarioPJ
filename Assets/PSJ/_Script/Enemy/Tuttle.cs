@@ -202,15 +202,15 @@ public class Tuttle : Enemy
 
         if (movingLeft)
         {
-            blockCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.left, 0.8f, groundLayer);
-            noteCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.left, 0.8f, noteLayer);
-            Debug.DrawLine(gameObject.transform.position, new Vector2(groundDetect1.position.x - 0.8f, gameObject.transform.position.y), Color.red);
+            blockCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.left, 0.2f, groundLayer);
+            noteCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.left, 0.2f, noteLayer);
+            Debug.DrawLine(gameObject.transform.position, new Vector2(groundDetect1.position.x - 0.2f, gameObject.transform.position.y), Color.blue);
         }
         else
         {
-            blockCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.right, 0.8f, groundLayer);
-            noteCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.right, 0.8f, noteLayer);
-            Debug.DrawLine(gameObject.transform.position, new Vector2(gameObject.transform.position.x + 0.8f, gameObject.transform.position.y), Color.red);
+            blockCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.right, 0.2f, groundLayer);
+            noteCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.right, 0.2f, noteLayer);
+            Debug.DrawLine(gameObject.transform.position, new Vector2(gameObject.transform.position.x + 0.2f, gameObject.transform.position.y), Color.blue);
 
         }
 
