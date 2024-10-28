@@ -226,6 +226,10 @@ public class Enemy : MonoBehaviour
         {
             Flip();
         }
+        else if(collision.gameObject.CompareTag("Enemy"))
+        {
+            Flip();
+        }
         else if (collision.gameObject.name.Contains("Cliff") && currentState == State.Move)
         {
             Flip();

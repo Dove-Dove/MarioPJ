@@ -125,22 +125,18 @@ public class FlowerEnemy : MonoBehaviour
         if(playerIsRight && playerIsUp)
         {
             direction = (Dir3.position - firePoint.position).normalized;
-            Debug.Log("dir1");
         }
         else if(playerIsRight && !playerIsUp)
         {
             direction = (Dir4.position - firePoint.position).normalized;
-            Debug.Log("dir2");
         }
         else if(!playerIsRight && playerIsUp)
         {
             direction = (Dir3.position - firePoint.position).normalized;
-            Debug.Log("dir3");
         }
         else
         {
             direction = (Dir4.position - firePoint.position).normalized;
-            Debug.Log("dir4");
         }
 
         projectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;

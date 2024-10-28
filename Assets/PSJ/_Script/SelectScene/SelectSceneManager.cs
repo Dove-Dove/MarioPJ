@@ -32,6 +32,9 @@ public class SelectSceneManager : MonoBehaviour
     public bool onRoad; //길목
     public bool itemStage;
 
+    void Awake()
+    {
+    }
 
     void Start()
     {
@@ -47,7 +50,8 @@ public class SelectSceneManager : MonoBehaviour
 
         gameManager = GameManager.Instance;
 
-        clearStage = gameManager.GetComponent<GameManager>().GameClearStage;
+        clearStage = gameManager.GameClearStage;
+        //currentStage = gameManager.GameCurrentStage;
         //clearStage = 0;
     }
 
@@ -88,12 +92,15 @@ public class SelectSceneManager : MonoBehaviour
                     //SceneManager.CreateScene("Map1-1"); //씬전환
                     SceneManager.LoadScene("Map1-1");
                     //클리어했다면
-                    clearStage = 1;
-                    map1Obj.GetComponent<SpriteRenderer>().enabled = true;
+                    gameManager.GameClearStage = 1;
+                    //gameManager.GameCurrentStage = 1;
+                  
                 }
                 if (clearStage >= 1)
                 {
-                    if(Input.GetKeyDown(KeyCode.RightArrow) && !onRoad)
+                    map1Obj.GetComponent<SpriteRenderer>().enabled = true;
+
+                    if (Input.GetKeyDown(KeyCode.RightArrow) && !onRoad)
                     {
                         Player.transform.position = new Vector2(mapBossPos.position.x, map1Pos.position.y);
                         onRoad = true;

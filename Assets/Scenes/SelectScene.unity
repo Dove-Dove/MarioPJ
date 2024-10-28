@@ -878,6 +878,7 @@ MonoBehaviour:
   clearStage: 0
   currentStage: 0
   onRoad: 0
+  itemStage: 0
 --- !u!4 &1818075232
 Transform:
   m_ObjectHideFlags: 0
