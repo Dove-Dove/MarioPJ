@@ -42,8 +42,11 @@ public class Player_Move : MonoBehaviour
     [SerializeField]
     private MarioStatus marioStatus = MarioStatus.NormalMario;
     private MarioStatus curStatus;
+    public MarioStatus StartMarioStatus;
+
     //마리오 HP
-    public uint hp;
+    [SerializeField]
+    private int marioHp;
     //마리오 변신 확인용
     public bool isFireMario = false;
     public bool isRaccoonMario = false;
@@ -138,9 +141,7 @@ public class Player_Move : MonoBehaviour
     [SerializeField]
     private bool stopMoment;
 
-    //HP
-    [SerializeField]
-    private int marioHp;
+
 
     private Vector2 marioPos;
 
@@ -211,6 +212,9 @@ public class Player_Move : MonoBehaviour
 
         animAccel = 8;
         jumpPower=LMrio_Jump_pow;
+
+        //마리오 시작 Status
+        StartMarioStatusAnim(StartMarioStatus);
 
     }
 
@@ -706,15 +710,17 @@ public class Player_Move : MonoBehaviour
             isEnemy = true;
             gameObject.tag = "PlayerAttack";
         }
-        //항상 tag=player로 만드는 곳
-        //슬라이딩과 무적시엔 테그 바뀌도록
-        else if(!isSilding && !isInvincibleStar)
-        { gameObject.tag = "Player";}
         else
         {
             isEnemy = false;
             isAttack = false;
+
+            if (!isSilding && !isInvincibleStar)
+                { gameObject.tag = "Player"; }
         }
+        //항상 tag=player로 만드는 곳
+        //슬라이딩과 무적시엔 테그 바뀌도록
+
 
         DrawBoxCast(rigid.position, new Vector2(0.8f, 0.2f), 0, Vector2.down, 0.3f, marioAttackHit2);
 
@@ -1105,7 +1111,7 @@ public class Player_Move : MonoBehaviour
                 {
                     animator.SetBool("isInputX", true);
 
-                    var direction = new Vector2(0, 200);
+                    var direction = new Vector2(0, 280);
                     isGlideButton = true;
                     rigid.AddForce(direction, ForceMode2D.Force);
                     StartCoroutine(ButtonAvailable());
@@ -1117,13 +1123,12 @@ public class Player_Move : MonoBehaviour
                 {
                     animator.SetBool("isInputX", true);
 
-                    var direction = new Vector2(0, 7);
+                    var direction = new Vector2(0, 10);
                     isGlideButton = true;
                     rigid.AddForce(direction, ForceMode2D.Impulse);
                     StartCoroutine(ButtonAvailable2());
                 }
-            }
-            
+            }   
         }
         else if(Input.GetKeyUp(KeyCode.X))
         {
@@ -1133,13 +1138,13 @@ public class Player_Move : MonoBehaviour
 
     IEnumerator ButtonAvailable()
     {
-        yield return new WaitForSeconds(0.3f);
+        yield return new WaitForSeconds(0.13f);
         isGlideButton = false;
         animator.SetBool("isInputX", false);
     }
     IEnumerator ButtonAvailable2()
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.15f);
         isGlideButton = false;
         animator.SetBool("isInputX", false);
     }
@@ -1206,7 +1211,6 @@ public class Player_Move : MonoBehaviour
     {
         // 중력 벡터를 Rigidbody2D의 속도에 적용
         clearVelocity += Vector2.down * 9.8f * Time.unscaledDeltaTime;
-        Debug.Log("TimeZeroVelocity"+clearVelocity.y);
         Vector2 newPosition = rigid.position + clearVelocity * Time.unscaledDeltaTime;
         rigid.transform.position = newPosition;
     }
@@ -1298,7 +1302,6 @@ public class Player_Move : MonoBehaviour
             sprite.material.color = originalColor;
             invisibleTimeCount2 = 0;
             effectOn = false;
-            Debug.Log(sprite.material.color);
         }
         else
         {
@@ -1335,6 +1338,29 @@ public class Player_Move : MonoBehaviour
         }
 
         yield return new WaitForSecondsRealtime(0.1f);
+    }
+    //마리오 시작 애니메이션 결정용 함수
+    public void StartMarioStatusAnim(MarioStatus status=MarioStatus.NormalMario)
+    {
+        switch(status)
+        {
+            case MarioStatus.NormalMario:
+                animator.Play("LMario_idle");
+                UpdateMarioStatusAndHP(MarioStatus.NormalMario);
+                break;
+            case MarioStatus.SuperMario:
+                animator.Play("SMario_idle");
+                UpdateMarioStatusAndHP(MarioStatus.SuperMario);
+                break;
+            case MarioStatus.FireMario:
+                animator.Play("FMario_idle");
+                UpdateMarioStatusAndHP(MarioStatus.FireMario);
+                break;
+            case MarioStatus.RaccoonMario:
+                animator.Play("RMario_idle");
+                UpdateMarioStatusAndHP(MarioStatus.RaccoonMario);
+                break;
+        }
     }
 
     // 박스캐스트 디버그용

@@ -87,24 +87,27 @@ public class MarioCollision : MonoBehaviour
             Destroy(collision.gameObject);
         }
 
-        //에너미
-        if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "MovingShell")
+        //무적상태가 아니면
+        if (!player.isInvincibleStar && !player.isInvincible)
         {
-            if(player.isEnemy)
+            //에너미
+            if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "MovingShell")
             {
-                player.isAttack = true;
-            }
-            else
-           { player.ishit = true; }
-            
-        }
-        //에너미
-        if (collision.gameObject.tag == "Shell")
-        {
-            player.isLift = true;
-            shell = collision.gameObject;
-        }
+                if (player.isEnemy)
+                {
+                    player.isAttack = true;
+                }
+                else
+                { player.ishit = true; }
 
+            }
+            //에너미
+            if (collision.gameObject.tag == "Shell")
+            {
+                player.isLift = true;
+                shell = collision.gameObject;
+            }
+        }
 
         //노트블럭
         if (collision.gameObject.tag == "NoteBlock")
