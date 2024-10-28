@@ -28,7 +28,7 @@ public class GameManager : MonoBehaviour
     private float playerMaxSpeed = 0; 
     public float runingTime = 0;
     public int PlayerLife;
-
+    public int Player_State = 0; 
 
 
     //플레이어 보너스(마지막 골지점에서 획득한거)
@@ -111,12 +111,25 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        { //마리오 크기에 따른 블럭 부수기 상태 확인
+        { //마리오 크기에 따른 블럭 부수기 상태 확인 및 상태 저장
+            // 상태 저장 안하니 다음 스테이지로 넘어갔을떄 문제가 생김
             if (Player.GetComponentInChildren<Player_Move>().getMarioStatus() == MarioStatus.NormalMario)
+            {
+                Player_State = 1;
                 breakBlock = false;
-
+            }
+               
             else
+            {
                 breakBlock = true;
+                if (Player.GetComponentInChildren<Player_Move>().getMarioStatus() == MarioStatus.SuperMario)
+                    Player_State = 2;
+                else if(Player.GetComponentInChildren<Player_Move>().getMarioStatus() == MarioStatus.FireMario)
+                    Player_State = 3;
+                else if(Player.GetComponentInChildren<Player_Move>().getMarioStatus() == MarioStatus.RaccoonMario)
+                    Player_State = 4;
+            }
+                
         }
 
         if (Player != null)
