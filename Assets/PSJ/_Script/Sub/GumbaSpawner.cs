@@ -69,15 +69,10 @@ public class GumbaSpawner : MonoBehaviour
 
     void SpawnEnemy()
     {
-        if(player.transform.position.x - gameObject.transform.position.x < 0) //왼쪽
+        if(player.transform.position.x - gameObject.transform.position.x > 0) //오른쪽
         {
             GameObject projectile = Instantiate(GumbaPrefab, spawnPos1.position, Quaternion.identity);
             projectile.GetComponent<Enemy>().movingLeft = true;
-        }
-        else //오른쪽
-        {
-            GameObject projectile = Instantiate(GumbaPrefab, spawnPos2.position, Quaternion.identity);
-            projectile.GetComponent<Enemy>().movingLeft = false;
         }
     }
 }

@@ -16,13 +16,14 @@ public class Tuttle : Enemy
     protected Animator Tuttleanim;
 
     protected bool reverse = false;
+    protected bool playerIsR;
+    public LayerMask playerLayer;
 
     void Start()
     {
         Tuttleanim = GetComponent<Animator>();
         player = GameObject.Find("Mario");
         currentState = State.Idle;
-
     }
 
     // Update is called once per frame
@@ -73,16 +74,34 @@ public class Tuttle : Enemy
             }
             else if (!hasWing && currentState == State.Move)
             {
-                Debug.Log("Test");
-
                 DeadSound.Play();
                 currentState = State.Shell;
+                if (collision.gameObject.CompareTag("Tail"))
+                {
+                    Jump();
+                    Vector3 theScale = transform.localScale;
+                    theScale.y *= -1;
+                    transform.localScale = theScale;
+                    reverse = true;
+                }
+
             }
             else if (!hasWing && currentState == State.Shell)
             {
                 if (player.GetComponentInChildren<Player_Move>().isKick == true)
                 {
                     currentState = State.ShellMove;
+                }
+                if(collision.gameObject.CompareTag("Tail"))
+                {
+                    Jump();
+                    if(!reverse)
+                    {
+                        Vector3 theScale = transform.localScale;
+                        theScale.y *= -1;
+                        transform.localScale = theScale;
+                        reverse = true;
+                    }
                 }
             }
             else if(!hasWing && currentState == State.ShellMove)
@@ -113,31 +132,6 @@ public class Tuttle : Enemy
         {
             Flip();
         }
-        else if (collision.gameObject.CompareTag("Player")) //플레이어와 충돌
-        {
-            bool playerKick = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Player_Move>().isKick;
-            bool playerIsR = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Player_Move>().isRight;
-
-            if (!hasWing && currentState == State.Shell)
-            {
-                if (playerKick == true)
-                {
-                    movingLeft = !playerIsR;
-
-                    currentState = State.ShellMove;
-                }
-            }
-        }
-        else if(collision.gameObject.CompareTag("Tail"))
-        {
-            if(currentState == State.Shell)
-            {
-                Vector3 theScale = transform.localScale;
-                theScale.y *= -1;
-                transform.localScale = theScale;
-                reverse = true;
-            }
-        }
         else if(collision.gameObject.CompareTag("StarInvincible"))
         {
             DeadSound.Play();
@@ -146,9 +140,27 @@ public class Tuttle : Enemy
             currentState = State.Dead;
 
         }
+    }
 
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Player")) //플레이어와 충돌
+        {
+            bool playerKick = GameObject.FindGameObjectWithTag("Player").GetComponentInChildren<Player_Move>().isKick;
+
+            if (!hasWing && currentState == State.Shell)
+            {
+                if (playerIsR)
+                    movingLeft = true;
+                else
+                    movingLeft = false;
+                if (playerKick == true)
+                    currentState = State.ShellMove;
+            }
+        }
 
     }
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -166,6 +178,25 @@ public class Tuttle : Enemy
 
         gameObject.layer = 10;
         gameObject.tag = "Shell";
+
+        //플레이어 방향 체크
+        RaycastHit2D playerCheck1;
+        RaycastHit2D playerCheck2;
+
+        playerCheck1 = Physics2D.Raycast(gameObject.transform.position, Vector2.left, 0.7f, playerLayer);
+        Debug.DrawLine(gameObject.transform.position, new Vector2(gameObject.transform.position.x - 0.7f, gameObject.transform.position.y), Color.blue);
+        playerCheck2 = Physics2D.Raycast(gameObject.transform.position, Vector2.right, 0.7f, playerLayer);
+        Debug.DrawLine(gameObject.transform.position, new Vector2(gameObject.transform.position.x + 0.7f, gameObject.transform.position.y), Color.blue);
+
+        if (playerCheck1)
+        {
+            playerIsR = false;
+        }
+        if(playerCheck2)
+        {
+            playerIsR = true;
+        }
+
 
         shellElapsedTime += Time.deltaTime; // timer를 누적
         if (shellElapsedTime >= shellTimer)

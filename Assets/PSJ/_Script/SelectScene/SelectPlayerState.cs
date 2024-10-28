@@ -5,7 +5,7 @@ using UnityEngine;
 public class SelectPlayerState : MonoBehaviour
 {
     public MarioStatus status;
-    
+
     Animator animator;
 
     // Start is called before the first frame update

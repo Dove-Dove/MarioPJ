@@ -527,7 +527,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bebccc875a4bb8c4d845b161517b57a5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 4
+  currentState: 2
   moveSpeed: 3
   groundLayer:
     serializedVersion: 2
@@ -544,6 +544,9 @@ MonoBehaviour:
   movingLeft: 1
   wings: {fileID: 7291920726449197426}
   DeadSound: {fileID: 4903202067772683238}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 1048576
 --- !u!50 &2295153187754541945
 Rigidbody2D:
   serializedVersion: 4
