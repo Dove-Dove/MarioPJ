@@ -709,7 +709,12 @@ public class Player_Move : MonoBehaviour
         //항상 tag=player로 만드는 곳
         //슬라이딩과 무적시엔 테그 바뀌도록
         else if(!isSilding && !isInvincibleStar)
-        { isEnemy = false; gameObject.tag = "Player"; isAttack = false; }
+        { gameObject.tag = "Player";}
+        else
+        {
+            isEnemy = false;
+            isAttack = false;
+        }
 
         DrawBoxCast(rigid.position, new Vector2(0.8f, 0.2f), 0, Vector2.down, 0.3f, marioAttackHit2);
 
@@ -718,10 +723,6 @@ public class Player_Move : MonoBehaviour
         if (marioNoteBlockJumpHit.collider != null)
         {
             isEnemy = true;
-        }
-        else 
-        {
-            isEnemy = false;
         }
     }
 
@@ -1291,12 +1292,13 @@ public class Player_Move : MonoBehaviour
     //파이어 마리오 이펙트
     public void ChangeFireMario()
     {
-        if (invisibleTimeCount1 > 4)
+        if (invisibleTimeCount1 > 3)
         {
             StopCoroutine("Blink");
-            GetComponent<SpriteRenderer>().material.color = originalColor;
+            sprite.material.color = originalColor;
             invisibleTimeCount2 = 0;
             effectOn = false;
+            Debug.Log(sprite.material.color);
         }
         else
         {
