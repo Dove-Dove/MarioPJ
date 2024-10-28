@@ -214,6 +214,7 @@ public class Player_Move : MonoBehaviour
         jumpPower=LMrio_Jump_pow;
 
         //마리오 시작 Status
+        //상태 및 hp적용
         StartMarioStatusAnim(StartMarioStatus);
 
     }
@@ -222,9 +223,6 @@ public class Player_Move : MonoBehaviour
     {
         //시작 시 오른쪽으로
         FlipPlayer(true);
-        //상태 및 hp적용
-        marioStatus= MarioStatus.NormalMario;
-        UpdateMarioStatusAndHP(MarioStatus.NormalMario);
         //마리오 상태변화 감지용
         curStatus = marioStatus;
         //애니메이션 최고속도 설정
@@ -1063,7 +1061,6 @@ public class Player_Move : MonoBehaviour
         //p값이 최고속도값이 도달하고
         //TODO:충돌 시 P꺼지게 
         var limitP = LimitVelocity + addLimitVelocity-0.1f;
-        Debug.Log(limitP);
         if (limitP < Math.Abs(rigid.velocity.x))
         {
             PCheckTimeCount += Time.deltaTime;
@@ -1123,6 +1120,7 @@ public class Player_Move : MonoBehaviour
                 {
                     animator.SetBool("isInputX", true);
 
+                    Debug.Log("P");
                     var direction = new Vector2(0, 10);
                     isGlideButton = true;
                     rigid.AddForce(direction, ForceMode2D.Impulse);
@@ -1248,7 +1246,6 @@ public class Player_Move : MonoBehaviour
     //무적효과
     public void StarInvisibleEffect()
     {
-
         if (invisibleTimeCount1 > 7)
         {
             Debug.Log("무적끝");
@@ -1271,9 +1268,7 @@ public class Player_Move : MonoBehaviour
             animator.SetBool("isInvincibleStar", true);
             StartCoroutine(StarEffect());
             invisibleCount++;
-
         }
-
     }
 
     private IEnumerator StarEffect()
