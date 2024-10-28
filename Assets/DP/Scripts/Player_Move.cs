@@ -162,7 +162,8 @@ public class Player_Move : MonoBehaviour
     private bool isFireSound = false;
     //===이펙트
     [SerializeField]
-    private float invisibleTimeCount = 0;
+    private float invisibleTimeCount1 = 0;
+    private float invisibleTimeCount2 = 0;
     [SerializeField]
     private int invisibleCount = 0;
 
@@ -515,14 +516,18 @@ public class Player_Move : MonoBehaviour
         if (jumpTimer > jumpInputTime)
         {
             onceInputJumpBoutton = false;
-            animator.SetBool("isJump", false);
         }   
         //사운드 한번만 나오게
         if (Input.GetKeyDown(KeyCode.X) && !onAir)
-            { 
+        { 
             jumpSound.Play();
             animator.SetBool("isJump", true);
-            }
+        }
+        //바닦에 있을 때 애니메이션 이동
+        if (onGround)
+        {
+            animator.SetBool("isJump", false);
+        }
 
         jumpPower = LMrio_Jump_pow;
         //addforce
@@ -1050,9 +1055,9 @@ public class Player_Move : MonoBehaviour
     {
         //p값이 최고속도값이 도달하고
         //TODO:충돌 시 P꺼지게 
-        var limitP = LimitVelocity + addLimitVelocity;
-
-        if (limitP == Math.Abs(rigid.velocity.x))
+        var limitP = LimitVelocity + addLimitVelocity-0.1f;
+        Debug.Log(limitP);
+        if (limitP < Math.Abs(rigid.velocity.x))
         {
             PCheckTimeCount += Time.deltaTime;
             if(PCheckTimeCount>0.5f)
@@ -1080,6 +1085,7 @@ public class Player_Move : MonoBehaviour
             PLimitTimeCount = 0;
             animator.SetBool("isUseP", false);
         }
+
     }
 
 
@@ -1238,12 +1244,12 @@ public class Player_Move : MonoBehaviour
     public void StarInvisibleEffect()
     {
 
-        if (invisibleTimeCount > 7)
+        if (invisibleTimeCount1 > 7)
         {
             Debug.Log("무적끝");
             StopCoroutine("Blink");
             GetComponent<SpriteRenderer>().material.color = originalColor;
-            invisibleTimeCount = 0;
+            invisibleTimeCount1 = 0;
             isInvincibleStar = false;
             //태그원상복귀
             gameObject.tag = "Player";
@@ -1253,7 +1259,7 @@ public class Player_Move : MonoBehaviour
         }
         else
         {
-            invisibleTimeCount += Time.deltaTime;
+            invisibleTimeCount1 += Time.deltaTime;
             //태그변화
             gameObject.tag = "StarInvincible";
             //애니메이터 켜기
@@ -1285,16 +1291,16 @@ public class Player_Move : MonoBehaviour
     //파이어 마리오 이펙트
     public void ChangeFireMario()
     {
-        if (invisibleTimeCount > 3)
+        if (invisibleTimeCount1 > 4)
         {
             StopCoroutine("Blink");
             GetComponent<SpriteRenderer>().material.color = originalColor;
-            invisibleTimeCount = 0;
+            invisibleTimeCount2 = 0;
             effectOn = false;
         }
         else
         {
-            invisibleTimeCount += Time.unscaledDeltaTime;
+            invisibleTimeCount2 += Time.unscaledDeltaTime;
             cutTimeCount += Time.unscaledDeltaTime;
             if (cutTimeCount > 0.05f)
             {

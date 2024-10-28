@@ -1169,7 +1169,7 @@ Transform:
   m_GameObject: {fileID: 8602179114985834585}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2.86, y: 5.2, z: 0.123125}
+  m_LocalPosition: {x: -5.59, y: -1.38, z: 0.123125}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1264,7 +1264,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 1
+  m_SortingOrder: 4
   m_Sprite: {fileID: 1860316653, guid: 290f5171c03cd9943a14a8720187d1d9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1289,8 +1289,8 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 2
-  m_LinearDrag: 2
-  m_AngularDrag: 0.05
+  m_LinearDrag: 1
+  m_AngularDrag: 0
   m_GravityScale: 3
   m_Material: {fileID: 6200000, guid: 176b9f9904019b142864706ebceaca8f, type: 2}
   m_IncludeLayers:
@@ -1353,6 +1353,7 @@ MonoBehaviour:
   isRaccoonMario: 0
   isInvincible: 0
   isInvincibleStar: 0
+  isInvincibleStarStart: 0
   ishit: 0
   notInput: 0
   isClear: 0
@@ -1376,6 +1377,7 @@ MonoBehaviour:
   onAir: 0
   onceInputJumpBoutton: 0
   jumpInputTime: 0.4
+  isJumpInput: 1
   isSilding: 0
   slideAddForcd: 3
   isSit: 0
@@ -1400,14 +1402,21 @@ MonoBehaviour:
   kickSound: {fileID: 4686523666133636090}
   tailAttackSound: {fileID: 820552285589299018}
   FireSound: {fileID: 0}
-  invisibleTimeCount: 0
+  invisibleTimeCount1: 0
   invisibleCount: 0
+  originalColor: {r: 0, g: 0, b: 0, a: 0}
+  changeColor: {r: 0, g: 0, b: 0, a: 0}
+  Color1: {r: 1, g: 0.28773582, b: 0.28773582, a: 0}
+  Color2: {r: 0.5518868, g: 1, b: 0.89569134, a: 0}
+  Color3: {r: 1, g: 0.5340786, b: 0.25, a: 0}
   timeStop: 0
   isGlideButton: 0
   isChargedP: 0
   isUseP: 0
   PCheckTimeCount: 0
   PLimitTimeCount: 0
+  isNoteblock: 0
+  isNoteblockJump: 0
 --- !u!251 &1664150266099608943
 PlatformEffector2D:
   m_ObjectHideFlags: 0
