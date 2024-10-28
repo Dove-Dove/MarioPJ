@@ -21,32 +21,34 @@ public class Tuttle : Enemy
     {
         Tuttleanim = GetComponent<Animator>();
         player = GameObject.Find("Mario");
+        currentState = State.Idle;
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Vector2.Distance(transform.position, player.transform.position) < range)
+        switch (currentState)
         {
-            switch (currentState)
-            {
-                case State.Move:
-                    enemyMove();
-                    break;
-                case State.Dead:
-                    enemyDead();
-                    break;
-                case State.Shell:
-                    enemyShell();
-                    break;
-                case State.ShellMove:
-                    enemyShellMove();
-                    break;
-            }
-            if (!hasWing)
-            {
-                wings.SetActive(false);
-            }
+            case State.Idle:
+                enemyIdle();
+                break;
+            case State.Move:
+                enemyMove();
+                break;
+            case State.Dead:
+                enemyDead();
+                break;
+            case State.Shell:
+                enemyShell();
+                break;
+            case State.ShellMove:
+                enemyShellMove();
+                break;
+        }
+        if (!hasWing)
+        {
+            wings.SetActive(false);
         }
     }
 
@@ -71,6 +73,8 @@ public class Tuttle : Enemy
             }
             else if (!hasWing && currentState == State.Move)
             {
+                Debug.Log("Test");
+
                 DeadSound.Play();
                 currentState = State.Shell;
             }
@@ -134,42 +138,20 @@ public class Tuttle : Enemy
                 reverse = true;
             }
         }
+        else if(collision.gameObject.CompareTag("StarInvincible"))
+        {
+            DeadSound.Play();
+            Jump();
+            Tuttleanim.SetTrigger("IsDead2");
+            currentState = State.Dead;
+
+        }
 
 
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Player"))
-        {
-            if (hasWing)
-            {
-                hasWing = false;
-                currentState = State.Move;
-            }
-            else if (!hasWing && currentState == State.Move)
-            {
-                currentState = State.Shell;
-            }
-            else if (!hasWing && currentState == State.Shell)
-            {
-                currentState = State.ShellMove;
-            }
-            else if (currentState == State.ShellMove)
-            {
-                //플레이어 데미지
-            }
-        }
-        else if (collision.gameObject.CompareTag("Enemy"))
-        {
-            if(currentState == State.ShellMove)
-            {
-            }
-        }
-        else if(collision.gameObject.CompareTag("MovingShell"))
-        {
-        }
-
     }
 
 

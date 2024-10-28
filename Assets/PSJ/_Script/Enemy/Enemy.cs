@@ -8,10 +8,10 @@ public class Enemy : MonoBehaviour
     // Move, Dead
     public enum State
     {
-        Move, Dead, Shell, ShellMove
+        Move, Dead, Shell, ShellMove, Idle
     }
 
-    public State currentState = State.Move;
+    public State currentState = State.Idle;
 
     protected float range = 15f;
     
@@ -55,32 +55,42 @@ public class Enemy : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         nextJumpTime = Time.time + jumpInterveal;
         player = GameObject.Find("Mario");
-
+        currentState = State.Idle;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Vector2.Distance(transform.position, player.transform.position) < range)
+        switch (currentState)
         {
-            switch(currentState)
-            {
-                case State.Move:
-                    enemyMove();
-                    break;
+            case State.Idle:
+                enemyIdle();
+                break;
 
-                case State.Dead:
-                    enemyDead();
-                    break;
-            }
-            if(!hasWing)
-            {
-                wings.SetActive(false);
-            }
+            case State.Move:
+                enemyMove();
+                break;
+
+            case State.Dead:
+                enemyDead();
+                break;
+        }
+        if (!hasWing)
+        {
+            wings.SetActive(false);
+        }
+
+    }
+
+    public void enemyIdle()
+    {
+        if (Vector2.Distance(transform.position, player.transform.position) < range)
+        {
+            currentState = State.Move;
         }
     }
 
-    public void enemyMove()
+        public void enemyMove()
     {
         Vector2 direction = movingLeft ? Vector2.left : Vector2.right;
 
@@ -254,6 +264,14 @@ public class Enemy : MonoBehaviour
                 }
                 currentState = State.Dead;
             }
+        }
+        else if(collision.gameObject.CompareTag("StarInvincible"))
+        {
+            DeadSound.Play();
+            Jump();
+            animator.SetTrigger("IsDead2");
+            currentState = State.Dead;
+
         }
     }
 

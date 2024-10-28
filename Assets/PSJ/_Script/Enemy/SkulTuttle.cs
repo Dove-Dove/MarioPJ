@@ -15,25 +15,26 @@ public class SkulTuttle : Tuttle
     {
         Skulanim = GetComponent<Animator>();
         player = GameObject.Find("Mario");
-
+        currentState = State.Idle;
     }
 
 
     void Update()
     {
-        if (Vector2.Distance(transform.position, GameObject.FindGameObjectWithTag("Player").transform.position) < range)
+        switch (currentState)
         {
-            switch (currentState)
-            {
-                case State.Move:
-                    gameObject.tag = "Enemy";
-                    enemyMove();
-                    break;
-                case State.Dead:
-                    enemyHit();
-                    break;
-            }
+            case State.Idle:
+                enemyIdle();
+                break;
+            case State.Move:
+                gameObject.tag = "Enemy";
+                enemyMove();
+                break;
+            case State.Dead:
+                enemyHit();
+                break;
         }
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

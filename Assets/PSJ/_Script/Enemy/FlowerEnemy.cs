@@ -36,6 +36,14 @@ public class FlowerEnemy : MonoBehaviour
     protected Vector2 boxSize2 = new Vector2(2f, 1f);
     public bool IsClose;
 
+    protected bool playerIsRight;
+    protected bool playerIsUp;
+
+    public Transform Dir1;
+    public Transform Dir2;
+    public Transform Dir3;
+    public Transform Dir4;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -111,7 +119,30 @@ public class FlowerEnemy : MonoBehaviour
     {
         // 발사체 생성 및 플레이어를 향해 발사
         GameObject projectile = Instantiate(projectilePrefab, firePoint.position, Quaternion.identity);
-        Vector2 direction = (player.position - firePoint.position).normalized;
+        //Vector2 direction = (player.position - firePoint.position).normalized;
+        Vector2 direction;
+
+        if(playerIsRight && playerIsUp)
+        {
+            direction = (Dir3.position - firePoint.position).normalized;
+            Debug.Log("dir1");
+        }
+        else if(playerIsRight && !playerIsUp)
+        {
+            direction = (Dir4.position - firePoint.position).normalized;
+            Debug.Log("dir2");
+        }
+        else if(!playerIsRight && playerIsUp)
+        {
+            direction = (Dir3.position - firePoint.position).normalized;
+            Debug.Log("dir3");
+        }
+        else
+        {
+            direction = (Dir4.position - firePoint.position).normalized;
+            Debug.Log("dir4");
+        }
+
         projectile.GetComponent<Rigidbody2D>().velocity = direction * projectileSpeed;
     }
 
@@ -122,13 +153,25 @@ public class FlowerEnemy : MonoBehaviour
         if (player.position.x < transform.position.x)
         {
             transform.localScale = new Vector3(1, 1, 1);
+            playerIsRight = false;
         }
         else
         {
             transform.localScale = new Vector3(-1, 1, 1);
+            playerIsRight = true;
         }
 
-        animator.SetBool("AttackUp", player.position.y >= transform.position.y);
+        if(player.position.y >= transform.position.y)
+        {
+            animator.SetBool("AttackUp", true);
+            playerIsUp = true;
+        }
+        else
+        {
+            animator.SetBool("AttackUp", false);
+            playerIsUp = false;
+        }
+
     }
 
 

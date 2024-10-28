@@ -187,7 +187,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1426427f2014ff544bced3dd51d16f86, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 0
+  currentState: 4
   moveSpeed: 3
   groundLayer:
     serializedVersion: 2
@@ -195,6 +195,9 @@ MonoBehaviour:
   slopeLayer:
     serializedVersion: 2
     m_Bits: 128
+  noteLayer:
+    serializedVersion: 2
+    m_Bits: 0
   groundDetect1: {fileID: 8917158125798241624}
   groundDetect2: {fileID: 8787422308108030875}
   hasWing: 1

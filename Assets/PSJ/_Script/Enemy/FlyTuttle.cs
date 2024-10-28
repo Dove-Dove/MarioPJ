@@ -14,6 +14,7 @@ public class FlyTuttle : Tuttle
 
         startPos = transform.position;
         gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+        currentState = State.Move;
     }
 
     void Update()
