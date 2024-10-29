@@ -136,6 +136,7 @@ public class Player_Move : MonoBehaviour
     public bool isLift;
     //상태 전달용
     public bool isKick=true;
+    public bool isPipe=false;
 
     //죽음
     private Vector2 clearVelocity=Vector2.zero;
@@ -294,8 +295,11 @@ public class Player_Move : MonoBehaviour
         else if(notInput&& !isInvincibleStar)
         {
 
-            ChangeSuperMario();
-            setChangeStatus();
+            if (curStatus != marioStatus)
+            {
+                curStatus = marioStatus;
+                setChangeStatus();
+            }
             return;
 
         }
@@ -435,6 +439,7 @@ public class Player_Move : MonoBehaviour
                 setChangeStatus();
             }
         }
+        Debug.Log("MarioStatus :" + curStatus);
     }
 
     private void FixedUpdate()
@@ -693,16 +698,26 @@ public class Player_Move : MonoBehaviour
                 {
                     case MarioStatus.NormalMario:
                         animator.Play("Mario_inpipe");
+                        isPipe=true;
                         break;
                     case MarioStatus.SuperMario:
                         animator.Play("SMario_inpipe");
+                        isPipe = true;
                         break;
                     case MarioStatus.FireMario:
-                        animator.Play("FMario_inpipe"); break;
+                        animator.Play("FMario_inpipe");
+                        isPipe = true;
+                        break;
                     case MarioStatus.RaccoonMario:
-                        animator.Play("RMario_inpipe"); break;
+                        animator.Play("RMario_inpipe");
+                        isPipe = true;
+                        break;
 
                 }
+            }
+            else
+            {
+                isPipe = false;
             }
         }
 

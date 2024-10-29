@@ -26,66 +26,72 @@ public class MarioCollision : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        //아이템
-        if(collision.collider.tag=="Items")
-        {
-            //이동불가 및 변신
-            player.NotInput = true;
-            //아이템 종류별 효과적용
-            var type = collision.gameObject.GetComponent<items>().itemtypys;
-            switch(type)
-            {
-                case Itemtypy.mushroom://버섯
-                    if(player.getMarioStatus() == MarioStatus.SuperMario 
-                        || player.getMarioStatus() == MarioStatus.RaccoonMario 
-                        || player.getMarioStatus() == MarioStatus.FireMario)
-                    {
-                        Destroy(collision.gameObject); return; //점수추가
-                    }
-                    else if (player.getMarioStatus() == MarioStatus.NormalMario)
-                    {
-                        player.setMarioStatus(MarioStatus.SuperMario);
-                        player.setChangeStatus();
-                    }
-                    break;
-                case Itemtypy.leaf://나뭇잎
-                    if (player.getMarioStatus() == MarioStatus.RaccoonMario)
-                    {
-                        Destroy(collision.gameObject); return; //점수추가
-                    }
-                    else if(player.getMarioStatus() == MarioStatus.NormalMario)
-                    {
-                        player.setMarioStatus(MarioStatus.SuperMario);
-                        player.setChangeStatus();
-                    }
-                    else
-                    {
-                        player.setMarioStatus(MarioStatus.RaccoonMario);
-                        player.setChangeStatus();
-                    }
-                    break;
-                case Itemtypy.flower://불 꽃
-                    if (player.getMarioStatus() == MarioStatus.FireMario)
-                    {
-                        Destroy(collision.gameObject); return; //점수추가
-                    }
-                    else if (player.getMarioStatus() == MarioStatus.NormalMario)
-                    {
-                        player.setMarioStatus(MarioStatus.SuperMario);
-                        player.setChangeStatus();
-                    }
-                    else
-                    {
-                        player.setMarioStatus(MarioStatus.FireMario);
-                        player.setChangeStatus();
-                    }
-                    break;
-                case Itemtypy.star://스타
-                    player.isInvincibleStar = true;
-                    break;
-            }
-            Destroy(collision.gameObject);
-        }
+        ////아이템
+        //if(collision.collider.tag=="Items")
+        //{
+        //    //이동불가 및 변신
+        //    player.NotInput = true;
+        //    //아이템 종류별 효과적용
+        //    var type = collision.gameObject.GetComponent<items>().itemtypys;
+        //    switch(type)
+        //    {
+        //        case Itemtypy.mushroom://버섯
+        //            if(player.getMarioStatus() == MarioStatus.SuperMario 
+        //                || player.getMarioStatus() == MarioStatus.RaccoonMario 
+        //                || player.getMarioStatus() == MarioStatus.FireMario)
+        //            {
+        //                Destroy(collision.gameObject); return; //점수추가
+        //            }
+        //            else if (player.getMarioStatus() == MarioStatus.NormalMario)
+        //            {
+        //                player.setMarioStatus(MarioStatus.SuperMario);
+        //                player.setChangeStatus();
+        //            }
+        //            break;
+        //        case Itemtypy.leaf://나뭇잎
+        //            if (player.getMarioStatus() == MarioStatus.RaccoonMario)
+        //            {
+        //                Debug.Log("Leaf 1");
+        //                Destroy(collision.gameObject); return; //점수추가
+        //            }
+        //            else if(player.getMarioStatus() == MarioStatus.NormalMario)
+        //            {
+        //                Debug.Log("Leaf 2");
+        //                player.setMarioStatus(MarioStatus.SuperMario);
+        //                player.setChangeStatus();
+        //                break;
+        //            }
+        //            else
+        //            {
+        //                Debug.Log("Leaf 3");
+        //                player.setMarioStatus(MarioStatus.RaccoonMario);
+        //                player.setChangeStatus();
+        //            }
+        //            break;
+        //        case Itemtypy.flower://불 꽃
+        //            if (player.getMarioStatus() == MarioStatus.FireMario)
+        //            {
+        //                Destroy(collision.gameObject); return; //점수추가
+        //            }
+        //            else if (player.getMarioStatus() == MarioStatus.NormalMario)
+        //            {
+        //                player.setMarioStatus(MarioStatus.SuperMario);
+        //                player.setChangeStatus();
+        //                break;
+        //            }
+        //            else
+        //            {
+        //                player.setMarioStatus(MarioStatus.FireMario);
+        //                player.setChangeStatus();
+        //            }
+        //            break;
+        //        case Itemtypy.star://스타
+        //            player.isInvincibleStar = true;
+        //            Destroy(collision.gameObject);
+        //            break;
+        //    }
+           
+        //}
 
         //무적상태가 아니면
         if (!player.isInvincibleStar && !player.isInvincible)
