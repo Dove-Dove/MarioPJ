@@ -146,7 +146,15 @@ public class Boo : MonoBehaviour
         rb.velocity = Vector2.zero;
         animator.SetTrigger("IsDead");
         gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+
+        Invoke("offCollider", 0.3f);
+
         Invoke("destroy", 1.0f);
+    }
+
+    void offCollider()
+    {
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
 
     void destroy()
@@ -167,6 +175,10 @@ public class Boo : MonoBehaviour
         else if(collision.gameObject.CompareTag("EnemyWall"))
         {
             movingLeft = !movingLeft;
+        }
+        else if(collision.gameObject.CompareTag("StarInvincible"))
+        {
+            booDead();
         }
         
     }
