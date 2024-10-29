@@ -8,6 +8,7 @@ public class MarioCollision : MonoBehaviour
     private PlatformEffector2D pletformCol;
     private GameObject playerCom;
     public GameObject shell;
+    public GameObject marioFoot;
     private Player_Move player;
     // Start is called before the first frame update
     void Start()
@@ -83,7 +84,6 @@ public class MarioCollision : MonoBehaviour
                     player.isInvincibleStar = true;
                     break;
             }
-            //TODO:정확한 확인과정 추가
             Destroy(collision.gameObject);
         }
 
@@ -123,9 +123,7 @@ public class MarioCollision : MonoBehaviour
             }
             else
             { player.isNoteblockJump = false; }
-
         }
-
     }
 
     private void OnCollisionStay2D(Collision2D collision)
@@ -147,7 +145,6 @@ public class MarioCollision : MonoBehaviour
         {
 
             player.isNoteblockJump = false;
- 
         }
     }
     //트리거(E_Attack)

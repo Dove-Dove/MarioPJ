@@ -29,6 +29,7 @@ public class Player_Move : MonoBehaviour
     public SpriteRenderer sprite;
     public PhysicsMaterial2D physicsMaterial;
     public GameObject tail;
+    public GameObject marioFoot;
 
     //오브젝트 가져오기용
     private GameObject tuttleShell;
@@ -647,6 +648,8 @@ public class Player_Move : MonoBehaviour
             {
                 //미끄러지기
                 gameObject.tag = "PlayerAttack";
+
+
                 if (Input.GetKeyDown(KeyCode.DownArrow))
                 {
                     animator.SetBool("isSlide", true);
@@ -665,10 +668,14 @@ public class Player_Move : MonoBehaviour
                     }
                 }
                 else
-                rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+                { 
+                    rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+                    //멈추면 발판생성(작동안함) TODO:보류 수정필요
+                    //marioFoot.SetActive(true);
+                }
             }
             else
-            { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; /*gameObject.tag = "Player";*/ }
+            { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; marioFoot.SetActive(false); }
 
         }
 
@@ -696,6 +703,16 @@ public class Player_Move : MonoBehaviour
                         animator.Play("RMario_inpipe"); break;
 
                 }
+            }
+        }
+
+        //노트블럭 감지
+        RaycastHit2D onNoteBlock = Physics2D.Raycast(transform.position, Vector2.down, 0.2f, LayerMask.GetMask("NoteBlock"));
+        if(onNoteBlock.collider != null)
+        {
+            if (Input.GetKey(KeyCode.X))
+            {
+                rigid.velocity =new Vector2(rigid.velocity.x, jumpPower * 2);
             }
         }
 
