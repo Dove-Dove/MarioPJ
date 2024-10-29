@@ -13,6 +13,7 @@ public class CameraController : MonoBehaviour
 
     private float MapAnchor;
     private Vector2 CameraPos;
+    private bool playerdead = false;
 
     // Update is called once per frame
     private void Start()
@@ -22,6 +23,8 @@ public class CameraController : MonoBehaviour
 
     void Update()
     {
+        if (playerdead)
+            return;
 
         MapAnchor = GameObject.Find("MapManager").GetComponent<mapManager>().transform.position.y;
 
@@ -33,5 +36,10 @@ public class CameraController : MonoBehaviour
 
         transform.position = targetPos;
 
+    }
+
+    public void deadCam()
+    {
+        playerdead= true;
     }
 }

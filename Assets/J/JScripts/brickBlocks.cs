@@ -32,8 +32,13 @@ public class brickBlocks : MonoBehaviour
     //큰 마리오 + 안에 코인이 있을때
     public bool getCoin = false;
 
+    //10초동안 칠수 있는 블럭
+    public bool TimeBlock = false;
+
     //사용후 이미지
     public Sprite usingBlock;
+
+    
 
 
     void Start()
@@ -72,7 +77,7 @@ public class brickBlocks : MonoBehaviour
             moveTime += Time.deltaTime;
 
         }
-       else if ( transform.position.y >= nowPos.y ) 
+       else if (notOpen && transform.position.y >= nowPos.y ) 
         {
             moveTime = 0.0f;
             transform.position = Vector2.MoveTowards(transform.position, nowPos, Time.deltaTime * 3);
@@ -94,7 +99,11 @@ public class brickBlocks : MonoBehaviour
         {
             animTime += Time.deltaTime;
             shakeBlocks = true;
-            BreakBlockSound.Play();
+            if (soundPlay == 0)
+            {
+                BreakBlockSound.Play();
+                soundPlay++;
+            }
             gameObject.GetComponent<SpriteRenderer>().enabled = false;
             BreakAnim.SetActive(true);
 

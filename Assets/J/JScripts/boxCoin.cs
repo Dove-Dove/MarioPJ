@@ -18,7 +18,7 @@ public class boxCoin : MonoBehaviour
     void Start()
     {
         nowpos = transform.position;
-        moveEndPos = nowpos + new Vector2(0, 5);
+        moveEndPos = nowpos + new Vector2(0, 3);
     }
 
     // Update is called once per frame

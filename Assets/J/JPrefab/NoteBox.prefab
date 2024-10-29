@@ -255,6 +255,7 @@ MonoBehaviour:
   Items: {fileID: 7238381641528123451}
   hitBlockSound: {fileID: 6502422648587588046}
   isItems: 0
+  Jump: 0
 --- !u!95 &2408007573688873344
 Animator:
   serializedVersion: 5
@@ -405,6 +406,7 @@ GameObject:
   - component: {fileID: 1432150720091725677}
   - component: {fileID: 3038213234129442078}
   - component: {fileID: 5725526531674099455}
+  - component: {fileID: 9053089793502953759}
   m_Layer: 0
   m_Name: NoteWell
   m_TagString: EnemyWall
@@ -537,6 +539,33 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   WallOpen: 0
+--- !u!50 &9053089793502953759
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8106743996423829251}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 6200000, guid: ffb2eab6ab2b15e489909aec189364ab, type: 2}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &8708156958913557161
 GameObject:
   m_ObjectHideFlags: 0
