@@ -117,6 +117,7 @@ public class Tuttle : Enemy
         else if (collision.gameObject.CompareTag("PlayerFire"))
         {
             DeadSound.Play();
+            Score(gameObject, score);
             currentState = State.Dead;
         }
         else if (collision.gameObject.CompareTag("MovingShell")) //움직이는 껍질과충돌
@@ -128,6 +129,7 @@ public class Tuttle : Enemy
             else if (currentState != State.Shell)
             {
                 hasWing = false;
+                Score(gameObject, score);
                 DeadSound.Play();
                 currentState = State.Dead;
             }

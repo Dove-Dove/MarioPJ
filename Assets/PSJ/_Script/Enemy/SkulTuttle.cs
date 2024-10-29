@@ -45,6 +45,7 @@ public class SkulTuttle : Tuttle
         }
         else if (collision.gameObject.CompareTag("PlayerAttack") || collision.gameObject.CompareTag("Tail"))
         {
+            Score(gameObject, score);
             currentState = State.Dead;
         }
     }
@@ -54,7 +55,7 @@ public class SkulTuttle : Tuttle
     void enemyHit()
     {
         Skulanim.SetBool("IsHit", true);
-        gameObject.tag = "Untagged";
+        Invoke("offCollider", 0.3f);
 
         reviveTime += Time.deltaTime;
         if(reviveTime >= reviveTimer)
@@ -64,6 +65,11 @@ public class SkulTuttle : Tuttle
             gameObject.tag = "Enemy";
             reviveTime = 0;
         }
-        
+    }
+
+    void offCollider()
+    {
+        gameObject.tag = "Untagged";
+
     }
 }

@@ -544,6 +544,7 @@ MonoBehaviour:
   movingLeft: 1
   wings: {fileID: 7291920726449197426}
   DeadSound: {fileID: 4903202067772683238}
+  score: {fileID: 8842184703376758735, guid: d03685dbe1a0c154a9508ad0b03c430e, type: 3}
   playerLayer:
     serializedVersion: 2
     m_Bits: 1048576

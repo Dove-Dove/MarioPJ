@@ -75,7 +75,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 5
   m_Sprite: {fileID: 420358032, guid: 15ec6ffdcd7772f4b82782afd30cd92a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -156,6 +156,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   orbitPrefab: {fileID: 4625944623431086974, guid: 605c914f429c2c641805000a66627a88, type: 3}
-  centerObject: {fileID: 0}
-  orbitRadius: 5
+  orbitRadius: 3
   spawnRadius: 10

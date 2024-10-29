@@ -15,14 +15,14 @@ public class Boss : MonoBehaviour
 
     public enum State
     {
-        Move, Attack, Hit, Dead
+        Idle, Move, Attack, Hit, Dead
     }
 
-    public State currentState = State.Attack;
+    public State currentState = State.Idle;
 
     public float moveSpeed = 3f;
-
     public LayerMask groundLayer;
+    public float range = 10f;
 
     private Rigidbody2D rb;
 
@@ -41,7 +41,7 @@ public class Boss : MonoBehaviour
     Animator animator;
 
     public AudioSource HitSound;
-
+    public GameObject score;
 
 
     // Start is called before the first frame update
@@ -64,6 +64,9 @@ public class Boss : MonoBehaviour
         
         switch(currentState)
         {
+            case State.Idle:
+                bossIdle();
+                break;
             case State.Attack:
                 bossAttack();
                 break;
@@ -78,6 +81,15 @@ public class Boss : MonoBehaviour
                 break;
         }
     }
+
+    public void bossIdle()
+    {
+        if (Vector2.Distance(transform.position, player.transform.position) < range)
+        {
+            currentState = State.Attack;
+        }
+    }
+
 
     void bossAttack()
     {
@@ -119,7 +131,7 @@ public class Boss : MonoBehaviour
     {
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
         rb.velocity = Vector2.zero;
-        Invoke("destroy", 3.0f);
+        Destroy(gameObject, 3.0f);
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -128,6 +140,8 @@ public class Boss : MonoBehaviour
             currentState == State.Move)
         {
             HitSound.Play();
+            Enemy.Score(gameObject, score);
+
 
             if (bossHp > 1)
             {

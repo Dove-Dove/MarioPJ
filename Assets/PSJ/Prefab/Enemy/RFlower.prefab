@@ -170,8 +170,7 @@ MonoBehaviour:
   Dir2: {fileID: 5554425412051128247}
   Dir3: {fileID: 502553315550428038}
   Dir4: {fileID: 4085589894537749572}
-  ScorePos: {fileID: 0}
-  score: {fileID: 0}
+  score: {fileID: 8842184703376758735, guid: d03685dbe1a0c154a9508ad0b03c430e, type: 3}
 --- !u!61 &4420564675615224171
 BoxCollider2D:
   m_ObjectHideFlags: 0

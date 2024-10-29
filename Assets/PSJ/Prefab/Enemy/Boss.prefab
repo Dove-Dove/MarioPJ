@@ -122,16 +122,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5d5e3167438ae394980c83792f4529dd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentState: 1
+  currentState: 0
   moveSpeed: 3
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  range: 10
   nextAttackTime: 0
   jumpForce: 5
   hitCoolTime: 1
   bossHp: 3
   HitSound: {fileID: 2870689202263132450}
+  score: {fileID: 8842184703376758735, guid: d03685dbe1a0c154a9508ad0b03c430e, type: 3}
 --- !u!50 &2723439505280408226
 Rigidbody2D:
   serializedVersion: 4

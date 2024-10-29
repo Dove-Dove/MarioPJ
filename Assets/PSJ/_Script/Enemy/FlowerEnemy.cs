@@ -44,7 +44,6 @@ public class FlowerEnemy : MonoBehaviour
     public Transform Dir3;
     public Transform Dir4;
 
-    public Transform ScorePos;
     public GameObject score;
 
     // Start is called before the first frame update
@@ -184,7 +183,7 @@ public class FlowerEnemy : MonoBehaviour
         {
             if (!animator.GetBool("IsHide"))
             {
-                GameObject projectile = Instantiate(score, ScorePos.position, Quaternion.identity);
+                Enemy.Score(gameObject, score);
                 animator.SetTrigger("IsDead");
 
                 gameObject.SetActive(false);

@@ -31,9 +31,9 @@ public class Lava : MonoBehaviour
 
     void Update()
     {
-        //if(player != null)
+        if(player != null)
         {
-            //if (Vector2.Distance(transform.position, player.position) < range)
+            if (Vector2.Distance(transform.position, player.position) < range)
             {
                 if (Time.time >= nextJumpTime && !isJumping)
                 {

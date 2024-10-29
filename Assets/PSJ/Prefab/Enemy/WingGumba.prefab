@@ -204,6 +204,7 @@ MonoBehaviour:
   movingLeft: 1
   wings: {fileID: 8669840533290037523}
   DeadSound: {fileID: 7831402883876151090}
+  score: {fileID: 8842184703376758735, guid: d03685dbe1a0c154a9508ad0b03c430e, type: 3}
 --- !u!61 &7216777945344596723
 BoxCollider2D:
   m_ObjectHideFlags: 0

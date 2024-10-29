@@ -42,7 +42,6 @@ public class Boo : MonoBehaviour
 
     private bool movingLeft = true;
 
-    public Transform ScorePos;
     public GameObject score;
 
     // Start is called before the first frame update
@@ -149,7 +148,7 @@ public class Boo : MonoBehaviour
         animator.SetTrigger("IsDead");
         gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
 
-        GameObject projectile = Instantiate(score, ScorePos.position, Quaternion.identity);
+        Enemy.Score(gameObject, score);
 
         Invoke("offCollider", 0.3f);
 

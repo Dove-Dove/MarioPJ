@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 
 public class Enemy : MonoBehaviour
 {
@@ -48,7 +49,6 @@ public class Enemy : MonoBehaviour
     protected bool attackedbyTail;
     protected GameObject player;
 
-    protected Transform ScorePos;
     public GameObject score;
     //protected GameManager gameManager;
 
@@ -251,6 +251,7 @@ public class Enemy : MonoBehaviour
         {
             DeadSound.Play();
             hasWing = false;
+            Score(gameObject,score);
             currentState = State.Dead;
         }
         else if (collision.gameObject.CompareTag("Shell"))
@@ -273,11 +274,15 @@ public class Enemy : MonoBehaviour
                     animator.SetTrigger("IsDead");
                     rb.gravityScale = 0;
                     rb.velocity = Vector2.zero;
+                    Score(gameObject, score);
+
                 }
                 else if (collision.gameObject.CompareTag("Tail"))
                 {
                     Jump();
                     animator.SetTrigger("IsDead2");
+                    Score(gameObject, score);
+
                 }
                 currentState = State.Dead;
             }
@@ -300,11 +305,6 @@ public class Enemy : MonoBehaviour
 
     public void enemyDead()
     {
-        ScorePos.position = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + 0.8f);
-
-        GameObject projectile = Instantiate(score, ScorePos.position, Quaternion.identity);
-
-
         Invoke("offCollider", 0.3f);
         Invoke("destroy", 1.0f);
     }
@@ -318,9 +318,11 @@ public class Enemy : MonoBehaviour
     {
         gameObject.GetComponent<BoxCollider2D>().enabled = false;
     }
+
+    public static void Score(GameObject gameObject,GameObject Score)
+    {
+        Vector3 scorePos = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y + 0.8f, gameObject.transform.position.z);
+
+        GameObject projectile = Instantiate(Score, scorePos, Quaternion.identity);
+    }
 }
-
-/*
-    경사면 처리
-*/
-
