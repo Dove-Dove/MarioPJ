@@ -14,6 +14,10 @@ public class Lava : MonoBehaviour
 
     protected bool movingup = true;
 
+    protected Transform player;
+    public float range = 10f;
+
+
     private Rigidbody2D rb;
     Animator animator;
 
@@ -22,20 +26,23 @@ public class Lava : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponent<Animator>();
         nextJumpTime = Time.time + jumpInterveal;
-
+        player = GameObject.FindGameObjectWithTag("Player").transform;
     }
 
     void Update()
     {
-        
-
-
-        if (Time.time >= nextJumpTime && !isJumping)
+        //if(player != null)
         {
-            Jump();
-            nextJumpTime = Time.time + jumpInterveal;
-            isJumping = false;
-            Invoke("setAnim", 1.0f);
+            //if (Vector2.Distance(transform.position, player.position) < range)
+            {
+                if (Time.time >= nextJumpTime && !isJumping)
+                {
+                    Jump();
+                    nextJumpTime = Time.time + jumpInterveal;
+                    isJumping = false;
+                    Invoke("setAnim", 1.0f);
+                }
+            }
         }
     }
 

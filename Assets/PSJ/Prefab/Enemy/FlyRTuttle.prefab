@@ -159,6 +159,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 7338725033221852880}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2667577845640263355
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2173441078177483023}
+  m_Layer: 0
+  m_Name: ScorePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2173441078177483023
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2667577845640263355}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 7338725033221852880}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3862766115793756759
 GameObject:
   m_ObjectHideFlags: 0
@@ -260,6 +291,7 @@ Transform:
   - {fileID: 2092108876057871919}
   - {fileID: 6796508289194563548}
   - {fileID: 8534237753855467372}
+  - {fileID: 2173441078177483023}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4184562355859570042
@@ -427,12 +459,20 @@ MonoBehaviour:
   slopeLayer:
     serializedVersion: 2
     m_Bits: 128
+  noteLayer:
+    serializedVersion: 2
+    m_Bits: 0
   groundDetect1: {fileID: 9096177835863650860}
   groundDetect2: {fileID: 2092108876057871919}
   hasWing: 1
   movingLeft: 1
   wings: {fileID: 3862766115793756759}
   DeadSound: {fileID: 6946230859917655035}
+  ScorePos: {fileID: 2173441078177483023}
+  score: {fileID: 8842184703376758735, guid: d03685dbe1a0c154a9508ad0b03c430e, type: 3}
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &9038356141781564198
 GameObject:
   m_ObjectHideFlags: 0

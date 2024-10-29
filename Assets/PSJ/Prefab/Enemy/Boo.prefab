@@ -38,6 +38,7 @@ Transform:
   - {fileID: 1398314015957050570}
   - {fileID: 1402373451762189234}
   - {fileID: 4679302882419474902}
+  - {fileID: 927653790190011632}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &4230422909523711711
@@ -202,6 +203,7 @@ MonoBehaviour:
   groundLayer:
     serializedVersion: 2
     m_Bits: 64
+  range: 15
   inRange: 0
   nextAttackTime: 0
   projectileSpeed: 10
@@ -211,6 +213,8 @@ MonoBehaviour:
   ThrowDistance: {fileID: 4679302882419474902}
   DeadSound: {fileID: 3438469355626203392}
   ThrowSound: {fileID: 5571363608988388135}
+  ScorePos: {fileID: 927653790190011632}
+  score: {fileID: 8842184703376758735, guid: d03685dbe1a0c154a9508ad0b03c430e, type: 3}
 --- !u!1 &5482394750858384115
 GameObject:
   m_ObjectHideFlags: 0
@@ -370,6 +374,37 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!1 &7986069093475759443
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 927653790190011632}
+  m_Layer: 0
+  m_Name: ScorePos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &927653790190011632
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7986069093475759443}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.8, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1059197562887880578}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8307164303249109094
 GameObject:
   m_ObjectHideFlags: 0

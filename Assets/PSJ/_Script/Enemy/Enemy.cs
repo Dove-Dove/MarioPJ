@@ -48,6 +48,10 @@ public class Enemy : MonoBehaviour
     protected bool attackedbyTail;
     protected GameObject player;
 
+    protected Transform ScorePos;
+    public GameObject score;
+    //protected GameManager gameManager;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -56,6 +60,7 @@ public class Enemy : MonoBehaviour
         nextJumpTime = Time.time + jumpInterveal;
         player = GameObject.Find("Mario");
         currentState = State.Idle;
+        //gameManager = GameManager.Instance;
     }
 
     // Update is called once per frame
@@ -295,6 +300,11 @@ public class Enemy : MonoBehaviour
 
     public void enemyDead()
     {
+        ScorePos.position = new Vector2(gameObject.transform.position.x, gameObject.transform.position.y + 0.8f);
+
+        GameObject projectile = Instantiate(score, ScorePos.position, Quaternion.identity);
+
+
         Invoke("offCollider", 0.3f);
         Invoke("destroy", 1.0f);
     }
