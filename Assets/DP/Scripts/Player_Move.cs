@@ -7,7 +7,7 @@ using UnityEditor.Tilemaps;
 using UnityEditor.XR;
 using UnityEngine;
 using static UnityEngine.EventSystems.PointerEventData;
-using static UnityEngine.RuleTile.TilingRuleOutput;
+
 
 public enum MarioStatus
 {
@@ -84,6 +84,8 @@ public class Player_Move : MonoBehaviour
     private float moveTimer = 0;
     private float jumpTimer = 0;
     public float animAccel = 0;
+    private float angle;
+    private Vector2 perp;
 
     //littleMario
     public float Velocity = 20;
@@ -216,15 +218,15 @@ public class Player_Move : MonoBehaviour
         //마리오 시작 Status
         //상태 및 hp적용
         StartMarioStatusAnim(StartMarioStatus);
-
+        //마리오 상태변화 감지용
+        curStatus = marioStatus;
     }
 
     void Start()
     {
         //시작 시 오른쪽으로
         FlipPlayer(true);
-        //마리오 상태변화 감지용
-        curStatus = marioStatus;
+
         //애니메이션 최고속도 설정
         addedMaxAnimSpeed =maxAnimSpeed;
         //이동최고속도 설정
@@ -601,7 +603,13 @@ public class Player_Move : MonoBehaviour
         }
 
         //언덕위에 있을 때 
-        RaycastHit2D onDownhill = Physics2D.Raycast(rigid.position, Vector2.down, hillRayLen, LayerMask.GetMask("DownHill"));
+        RaycastHit2D onDownhill = Physics2D.Raycast(transform.position, Vector2.down, hillRayLen, LayerMask.GetMask("DownHill"));
+        perp= Vector2.Perpendicular(onDownhill.normal).normalized;
+        angle = Vector2.Angle(onDownhill.normal, Vector2.up);
+        Debug.DrawRay(onDownhill.point, onDownhill.point + onDownhill.normal, Color.blue);
+        Debug.DrawRay(onDownhill.point, onDownhill.point + perp, Color.red);
+        
+
         if (onDownhill.collider != null)
         {
             //Debug.Log(onDownhill.collider.name);
@@ -787,8 +795,8 @@ public class Player_Move : MonoBehaviour
         {
             //킥 안되도록
             isKick = false;
-
-            addedLimitVelocity = LimitVelocity + addLimitVelocity;
+            if(onGround)
+                addedLimitVelocity = LimitVelocity + addLimitVelocity;
             //액션키 누르면 최대속도 addAnimSpeed 만큼 추가
             //공중이 아닐 때
             if(!onAir)
@@ -1030,31 +1038,40 @@ public class Player_Move : MonoBehaviour
     }
 
     //TODO:수정필요
+
     IEnumerator StartDeathAnim()
     {
         yield return new WaitForSecondsRealtime(1f);
-        //올라갈 때
+
+        // 올라갈 때
         float h = 0;
         float addH = 0;
-        while(addH < 5)
+        float targetHeightUp = 5f;  // 목표 높이
+        float moveSpeedUp = 10f;     // 일정한 속도
+
+        while (addH < targetHeightUp)
         {
-            h = Time.unscaledDeltaTime * 50f;
-            transform.position = new Vector2(transform.position.x, transform.position.y + h );
-            addH += h ;
+            h = moveSpeedUp * Time.unscaledDeltaTime;  // 고정된 속도에 따른 움직임
+            transform.position = new Vector2(transform.position.x, transform.position.y + h);
+            addH += h;
             yield return new WaitForSecondsRealtime(0.01f);
         }
+
+        // 내려갈 때
         h = 0;
         addH = 0;
-        //내려갈 때
-        while(addH < 20)
-        {
-            h = Time.unscaledDeltaTime * 50f;
-            transform.position = new Vector2(transform.position.x, transform.position.y - h );
-            addH += h ;
-            yield return new WaitForSecondsRealtime(0.01f);
-        }        
+        float targetHeightDown = 20f;  // 목표 하강 거리
+        float moveSpeedDown = 15f;      // 일정한 속도 (하강 시)
 
+        while (addH < targetHeightDown)
+        {
+            h = moveSpeedDown * Time.unscaledDeltaTime;  // 고정된 속도에 따른 하강
+            transform.position = new Vector2(transform.position.x, transform.position.y - h);
+            addH += h;
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
     }
+
     //P 차지및 판단
     void TurnOnP()
     {
@@ -1291,41 +1308,30 @@ public class Player_Move : MonoBehaviour
     //파이어 마리오 이펙트
     public void ChangeFireMario()
     {
-        if (invisibleTimeCount1 > 3)
+        if (invisibleTimeCount1 > 7)
         {
             StopCoroutine("Blink");
-            sprite.material.color = originalColor;
+            GetComponent<SpriteRenderer>().material.color = originalColor;
             invisibleTimeCount2 = 0;
             effectOn = false;
         }
         else
         {
             invisibleTimeCount2 += Time.unscaledDeltaTime;
-            cutTimeCount += Time.unscaledDeltaTime;
-            if (cutTimeCount > 0.05f)
-            {
-                StartCoroutine(ChangeFireMarioEffect());
-                invisibleCount++;
-                cutTimeCount = 0;
-            }
+            StartCoroutine(ChangeFireMarioEffect());
+            invisibleCount++;
         }
     }
 
     private IEnumerator ChangeFireMarioEffect()
     {
-        int num = invisibleCount;
-
-        if (0 == num % 4)
+        if (0 == invisibleCount % 3)
         {
-            GetComponent<SpriteRenderer>().material.color = Color1;
+            GetComponent<SpriteRenderer>().material.color = new Color(originalColor.r, 0.5f - originalColor.g, 0.5f - originalColor.b, 255);
         }
-        else if (1 == num % 4)
+        else if (1 == invisibleCount % 3)
         {
-            GetComponent<SpriteRenderer>().material.color = Color2;
-        }
-        else if (2 == num % 4)
-        {
-            GetComponent<SpriteRenderer>().material.color = Color3;
+            GetComponent<SpriteRenderer>().material.color = new Color(102, originalColor.g, 102, 255);
         }
         else
         {
@@ -1356,6 +1362,7 @@ public class Player_Move : MonoBehaviour
                 UpdateMarioStatusAndHP(MarioStatus.RaccoonMario);
                 break;
         }
+
     }
 
     // 박스캐스트 디버그용

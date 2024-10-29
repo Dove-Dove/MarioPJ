@@ -1347,8 +1347,9 @@ MonoBehaviour:
   mario_AddedJumpPowLevel: 2.5
   isSuperMario: 0
   isLittleMario: 0
-  marioStatus: 3
-  hp: 0
+  marioStatus: 1
+  StartMarioStatus: 0
+  marioHp: 0
   isFireMario: 0
   isRaccoonMario: 0
   isInvincible: 0
@@ -1392,7 +1393,6 @@ MonoBehaviour:
   isLift: 0
   isKick: 1
   stopMoment: 0
-  marioHp: 0
   jumpSound: {fileID: 1074671512603017806}
   turnSound: {fileID: 8112689971012946348}
   powerUpSound: {fileID: 2872304124451691269}
