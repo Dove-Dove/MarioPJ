@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     public AudioClip[] AllSound;
 
     public int GameClearStage = 0;
+    public int GameCurrentStage = 0;
 
 
     private void Awake()
@@ -100,6 +101,21 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "SelectScene")
             return;
+
+        // 선택 스테이지 
+        {
+            if (SceneManager.GetActiveScene().name == "Map1-1")
+                GameCurrentStage = 1;
+            else if (SceneManager.GetActiveScene().name == "Map1-2")
+                GameCurrentStage = 2;
+            else if (SceneManager.GetActiveScene().name == "Map1-3")
+                GameCurrentStage = 3;
+            else if (SceneManager.GetActiveScene().name == "Map1-4")
+                GameCurrentStage = 4;
+            else if (SceneManager.GetActiveScene().name == "MapBoss")
+                GameCurrentStage = 5;
+        }
+
 
         if (Player == null)
         {

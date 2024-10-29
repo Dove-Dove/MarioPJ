@@ -11,7 +11,7 @@ public class deadZone : MonoBehaviour
     {
         if(collision.gameObject.tag == "Player")
         {
-            GameObject.Find("Mario").GetComponent<Player_Move>().setMarioStatus(MarioStatus.Clear);
+            GameObject.Find("Mario").GetComponent<Player_Move>().setMarioStatus(MarioStatus.Death);
         }
         else
             collision.gameObject.SetActive(false);

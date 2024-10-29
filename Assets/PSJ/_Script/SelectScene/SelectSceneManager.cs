@@ -51,7 +51,7 @@ public class SelectSceneManager : MonoBehaviour
         gameManager = GameManager.Instance;
 
         clearStage = gameManager.GameClearStage;
-        //currentStage = gameManager.GameCurrentStage;
+        currentStage = gameManager.GameCurrentStage;
         //clearStage = 0;
     }
 
@@ -92,7 +92,7 @@ public class SelectSceneManager : MonoBehaviour
                     //SceneManager.CreateScene("Map1-1"); //씬전환
                     SceneManager.LoadScene("Map1-1");
                     //클리어했다면
-                    gameManager.GameClearStage = 1;
+                    //gameManager.GameClearStage = 1;
                     //gameManager.GameCurrentStage = 1;
                   
                 }
@@ -135,6 +135,7 @@ public class SelectSceneManager : MonoBehaviour
                 {
                     Debug.Log("Map1-2");
                     //SceneManager.CreateScene("Map1-2"); //씬전환
+                    SceneManager.LoadScene("Map1-2");
                     //클리어했다면
                     clearStage = 2;
                     map2Obj.GetComponent<SpriteRenderer>().enabled = true;

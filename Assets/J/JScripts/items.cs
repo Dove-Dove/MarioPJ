@@ -28,18 +28,27 @@ public class items : MonoBehaviour
     private float moveTime = 0 ;
 
     bool openItem = true;
+    private GameManager gameManager;
 
 
 
     void Start()
     {
-        if(itemtypys != Itemtypy.leaf)
+        gameManager = GameManager.Instance;
+        if (gameManager.Player_State == 1)
+        {
+            itemtypys = Itemtypy.mushroom;
+        }
+
+        if (itemtypys != Itemtypy.leaf)
             target = new Vector2(transform.position.x, transform.position.y+1);
         else
             target = new Vector2(transform.position.x, transform.position.y + 3);
         randomWay = (Random.value > 0.5f);
         GetComponent<BoxCollider2D>().enabled = false;
         GetComponent<Rigidbody2D>().gravityScale = 0;
+
+        
     }
 
     // Update is called once per frame
