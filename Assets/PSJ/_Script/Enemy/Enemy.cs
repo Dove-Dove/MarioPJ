@@ -90,7 +90,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-        public void enemyMove()
+    public void enemyMove()
     {
         Vector2 direction = movingLeft ? Vector2.left : Vector2.right;
 
@@ -111,7 +111,7 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            fronthit = Physics2D.Raycast(groundDetect1.position, Vector2.right, 0.1f, slopeLayer);
+            fronthit = Physics2D.Raycast(groundDetect2.position, Vector2.right, 0.1f, slopeLayer);
             //Debug.DrawLine(fronthit.point, Vector2.right, Color.magenta);
         }
 
@@ -171,18 +171,26 @@ public class Enemy : MonoBehaviour
 
         if(movingLeft)
         {
-            blockCheck = Physics2D.Raycast(groundDetect1.position, Vector2.left, 0.3f, groundLayer);
-            noteCheck = Physics2D.Raycast(groundDetect1.position, Vector2.left, 0.3f, noteLayer);
+            blockCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.left, 0.8f, groundLayer);
+            noteCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.left, 0.8f, noteLayer);
         }
         else
         {
-            blockCheck = Physics2D.Raycast(groundDetect1.position, Vector2.right, 0.3f, groundLayer);
-            noteCheck = Physics2D.Raycast(groundDetect1.position, Vector2.right, 0.3f, noteLayer);
+            blockCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.right, 0.8f, groundLayer);
+            noteCheck = Physics2D.Raycast(gameObject.transform.position, Vector2.right, 0.8f, noteLayer);
         }
 
-        if (blockCheck && blockCheck.collider.CompareTag("Box"))
+        if (blockCheck)
         {
-            Flip();
+            if(blockCheck.collider.CompareTag("Box"))
+            {
+                Flip();
+            }
+            else if(blockCheck.collider.name.Contains("Spawn"))
+            {
+
+                Flip();
+            }
         }
 
         if (noteCheck)
@@ -287,7 +295,7 @@ public class Enemy : MonoBehaviour
 
     public void enemyDead()
     {
-        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+        Invoke("offCollider", 0.3f);
         Invoke("destroy", 1.0f);
     }
 
@@ -296,6 +304,10 @@ public class Enemy : MonoBehaviour
         gameObject.SetActive(false);
     }
 
+    void offCollider()
+    {
+        gameObject.GetComponent<BoxCollider2D>().enabled = false;
+    }
 }
 
 /*

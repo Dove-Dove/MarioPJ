@@ -34,17 +34,15 @@ public class SelectSceneManager : MonoBehaviour
 
     void Awake()
     {
-    }
-
-    void Start()
-    {
-        Player.transform.position = StartPos.position;
         map1Pos = map1Obj.transform;
         map2Pos = map2Obj.transform;
         map3Pos = map3Obj.transform;
         map4Pos = map4Obj.transform;
         mapBossPos = mapBossObj.transform;
+    }
 
+    void Start()
+    {
         if (Time.timeScale == 0)
             Time.timeScale = 1;
 
@@ -52,11 +50,46 @@ public class SelectSceneManager : MonoBehaviour
 
         clearStage = gameManager.GameClearStage;
         currentStage = gameManager.GameCurrentStage;
+
+        switch(currentStage)
+        {
+            case 0:
+                Player.transform.position = StartPos.position;
+                break;
+            case 1:
+                Player.transform.position = map1Pos.position;
+                break;
+            case 2:
+                Player.transform.position = map2Pos.position;
+                break;
+            case 3:
+                Player.transform.position = map3Pos.position;
+                break;
+            case 4:
+                Player.transform.position = map4Pos.position;
+                break;
+            case 5:
+                Player.transform.position = mapBossPos.position;
+                break;
+        }
         //clearStage = 0;
     }
 
     void Update()
     {
+        if(clearStage >= 1)
+        {
+            map1Obj.GetComponent<SpriteRenderer>().enabled = true;
+            if(clearStage>=2)
+                map2Obj.GetComponent<SpriteRenderer>().enabled = true;
+            if(clearStage>=3)
+                map3Obj.GetComponent<SpriteRenderer>().enabled = true;
+            if(clearStage>=4)
+                map4Obj.GetComponent<SpriteRenderer>().enabled = true;
+            if(clearStage>=5)
+                mapBossObj.GetComponent<SpriteRenderer>().enabled = true;
+
+        }
         //Debug.Log("currentStage = " + currentStage);
         //Debug.Log("OnRoad: " + onRoad);
         switch (currentStage)
@@ -88,18 +121,10 @@ public class SelectSceneManager : MonoBehaviour
                 }
                 else if(Input.GetKeyDown(KeyCode.Z) && !onRoad)
                 {
-                    Debug.Log("Map1-1");
-                    //SceneManager.CreateScene("Map1-1"); //씬전환
                     SceneManager.LoadScene("Map1-1");
-                    //클리어했다면
-                    //gameManager.GameClearStage = 1;
-                    //gameManager.GameCurrentStage = 1;
-                  
                 }
                 if (clearStage >= 1)
                 {
-                    map1Obj.GetComponent<SpriteRenderer>().enabled = true;
-
                     if (Input.GetKeyDown(KeyCode.RightArrow) && !onRoad)
                     {
                         Player.transform.position = new Vector2(mapBossPos.position.x, map1Pos.position.y);
@@ -133,12 +158,8 @@ public class SelectSceneManager : MonoBehaviour
                 }
                 else if(Input.GetKeyDown(KeyCode.Z) && !onRoad)
                 {
-                    Debug.Log("Map1-2");
-                    //SceneManager.CreateScene("Map1-2"); //씬전환
                     SceneManager.LoadScene("Map1-2");
-                    //클리어했다면
                     clearStage = 2;
-                    map2Obj.GetComponent<SpriteRenderer>().enabled = true;
                 }
                 if (clearStage >= 2)
                 {
@@ -195,11 +216,8 @@ public class SelectSceneManager : MonoBehaviour
                 }
                 else if (Input.GetKeyDown(KeyCode.Z) && !onRoad)
                 {
-                    Debug.Log("Map1-3");
-                    //SceneManager.CreateScene("Map1-3"); 씬전환
-                    //클리어했다면
+                    SceneManager.LoadScene("Map1-3");
                     clearStage = 3;
-                    map3Obj.GetComponent<SpriteRenderer>().enabled = true;
                 }
                 break;
 
@@ -229,11 +247,8 @@ public class SelectSceneManager : MonoBehaviour
                 }
                 else if(Input.GetKeyDown(KeyCode.Z) && !onRoad && clearStage >= 3)
                 {
-                    Debug.Log("Map1-4");
-                    //SceneManager.CreateScene("Map1-4"); 씬전환
-                    //클리어했다면
+                    SceneManager.LoadScene("Map1-4");
                     clearStage = 4;
-                    map4Obj.GetComponent<SpriteRenderer>().enabled = true;
                 }
                 if(clearStage >= 4)
                 {
@@ -292,12 +307,8 @@ public class SelectSceneManager : MonoBehaviour
                 }
                 else if(Input.GetKeyDown(KeyCode.Z) && !onRoad && !itemStage)
                 {
-                    Debug.Log("MapBoss");
-                    //SceneManager.CreateScene("MapBoss"); 씬전환
-                    //클리어했다면
+                    SceneManager.LoadScene("MapBoss");
                     clearStage = 5;
-                    mapBossObj.GetComponent<SpriteRenderer>().enabled = true;
-
                 }
                 break;
         }        

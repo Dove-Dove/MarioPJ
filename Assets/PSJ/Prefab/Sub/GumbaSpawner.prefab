@@ -136,7 +136,7 @@ MonoBehaviour:
   spawnPos1: {fileID: 2822553989769608315}
   spawnPos2: {fileID: 6409232472485295630}
   nextSpawnTime: 0
-  spawnCooldown: 2
+  spawnCooldown: 3
   playerLayer:
     serializedVersion: 2
     m_Bits: 1048576

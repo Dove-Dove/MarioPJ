@@ -4,34 +4,53 @@ using UnityEngine;
 
 public class SelectPlayerState : MonoBehaviour
 {
-    public MarioStatus status;
+    private GameManager gameManager;
 
     Animator animator;
 
     // Start is called before the first frame update
     void Start()
     {
+        gameManager = GameManager.Instance;
         animator = GetComponent<Animator>();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(status == MarioStatus.SuperMario)
+        if(gameManager != null)
         {
-            animator.SetBool("IsSuper", true);
-        }
-        else if(status == MarioStatus.RaccoonMario) 
-        {
-            animator.SetBool("IsRaccoon", true);
-        }
-        else if(status == MarioStatus.FireMario)
-        {
-            animator.SetBool("IsFire", true);
-        }
-        else
-        {
-            animator.SetBool("IsNormal", true);
+            if(gameManager.Player_State == 1)
+            {
+                animator.SetBool("IsNormal", true);
+                animator.SetBool("IsSuper", false);
+                animator.SetBool("IsFire", false);
+                animator.SetBool("IsRaccoon", false);
+
+            }
+            else if(gameManager.Player_State == 2)
+            {
+                animator.SetBool("IsSuper", true);
+                animator.SetBool("IsNormal", false);
+                animator.SetBool("IsFire", false);
+                animator.SetBool("IsRaccoon", false);
+
+            }
+            else if (gameManager.Player_State == 3)
+            {
+                animator.SetBool("IsFire", true);
+                animator.SetBool("IsNormal", false);
+                animator.SetBool("IsSuper", false);
+                animator.SetBool("IsRaccoon", false);
+
+            }
+            else if (gameManager.Player_State == 4)
+            {
+                animator.SetBool("IsRaccoon", true);
+                animator.SetBool("IsNormal", false);
+                animator.SetBool("IsSuper", false);
+                animator.SetBool("IsFire", false);
+            }
         }
     }
 }
