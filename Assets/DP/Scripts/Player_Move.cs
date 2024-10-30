@@ -165,6 +165,8 @@ public class Player_Move : MonoBehaviour
     private bool isTailAttackSound=false;
     public AudioSource FireSound;
     private bool isFireSound = false;
+    public AudioSource PipeSound;
+    private bool isPipeSound = false;
     //===이펙트
     [SerializeField]
     private float invisibleTimeCount1 = 0;
@@ -257,7 +259,8 @@ public class Player_Move : MonoBehaviour
                 //마리오 사망처리
                 if(!isDeadSound)
                 {
-                    MarioDeath();
+                    marioStatus = MarioStatus.Death;
+                    setChangeStatus();
                 }
                 //씬전환 혹은 사망신호
                 animator.SetBool("isDead", true);
@@ -519,6 +522,7 @@ public class Player_Move : MonoBehaviour
     void Jump()
     {
         //TODO:다시 조정
+        isJump = true;//점프시작 확인용
         jumpTimer += Time.deltaTime;
         //버튼입력확인용.
         onceInputJumpBoutton = true;
@@ -564,6 +568,7 @@ public class Player_Move : MonoBehaviour
             //Debug.Log("onGround");
             onAir = false;
             onGround = true;//뱡향전환효과 온오프용
+            isJump = false;//점프 시작 확인용
             noDoubleJump = false;//점프입력가능
             isJumpInput = true;
             animator.SetBool("isJump", false);
@@ -649,7 +654,7 @@ public class Player_Move : MonoBehaviour
 
             //언덕위에서 이동입력없으면 정지
 
-            if (input_x == 0 &&!isSilding &&!onAir)
+            if (input_x == 0 &&!isSilding &&!onAir &&!isJump)
             {
                 //미끄러지기
                 gameObject.tag = "PlayerAttack";
@@ -684,10 +689,19 @@ public class Player_Move : MonoBehaviour
 
         }
 
-        //파이프 애니메이션 동작
+        //==파이프 애니메이션 동작
         //필요시 머리도 감지해서 작동할 수 있도록
-        RaycastHit2D onPipe = Physics2D.Raycast(rigid.position, Vector2.down, hillRayLen, LayerMask.GetMask("Pipe"));
-        if(onPipe.collider !=null)
+        RaycastHit2D downPipe   = Physics2D.Raycast(rigid.position, Vector2.down, hillRayLen, LayerMask.GetMask("Pipe"));
+        RaycastHit2D upPipe     = Physics2D.Raycast(rigid.position + new Vector2(0 , 1), Vector2.up, hillRayLen, LayerMask.GetMask("Pipe"));
+        RaycastHit2D leftPipe   = Physics2D.Raycast(rigid.position + new Vector2(-1, 0), Vector2.left, hillRayLen, LayerMask.GetMask("Pipe"));
+        RaycastHit2D rightPipe  = Physics2D.Raycast(rigid.position + new Vector2(1, 0), Vector2.right, hillRayLen, LayerMask.GetMask("Pipe"));
+
+        Debug.DrawRay(rigid.position, new Vector2(0, -hillRayLen), new Color(0, 0, 1));
+        Debug.DrawRay(rigid.position + new Vector2(0, 1), new Vector2(0, hillRayLen), new Color(0, 0, 1));
+        Debug.DrawRay(rigid.position + new Vector2(-1, 0), new Vector2(hillRayLen, 0), new Color(0, 0, 1));
+        Debug.DrawRay(rigid.position + new Vector2(1, 0), new Vector2(-hillRayLen, 0), new Color(0, 0, 1));
+        //아래 파이프
+        if (downPipe.collider !=null)
         {
             //앉기
             if (Input.GetKey(KeyCode.DownArrow))
@@ -698,18 +712,137 @@ public class Player_Move : MonoBehaviour
                 {
                     case MarioStatus.NormalMario:
                         animator.Play("Mario_inpipe");
-                        isPipe=true;
+                        PipeAction("Down");
+                        isPipe =true;
                         break;
                     case MarioStatus.SuperMario:
                         animator.Play("SMario_inpipe");
+                        PipeAction("Down");
                         isPipe = true;
                         break;
                     case MarioStatus.FireMario:
                         animator.Play("FMario_inpipe");
+                        PipeAction("Down");
                         isPipe = true;
                         break;
                     case MarioStatus.RaccoonMario:
                         animator.Play("RMario_inpipe");
+                        PipeAction("Down");
+                        isPipe = true;
+                        break;
+
+                }
+            }
+            else
+            {
+                isPipe = false;
+            }
+        }
+        //Up Pipe
+        if (upPipe.collider != null)
+        {
+            //앉기
+            if (Input.GetKey(KeyCode.UpArrow))
+            {
+                //timeScale을 조정할지는 차후
+                //마리오 상태별 애니메이션으로 바로 전환
+                switch (marioStatus)
+                {
+                    case MarioStatus.NormalMario:
+                        animator.Play("Mario_inpipe");
+                        PipeAction("Up");
+                        isPipe = true;
+                        break;
+                    case MarioStatus.SuperMario:
+                        animator.Play("SMario_inpipe");
+                        PipeAction("Up");
+                        isPipe = true;
+                        break;
+                    case MarioStatus.FireMario:
+                        animator.Play("FMario_inpipe");
+                        PipeAction("Up");
+                        isPipe = true;
+                        break;
+                    case MarioStatus.RaccoonMario:
+                        animator.Play("RMario_inpipe");
+                        PipeAction("Up");
+                        isPipe = true;
+                        break;
+
+                }
+            }
+            else
+            {
+                isPipe = false;
+            }
+        }
+
+        //left Pipe
+        if (rightPipe.collider != null)
+        {
+            //앉기
+            if (Input.GetKey(KeyCode.RightArrow))
+            {
+                //timeScale을 조정할지는 차후
+                //마리오 상태별 애니메이션으로 바로 전환
+                switch (marioStatus)
+                {
+                    case MarioStatus.NormalMario:
+                        animator.Play("LMario_run");
+                        PipeAction("Right");
+                        isPipe = true;
+                        break;
+                    case MarioStatus.SuperMario:
+                        animator.Play("SMario_run");
+                        PipeAction("Right");
+                        isPipe = true;
+                        break;
+                    case MarioStatus.FireMario:
+                        animator.Play("FMario_run");
+                        PipeAction("Right");
+                        isPipe = true;
+                        break;
+                    case MarioStatus.RaccoonMario:
+                        animator.Play("RMario_run");
+                        PipeAction("Right");
+                        isPipe = true;
+                        break;
+
+                }
+            }
+            else
+            {
+                isPipe = false;
+            }
+        }
+
+        //left Pipe
+        if (leftPipe.collider != null)
+        {
+            if (Input.GetKey(KeyCode.LeftArrow))
+            {
+                //timeScale을 조정할지는 차후
+                //마리오 상태별 애니메이션으로 바로 전환
+                switch (marioStatus)
+                {
+                    case MarioStatus.NormalMario:
+                        animator.Play("LMario_run");
+                        PipeAction("Left");
+                        isPipe = true;
+                        break;
+                    case MarioStatus.SuperMario:
+                        animator.Play("SMario_run");
+                        PipeAction("Left");
+                        isPipe = true;
+                        break;
+                    case MarioStatus.FireMario:
+                        animator.Play("FMario_run");
+                        PipeAction("Left");
+                        isPipe = true;
+                        break;
+                    case MarioStatus.RaccoonMario:
+                        animator.Play("RMario_run");
+                        PipeAction("Left");
                         isPipe = true;
                         break;
 
@@ -1069,8 +1202,6 @@ public class Player_Move : MonoBehaviour
 
     }
 
-    //TODO:수정필요
-
     IEnumerator StartDeathAnim()
     {
         yield return new WaitForSecondsRealtime(1f);
@@ -1104,6 +1235,130 @@ public class Player_Move : MonoBehaviour
         }
     }
 
+    //파이프용 액션
+    void PipeAction(String dir)
+    {
+        if (!isPipe)
+        {
+            Time.timeScale = 0;
+            //히트박스끄기
+            hitBox.enabled = false;
+            if (dir == "Down")
+                StartCoroutine(StartDownPipeAnim());
+            else if (dir == "Up")
+                StartCoroutine(StartUpPipeAnim());
+            else if (dir == "Right")
+                StartCoroutine(StartRightPipeAnim());
+            else if (dir == "Left")
+                StartCoroutine(StartLeftPipeAnim());
+
+            isPipe = true;
+        }
+    }
+
+    IEnumerator StartDownPipeAnim()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+
+        // 내려갈 때
+        float h = 0;
+        float addH = 0;
+        float targetHeightDown = 0.5f;  // 목표 하강 거리
+        float moveSpeedDown = 1f;      // 일정한 속도 (하강 시)
+
+        while (addH < targetHeightDown)
+        {
+            h = moveSpeedDown * Time.unscaledDeltaTime;  // 고정된 속도에 따른 하강
+            transform.position = new Vector2(transform.position.x, transform.position.y - h);
+            addH += h;
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+    }
+    IEnumerator StartUpPipeAnim()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+
+        // 내려갈 때
+        float h = 0;
+        float addH = 0;
+        float targetHeightDown = 0.5f;  // 목표 하강 거리
+        float moveSpeedDown = 1f;      // 일정한 속도 (하강 시)
+
+        while (addH < targetHeightDown)
+        {
+            h = moveSpeedDown * Time.unscaledDeltaTime;  // 고정된 속도에 따른 하강
+            transform.position = new Vector2(transform.position.x, transform.position.y + h);
+            addH += h;
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+    }
+    IEnumerator StartRightPipeAnim()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+
+        // 내려갈 때
+        float h = 0;
+        float addH = 0;
+        float targetHeightDown = 0.5f;  // 목표 하강 거리
+        float moveSpeedDown = 1f;      // 일정한 속도 (하강 시)
+
+        isRight = true;
+        curAnimSpeed = addedMaxAnimSpeed;
+
+        //Anim :run
+        animator.SetBool("isRun", true);
+        moveTimer += Time.unscaledDeltaTime;
+
+        curAnimSpeed = moveTimer * animAccel;
+        //최고속도 고정
+        if (curAnimSpeed > addedMaxAnimSpeed)
+            curAnimSpeed = addedMaxAnimSpeed;
+
+        animator.SetFloat("Speed", curAnimSpeed);
+
+        while (addH < targetHeightDown)
+        {
+            h = moveSpeedDown * Time.unscaledDeltaTime;  // 고정된 속도에 따른 하강
+            transform.position = new Vector2(transform.position.x + h, transform.position.y );
+            addH += h;
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+
+    }
+
+    IEnumerator StartLeftPipeAnim()
+    {
+        yield return new WaitForSecondsRealtime(1f);
+
+        // 내려갈 때
+        float h = 0;
+        float addH = 0;
+        float targetHeightDown = 0.5f;  // 목표 하강 거리
+        float moveSpeedDown = 1f;      // 일정한 속도 (하강 시)
+
+        isRight = true;
+        curAnimSpeed = addedMaxAnimSpeed;
+
+        //Anim :run
+        animator.SetBool("isRun", true);
+        moveTimer += Time.unscaledDeltaTime;
+
+        curAnimSpeed = moveTimer * animAccel;
+        //최고속도 고정
+        if (curAnimSpeed > addedMaxAnimSpeed)
+            curAnimSpeed = addedMaxAnimSpeed;
+
+        animator.SetFloat("Speed", curAnimSpeed);
+
+        while (addH < targetHeightDown)
+        {
+            h = moveSpeedDown * Time.unscaledDeltaTime;  // 고정된 속도에 따른 하강
+            transform.position = new Vector2(transform.position.x - h, transform.position.y);
+            addH += h;
+            yield return new WaitForSecondsRealtime(0.01f);
+        }
+
+    }
     //P 차지및 판단
     void TurnOnP()
     {
