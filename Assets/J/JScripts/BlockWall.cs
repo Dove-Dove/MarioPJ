@@ -8,8 +8,20 @@ public class BlockWall : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+
         if (collision.gameObject.tag == "MovingShell" || collision.gameObject.tag == "Tail")
-            WallOpen = true;
+        {
+            print("sadf"); WallOpen = true;
+        }
+           
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "MovingShell" || collision.gameObject.tag == "Tail")
+        {
+            print("sadf"); WallOpen = true;
+        }
+
     }
     private void OnCollisionExit2D(Collision2D collision)
     {

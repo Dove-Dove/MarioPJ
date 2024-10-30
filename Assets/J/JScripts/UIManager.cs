@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
     public GameObject[] Time;
     public GameObject[] Bouns;
 
+    public GameObject Fade;
+
     private float nowPower = 0;
     private bool lastPower = false;
     private int nowCoin = 0;
@@ -38,6 +40,7 @@ public class UIManager : MonoBehaviour
     {
         // GameManager 싱글톤 인스턴스 가져오기
         gameManager = GameManager.Instance;
+        Fade.SetActive(false);
     }
 
 
@@ -179,5 +182,13 @@ public class UIManager : MonoBehaviour
             count++;
         }
 
+    }
+
+    public void inFade(bool Fadein)
+    {
+        if (Fadein)
+            Fade.SetActive(true);
+        else
+            Fade.SetActive(false);
     }
 }

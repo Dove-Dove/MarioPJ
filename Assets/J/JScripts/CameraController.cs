@@ -73,11 +73,15 @@ public class CameraController : MonoBehaviour
         }
 
         // 카메라 위치 제한
-        transform.position = new Vector3(
+        if(!pipeCam)
+        {
+            transform.position = new Vector3(
             Mathf.Clamp(transform.position.x, minCameraBoundary.x, maxCameraBoundary.x),
             Mathf.Clamp(transform.position.y, minCameraBoundary.y, maxCameraBoundary.y),
             transform.position.z
-        );
+);
+        }
+
 
 
     }
@@ -89,12 +93,7 @@ public class CameraController : MonoBehaviour
 
     public void inPipe()
     {
-        pipeCam = true;
-    }
-
-    public void outPipe()
-    {
-        pipeCam = false; 
+        pipeCam = !pipeCam;
     }
 
 }
