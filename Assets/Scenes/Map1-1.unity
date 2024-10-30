@@ -165,7 +165,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 22844404}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c735e7e9f5e5bc844aca13ef99c63283, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -66396,7 +66396,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 655869160}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c735e7e9f5e5bc844aca13ef99c63283, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -83980,7 +83980,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1060226788}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c735e7e9f5e5bc844aca13ef99c63283, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -84615,7 +84615,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1168688801}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c735e7e9f5e5bc844aca13ef99c63283, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -84817,6 +84817,10 @@ MonoBehaviour:
   smoothing: 0.2
   minCameraBoundary: {x: 0, y: 0}
   maxCameraBoundary: {x: 0, y: 0}
+  pipeCam: 0
+  moveMap: 0
+  moveSpeed: 1.5
+  MoveStop: 0
 --- !u!1001 &1232254051
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -87267,7 +87271,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1811449244}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c735e7e9f5e5bc844aca13ef99c63283, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -87651,7 +87655,7 @@ BoxCollider2D:
   m_GameObject: {fileID: 1839414396}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: c735e7e9f5e5bc844aca13ef99c63283, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -87969,11 +87973,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 377609209844846442, guid: 8d8c5d59ece17cf44848bf6acb393207, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -79.64
+      value: -79.59
       objectReference: {fileID: 0}
     - target: {fileID: 377609209844846442, guid: 8d8c5d59ece17cf44848bf6acb393207, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2.26
+      value: -1.34
       objectReference: {fileID: 0}
     - target: {fileID: 377609209844846442, guid: 8d8c5d59ece17cf44848bf6acb393207, type: 3}
       propertyPath: m_LocalPosition.z
@@ -88778,11 +88782,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1742523096837631264, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 80
+      value: -79.28
       objectReference: {fileID: 0}
     - target: {fileID: 1742523096837631264, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -5.11
+      value: -5.85
       objectReference: {fileID: 0}
     - target: {fileID: 1742523096837631264, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
       propertyPath: m_LocalPosition.z
