@@ -44568,7 +44568,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 5
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -44593,7 +44593,7 @@ Transform:
   m_GameObject: {fileID: 1149462529}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -73.44, y: 3.36, z: -10}
+  m_LocalPosition: {x: -72, y: 4, z: -10}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -44613,8 +44613,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 301639436}
   smoothing: 0.2
-  minCameraBoundary: {x: 0, y: 0}
-  maxCameraBoundary: {x: 0, y: 0}
+  minCameraBoundary: {x: -72, y: 4}
+  maxCameraBoundary: {x: 72, y: 21}
   pipeCam: 0
   moveMap: 0
   moveSpeed: 1.5

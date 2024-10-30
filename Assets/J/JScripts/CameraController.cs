@@ -37,10 +37,13 @@ public class CameraController : MonoBehaviour
 
         MapAnchor = GameObject.Find("MapManager").GetComponent<mapManager>().transform.position.y;
         Vector3 targetPos;
+        MoveStop = 39.94f;
         if (moveMap)
         {
             if (MoveStop >= transform.position.x)
-               transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+                transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+            else
+                moveMap = false;
           
         }
         else if (pipeCam)
@@ -68,6 +71,13 @@ public class CameraController : MonoBehaviour
             transform.position = targetPos;
 
         }
+
+        // 카메라 위치 제한
+        transform.position = new Vector3(
+            Mathf.Clamp(transform.position.x, minCameraBoundary.x, maxCameraBoundary.x),
+            Mathf.Clamp(transform.position.y, minCameraBoundary.y, maxCameraBoundary.y),
+            transform.position.z
+        );
 
 
     }

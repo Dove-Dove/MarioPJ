@@ -84770,7 +84770,7 @@ Camera:
   far clip plane: 1000
   field of view: 60
   orthographic: 1
-  orthographic size: 6.1
+  orthographic size: 6
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
@@ -84815,8 +84815,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 708034958}
   smoothing: 0.2
-  minCameraBoundary: {x: 0, y: 0}
-  maxCameraBoundary: {x: 0, y: 0}
+  minCameraBoundary: {x: -80, y: -6}
+  maxCameraBoundary: {x: 80, y: 13.5}
   pipeCam: 0
   moveMap: 0
   moveSpeed: 1.5
