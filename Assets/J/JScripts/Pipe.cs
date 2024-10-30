@@ -6,6 +6,11 @@ public class Pipe : MonoBehaviour
 {
     public GameObject PipemMovement;
     public bool Move = false;
+
+    float pipeTime = 0; 
+    bool inPipe = false;
+    bool outPipe = false;
+
     void Start()
     {
         
@@ -14,16 +19,25 @@ public class Pipe : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if(inPipe)
+            pipeTime = Time.unscaledDeltaTime;
+
+   
+
+            
     }
 
 
-
-    private void OnTriggerEnter2D(Collider2D collision)
+    private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player" && Move)
+        if (collision.gameObject.tag == "Player" && Move )
         {
-            collision.gameObject.transform.position = PipemMovement.transform.position;
+            inPipe = true;
+            if (pipeTime >= 3.0f)
+                collision.gameObject.transform.position = PipemMovement.transform.position;
+            
+            
         }
     }
+
 }
