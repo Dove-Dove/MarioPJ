@@ -1,5 +1,133 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1065324446958750942
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 962041274542091120}
+  - component: {fileID: 7210187418092354018}
+  m_Layer: 0
+  m_Name: Pipe_Sound
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &962041274542091120
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065324446958750942}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 2.083601, y: -7.78692, z: -0.01574099}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8921601462556757932}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &7210187418092354018
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1065324446958750942}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: d2fa99eb4cdee4d4ba1d29f558c06057, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1595661745717746897
 GameObject:
   m_ObjectHideFlags: 0
@@ -515,13 +643,13 @@ GameObject:
   - component: {fileID: 5542911730178054836}
   - component: {fileID: 4454721168408888324}
   - component: {fileID: 6857179550345045843}
-  m_Layer: 20
+  m_Layer: 6
   m_Name: MarioFoot
-  m_TagString: PlayerAttack
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &5542911730178054836
 Transform:
   m_ObjectHideFlags: 0
@@ -531,7 +659,7 @@ Transform:
   m_GameObject: {fileID: 3556399622005666075}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.034, z: 0}
+  m_LocalPosition: {x: 0, y: 0.005, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -591,7 +719,7 @@ Rigidbody2D:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3556399622005666075}
   m_BodyType: 1
-  m_Simulated: 0
+  m_Simulated: 1
   m_UseFullKinematicContacts: 1
   m_UseAutoMass: 0
   m_Mass: 1
@@ -1292,7 +1420,7 @@ Transform:
   m_GameObject: {fileID: 8602179114985834585}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -1.3, y: 3.86, z: 0.123125}
+  m_LocalPosition: {x: -10.85, y: 7.84, z: 0.123125}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1322,10 +1450,10 @@ BoxCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 1054967
+    m_Bits: 1055479
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 1054967
+    m_Bits: 1055479
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -1466,6 +1594,7 @@ MonoBehaviour:
   sprite: {fileID: 0}
   physicsMaterial: {fileID: 6200000, guid: 176b9f9904019b142864706ebceaca8f, type: 2}
   tail: {fileID: 1595661745717746897}
+  marioFoot: {fileID: 0}
   LMrio_Jump_pow: 9
   SMrio_Jump_pow: 10
   mario_AddedJumpPowLevel: 2.5
@@ -1516,6 +1645,7 @@ MonoBehaviour:
   isAttack: 0
   isLift: 0
   isKick: 1
+  isPipe: 0
   stopMoment: 0
   jumpSound: {fileID: 1074671512603017806}
   turnSound: {fileID: 8112689971012946348}
@@ -1526,6 +1656,7 @@ MonoBehaviour:
   kickSound: {fileID: 4686523666133636090}
   tailAttackSound: {fileID: 820552285589299018}
   FireSound: {fileID: 0}
+  PipeSound: {fileID: 0}
   invisibleTimeCount1: 0
   invisibleCount: 0
   originalColor: {r: 0, g: 0, b: 0, a: 0}
@@ -1573,6 +1704,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shell: {fileID: 0}
+  marioFoot: {fileID: 0}
 --- !u!70 &2639944700160038288
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1659,6 +1791,7 @@ Transform:
   - {fileID: 5105819066345566055}
   - {fileID: 661484596020775101}
   - {fileID: 5121709952017938899}
+  - {fileID: 962041274542091120}
   m_Father: {fileID: 1742523096837631264}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &8950821153774032574
