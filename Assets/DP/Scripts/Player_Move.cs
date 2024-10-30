@@ -654,7 +654,7 @@ public class Player_Move : MonoBehaviour
 
             //언덕위에서 이동입력없으면 정지
 
-            if (input_x == 0 &&!isSilding &&!onAir &&!isJump)
+            if (input_x == 0 &&!isSilding &&!onAir)
             {
                 //미끄러지기
                 gameObject.tag = "PlayerAttack";
@@ -923,11 +923,6 @@ public class Player_Move : MonoBehaviour
 
         RaycastHit2D marioHeadBoxHit = Physics2D.Raycast(rigid.position + new Vector2(-0.4f, 1), Vector2.up, len, LayerMask.GetMask("Box"));
         RaycastHit2D marioHeadBoxHit2 = Physics2D.Raycast(rigid.position + new Vector2(0.4f, 1), Vector2.up, len, LayerMask.GetMask("Box"));
-        //RaycastHit2D marioHeadGroundHit = Physics2D.Raycast(rigid.position + new Vector2(-0.4f, 1), Vector2.up, len, LayerMask.GetMask("Ground"));
-        //RaycastHit2D marioHeadGroundHit2 = Physics2D.Raycast(rigid.position + new Vector2(0.4f, 1), Vector2.up, len, LayerMask.GetMask("Ground"));
-
-        //RaycastHit2D marioHeadBoxHit = Physics2D.BoxCast(rigid.position + new Vector2(0, 1), new Vector2(0.9f, 0.2f), 0, Vector2.up, len, LayerMask.GetMask("Box"));
-        //RaycastHit2D marioHeadGroundHit = Physics2D.BoxCast(rigid.position + new Vector2(0, 1), new Vector2(0.9f, 0.2f), 0, Vector2.up, len, LayerMask.GetMask("Box"));
 
 
         if (marioHeadBoxHit.collider != null || marioHeadBoxHit2.collider != null )
@@ -1272,8 +1267,8 @@ public class Player_Move : MonoBehaviour
         // 내려갈 때
         float h = 0;
         float addH = 0;
-        float targetHeightDown = 0.5f;  // 목표 하강 거리
-        float moveSpeedDown = 1f;      // 일정한 속도 (하강 시)
+        float targetHeightDown = 2.5f;  // 목표 하강 거리
+        float moveSpeedDown = 2f;      // 일정한 속도 (하강 시)
 
         while (addH < targetHeightDown)
         {
@@ -1290,8 +1285,8 @@ public class Player_Move : MonoBehaviour
         // 내려갈 때
         float h = 0;
         float addH = 0;
-        float targetHeightDown = 0.5f;  // 목표 하강 거리
-        float moveSpeedDown = 1f;      // 일정한 속도 (하강 시)
+        float targetHeightDown = 2.5f;  // 목표 하강 거리
+        float moveSpeedDown = 2f;      // 일정한 속도 (하강 시)
 
         while (addH < targetHeightDown)
         {
@@ -1342,14 +1337,31 @@ public class Player_Move : MonoBehaviour
         // 내려갈 때
         float h = 0;
         float addH = 0;
-        float targetHeightDown = 0.5f;  // 목표 하강 거리
-        float moveSpeedDown = 1f;      // 일정한 속도 (하강 시)
+        float targetHeightDown = 2.5f;  // 목표 하강 거리
+        float moveSpeedDown = 2f;      // 일정한 속도 (하강 시)
 
         isRight = true;
         curAnimSpeed = addedMaxAnimSpeed;
 
         //Anim :run
         animator.SetBool("isRun", true);
+        animator.SetFloat("Speed", 5f);
+        switch (marioStatus)
+        {
+            case MarioStatus.NormalMario:
+                animator.Play("LMario_move");
+                break;
+            case MarioStatus.SuperMario:
+                animator.Play("SMario_move");
+                break;
+            case MarioStatus.FireMario:
+                animator.Play("FMario_move");
+                break;
+            case MarioStatus.RaccoonMario:
+                animator.Play("RMario_move");
+                break;
+        }
+
         moveTimer += Time.unscaledDeltaTime;
 
         curAnimSpeed = moveTimer * animAccel;
@@ -1373,7 +1385,7 @@ public class Player_Move : MonoBehaviour
     {
         //p값이 최고속도값이 도달하고
         //TODO:충돌 시 P꺼지게 
-        var limitP = LimitVelocity + addLimitVelocity-0.1f;
+        var limitP = LimitVelocity + addLimitVelocity-0.5f;
         if (limitP < Math.Abs(rigid.velocity.x))
         {
             PCheckTimeCount += Time.deltaTime;
