@@ -98,7 +98,8 @@ public class MarioCollision : MonoBehaviour
                     Destroy(collision.gameObject);
                     break;
             }
-           
+            player.powerUpSound.Play();
+            Destroy(collision.gameObject);
         }
 
         //무적상태가 아니면

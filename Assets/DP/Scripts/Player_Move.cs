@@ -113,6 +113,9 @@ public class Player_Move : MonoBehaviour
     public float jumpInputTime = 0.5f;
     private float jumpPower;
     public bool isJumpInput=true;
+    //언덕
+    [SerializeField]
+    private bool onHill=false;
     //미끄러지기
     public bool isSilding = false;
     public float slideAddForcd=5f;
@@ -302,6 +305,7 @@ public class Player_Move : MonoBehaviour
             {
                 curStatus = marioStatus;
                 setChangeStatus();
+                ChangeSuperMario();
             }
             return;
 
@@ -440,6 +444,7 @@ public class Player_Move : MonoBehaviour
             {
                 curStatus=marioStatus;
                 setChangeStatus();
+                ChangeSuperMario();
             }
         }
         Debug.Log("MarioStatus :" + curStatus);
@@ -551,6 +556,9 @@ public class Player_Move : MonoBehaviour
             var direction = new Vector2(0, jumpPower);
             rigid.AddForce(direction, ForceMode2D.Impulse);
             //힘 제한
+            //rigid.velocity = new Vector2(rigid.velocity.x, jumpPower);
+            //if (onHill)
+            //    rigid.velocity = new Vector2(rigid.velocity.x, jumpPower * 2);
             if (rigid.velocity.y > jumpPower)
                 rigid.velocity = new Vector2(rigid.velocity.x, jumpPower);
         }
@@ -612,26 +620,21 @@ public class Player_Move : MonoBehaviour
             onAir = true;
             animator.SetBool("isJump", true);
             animator.SetBool("onGround", false);
+            rigid.gravityScale = 3;
         }
 
-        //언덕위에 있을 때 
+        //====언덕위에 있을 때 
         RaycastHit2D onDownhill = Physics2D.Raycast(transform.position + new Vector3(0, 1f,0), Vector2.down, hillRayLen+1f, LayerMask.GetMask("DownHill"));
-        //perp= Vector2.Perpendicular(onDownhill.normal).normalized;
-        //angle = Vector2.Angle(onDownhill.normal, Vector2.up);
-        //Debug.DrawRay(transform.position , onDownhill.point + onDownhill.normal, Color.blue);
-        //Debug.DrawRay(transform.position, onDownhill.point + perp, Color.red);
-
-        Debug.Log(rigid.position);
 
         if (onDownhill.collider != null)
         {
-            //Debug.Log(onDownhill.collider.name);
             onGround = true;
             onAir = false;
+            onHill = true;
             animator.SetBool("isJump", false);
             animator.SetBool("onGround", true);
             //오르막에서 중력값 조정
-            if(!isSilding && onGround)
+            if (!isSilding && onGround)
                 rigid.gravityScale = 1;
             isJumpInput = true;
 
@@ -660,14 +663,17 @@ public class Player_Move : MonoBehaviour
 
             //언덕위에서 이동입력없으면 정지
 
-            if (input_x == 0 &&!isSilding &&!onAir)
+            if (input_x == 0 && !isSilding && !onAir)
             {
+
+                //멈추면 발판생성(작동안함) TODO:보류 수정필요
+                if(onHill)
+                    marioFoot.SetActive(true);
+
                 //미끄러지기
-                gameObject.tag = "PlayerAttack";
-
-
                 if (Input.GetKeyDown(KeyCode.DownArrow))
                 {
+                    gameObject.tag = "PlayerAttack";
                     animator.SetBool("isSlide", true);
                     isSilding = true;
                     rigid.gravityScale = 3;
@@ -685,18 +691,18 @@ public class Player_Move : MonoBehaviour
                     }
                 }
                 else
-                { 
+                {
                     rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-                    //멈추면 발판생성(작동안함) TODO:보류 수정필요
-                    //marioFoot.SetActive(true);
+
                 }
             }
             else
-            { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; marioFoot.SetActive(false); rigid.gravityScale = 3; }
-
+            { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; marioFoot.SetActive(false); }
         }
+        else
+        { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; onHill = false; marioFoot.SetActive(false); }
 
-        //==파이프 애니메이션 동작
+        //====파이프 애니메이션 동작
         //필요시 머리도 감지해서 작동할 수 있도록
         RaycastHit2D downPipe   = Physics2D.Raycast(rigid.position, Vector2.down, hillRayLen / 2, LayerMask.GetMask("Pipe"));
         RaycastHit2D upPipe;

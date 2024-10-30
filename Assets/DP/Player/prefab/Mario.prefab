@@ -1600,8 +1600,8 @@ MonoBehaviour:
   mario_AddedJumpPowLevel: 2.5
   isSuperMario: 0
   isLittleMario: 0
-  marioStatus: 4
-  StartMarioStatus: 4
+  marioStatus: 1
+  StartMarioStatus: 1
   marioHp: 0
   isFireMario: 0
   isRaccoonMario: 0
