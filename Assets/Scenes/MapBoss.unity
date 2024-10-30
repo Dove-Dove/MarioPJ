@@ -2549,6 +2549,14 @@ PrefabInstance:
       propertyPath: m_IsTrigger
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4763824791932109440, guid: 801c7bba2b5009d488c2bfaf98a2189f, type: 3}
+      propertyPath: m_ForceSendLayers.m_Bits
+      value: 16375
+      objectReference: {fileID: 0}
+    - target: {fileID: 4763824791932109440, guid: 801c7bba2b5009d488c2bfaf98a2189f, type: 3}
+      propertyPath: m_ForceReceiveLayers.m_Bits
+      value: 16375
+      objectReference: {fileID: 0}
     - target: {fileID: 5075497033688383087, guid: 801c7bba2b5009d488c2bfaf98a2189f, type: 3}
       propertyPath: m_Enabled
       value: 0
@@ -42412,10 +42420,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 171333462078281211, guid: 699a54c4aa9255f4d9f411b27ffabd8e, type: 3}
-      propertyPath: currentState
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6014868075468728912, guid: 699a54c4aa9255f4d9f411b27ffabd8e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 77.483475
@@ -47551,10 +47555,10 @@ BoxCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 1063927
+    m_Bits: 15351
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 1063927
+    m_Bits: 15351
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -47596,10 +47600,10 @@ BoxCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 1063927
+    m_Bits: 15351
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 1063927
+    m_Bits: 15351
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -47641,10 +47645,10 @@ BoxCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 1063927
+    m_Bits: 15351
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 1063927
+    m_Bits: 15351
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -47686,10 +47690,10 @@ BoxCollider2D:
   m_LayerOverridePriority: 0
   m_ForceSendLayers:
     serializedVersion: 2
-    m_Bits: 1063927
+    m_Bits: 15351
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 1063927
+    m_Bits: 15351
   m_ContactCaptureLayers:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -48095,6 +48099,7 @@ GameObject:
   - component: {fileID: 1049904806}
   - component: {fileID: 1049904808}
   - component: {fileID: 1049904807}
+  - component: {fileID: 1049904809}
   m_Layer: 0
   m_Name: SkyBackground
   m_TagString: Untagged
@@ -48137,7 +48142,7 @@ TilemapRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 8301a9efd976db34b86a1c2b76252e73, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -65288,6 +65293,27 @@ Tilemap:
     e31: 0
     e32: 0
     e33: 1
+--- !u!95 &1049904809
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1049904805}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4bfafc7be4ab5544f8ddeafca19803fa, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1001 &1055141369
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -69190,7 +69216,7 @@ GameObject:
   - component: {fileID: 1262651951}
   m_Layer: 10
   m_Name: SpikeGroup
-  m_TagString: E_Attack
+  m_TagString: BossAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -73850,11 +73876,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1742523096837631264, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -75
+      value: -75.22
       objectReference: {fileID: 0}
     - target: {fileID: 1742523096837631264, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.5
+      value: 2.51
       objectReference: {fileID: 0}
     - target: {fileID: 1742523096837631264, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
       propertyPath: m_LocalPosition.z
@@ -80673,9 +80699,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b091cfbbd976d6144b7b95ede6870a14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  moveCooldown: 3
-  nextMoveTime: 0
-  speed: 2
 --- !u!50 &1808372987
 Rigidbody2D:
   serializedVersion: 4

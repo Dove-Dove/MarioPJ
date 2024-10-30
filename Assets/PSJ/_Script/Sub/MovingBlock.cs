@@ -4,54 +4,89 @@ using UnityEngine;
 
 public class MovingBlock : MonoBehaviour
 {
-    protected Vector2 originPos;
+    protected Vector2 originPos; 
     protected Vector2 downPos;
 
-    public float moveCooldown = 3f;
-    public float nextMoveTime;
+    private float moveCooldown = 3f;
+    private float stayDuration = 1f;
+    private float speed = 5f;
 
-    public int speed = 2;
-    bool inRange;
+    private bool isMovingDown = true;
+    private bool isMovingUp = false;
+
+    private Rigidbody2D rb;
+
+    private GameObject player;
 
     void Start()
     {
-        inRange = false;
         originPos = transform.position;
         downPos = new Vector2(transform.position.x, transform.position.y - 8);
+        rb = GetComponent<Rigidbody2D>();
 
-        
+        player = GameObject.Find("Mario");
+        rb.isKinematic = true;
     }
 
     void Update()
     {
-        if(Time.time >= nextMoveTime)
+        if(player !=null && player.transform.position.y < -15f)
         {
-            Movedown();
-            nextMoveTime = Time.time + moveCooldown;
-            //Invoke("MoveUp", 3.0f);
+            if (isMovingDown)
+            {
+                Movedown();
+            }
+            else if (isMovingUp)
+            {
+                MoveUp();
+            }
         }
     }
 
     public void Movedown()
     {
-        //Debug.Log("Test");
-        transform.position = Vector3.MoveTowards(transform.position, downPos, speed * Time.deltaTime);
+        rb.MovePosition(Vector2.MoveTowards(transform.position, downPos, speed * Time.deltaTime));
+
+        if (Vector2.Distance(transform.position, downPos) < 0.1f)
+        {
+            isMovingDown = false;
+            StartCoroutine(WaitAndMoveUp());
+        }
     }
 
     public void MoveUp()
     {
-        //Debug.Log("Test2");
-        gameObject.GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        rb.MovePosition(Vector2.MoveTowards(transform.position, originPos, speed * Time.deltaTime));
 
-        transform.position = Vector3.MoveTowards(transform.position, originPos, 5.0f * Time.deltaTime);
+        if (Vector2.Distance(transform.position, originPos) < 0.1f)
+        {
+            isMovingUp = false;
+            StartCoroutine(WaitAndMoveDown());
+        }
+    }
+
+    private IEnumerator WaitAndMoveUp()
+    {
+        yield return new WaitForSeconds(stayDuration);
+        isMovingUp = true;
+    }
+
+    private IEnumerator WaitAndMoveDown()
+    {
+        yield return new WaitForSeconds(moveCooldown);
+        isMovingDown = true;
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("EnemyWall"))
+        if (collision.gameObject.CompareTag("EnemyWall"))
         {
-            MoveUp();
+            isMovingDown = false;
+            isMovingUp = true;
+        }
+        else if(collision.gameObject.CompareTag("Player"))
+        {
+            //Debug.Log("Test1");
         }
     }
-
 }

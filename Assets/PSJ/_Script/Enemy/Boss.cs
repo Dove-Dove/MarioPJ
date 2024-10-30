@@ -4,47 +4,29 @@ using UnityEngine;
 
 public class Boss : MonoBehaviour
 {
-    /* 보스 클래스
-     * 0.플레이어 방향으로 이동
-     * 1.공격상태로 시작
-     * 2.공격상태 이후 약간점프
-     * 3.쿨타임마다 공격상태
-     * 밟히면 애니메이션후 공격상태,쿨타임 초기화
-     * 2번 밟히면 이동속도 상승
-     */
-
-    public enum State
-    {
-        Idle, Move, Attack, Hit, Dead
-    }
-
+    public enum State { Idle, Move, Attack, Hit, Dead }
     public State currentState = State.Idle;
 
     public float moveSpeed = 3f;
     public LayerMask groundLayer;
     public float range = 10f;
-
     private Rigidbody2D rb;
-
     private Transform player;
-    private float attackCooldown = 4f;
+
+    public float attackCooldown = 4f;
     public float nextAttackTime;
 
     public float jumpForce = 10f;
-
     public float hitCoolTime = 2f;
-
     public int bossHp = 3;
-    private bool isJumping;
 
+    private bool isJumping;
+    private bool isHit = false; // 피격 상태 확인 플래그
 
     Animator animator;
-
     public AudioSource HitSound;
     public GameObject score;
 
-
-    // Start is called before the first frame update
     void Start()
     {
         animator = GetComponent<Animator>();
@@ -54,15 +36,14 @@ public class Boss : MonoBehaviour
         isJumping = false;
     }
 
-    // Update is called once per frame
     void Update()
     {
-        if(bossHp == 1)
+        if (bossHp == 1)
         {
             moveSpeed = 4f;
         }
-        
-        switch(currentState)
+
+        switch (currentState)
         {
             case State.Idle:
                 bossIdle();
@@ -84,33 +65,27 @@ public class Boss : MonoBehaviour
 
     public void bossIdle()
     {
-        if (Vector2.Distance(transform.position, player.transform.position) < range)
+        if (Vector2.Distance(transform.position, player.position) < range)
         {
             currentState = State.Attack;
         }
     }
 
-
     void bossAttack()
     {
         animator.SetBool("IsAttack", true);
-        gameObject.tag = "E_Attack";
-
+        gameObject.tag = "BossAttack";
         Invoke("Move", 1.0f);
     }
 
     void bossMove()
     {
         isJumping = false;
+        isHit = false;  // 이동 시 피격 상태 해제
         gameObject.tag = "Enemy";
-        if (transform.position.x >= player.position.x)
-        {
-            transform.Translate(Vector2.left * moveSpeed * Time.deltaTime);
-        }
-        else
-        {
-            transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
-        }
+
+        Vector2 direction = (transform.position.x >= player.position.x) ? Vector2.left : Vector2.right;
+        transform.Translate(direction * moveSpeed * Time.deltaTime);
 
         if (Time.time >= nextAttackTime)
         {
@@ -124,7 +99,6 @@ public class Boss : MonoBehaviour
         animator.SetBool("IsAttack", false);
         Invoke("Attack", hitCoolTime);
         nextAttackTime = Time.time + attackCooldown;
-
     }
 
     void bossDead()
@@ -136,32 +110,29 @@ public class Boss : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("PlayerAttack") &&
-            currentState == State.Move)
+        if (collision.gameObject.CompareTag("PlayerAttack") && currentState == State.Move && !isHit)
         {
             HitSound.Play();
             Enemy.Score(gameObject, score);
 
-
             if (bossHp > 1)
             {
                 bossHp--;
-                rb.velocity = Vector2.zero;
+                rb.velocity = new Vector2(0, rb.velocity.y);
 
                 animator.SetBool("IsHit", true);
                 currentState = State.Hit;
+                isHit = true;  // 피격 중으로 설정
             }
             else
             {
                 rb.gravityScale = 0;
-                rb.velocity = Vector2.zero;
+                rb.velocity = new Vector2(0, rb.velocity.y);
 
                 animator.SetTrigger("IsDead");
                 currentState = State.Dead;
             }
-            
         }
-
     }
 
     public void Jump()
