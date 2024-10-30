@@ -17,6 +17,8 @@ public class Lava : MonoBehaviour
     protected Transform player;
     public float range = 10f;
 
+    protected Vector2 originPos;
+    bool isGrounded;
 
     private Rigidbody2D rb;
     Animator animator;
@@ -27,11 +29,28 @@ public class Lava : MonoBehaviour
         animator = GetComponent<Animator>();
         nextJumpTime = Time.time + jumpInterveal;
         player = GameObject.FindGameObjectWithTag("Player").transform;
+        originPos = transform.position;
     }
 
     void Update()
     {
-        if(player != null)
+        if (gameObject.transform.position.y > originPos.y)
+            isGrounded = false;
+        else
+            isGrounded = true;
+
+        if (isGrounded)
+        {
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            gameObject.GetComponent<BoxCollider2D>().isTrigger = false;
+        }
+        else
+        {
+            gameObject.GetComponent<SpriteRenderer>().enabled = true;
+            gameObject.GetComponent<BoxCollider2D>().isTrigger = true;
+        }
+
+        if (player != null)
         {
             if (Vector2.Distance(transform.position, player.position) < range)
             {
@@ -40,6 +59,7 @@ public class Lava : MonoBehaviour
                     Jump();
                     nextJumpTime = Time.time + jumpInterveal;
                     isJumping = false;
+
                     Invoke("setAnim", 1.0f);
                 }
             }
@@ -49,7 +69,6 @@ public class Lava : MonoBehaviour
     void Jump()
     {
         animator.SetBool("MoveUp", true);
-
         isJumping = true;
         gameObject.GetComponent<Rigidbody2D>().velocity
             = new Vector2(gameObject.GetComponent<Rigidbody2D>().velocity.x, jumpForce);
@@ -59,4 +78,5 @@ public class Lava : MonoBehaviour
     {
         animator.SetBool("MoveUp", false);
     }
+
 }
