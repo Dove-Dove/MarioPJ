@@ -573,6 +573,7 @@ public class Player_Move : MonoBehaviour
             isJumpInput = true;
             animator.SetBool("isJump", false);
             animator.SetBool("onGround", true);
+            rigid.gravityScale = 3;
 
             //앉기
             if (Input.GetKey(KeyCode.DownArrow) && input_x == 0)
@@ -614,12 +615,13 @@ public class Player_Move : MonoBehaviour
         }
 
         //언덕위에 있을 때 
-        RaycastHit2D onDownhill = Physics2D.Raycast(transform.position, Vector2.down, hillRayLen, LayerMask.GetMask("DownHill"));
-        perp= Vector2.Perpendicular(onDownhill.normal).normalized;
-        angle = Vector2.Angle(onDownhill.normal, Vector2.up);
-        Debug.DrawRay(onDownhill.point, onDownhill.point + onDownhill.normal, Color.blue);
-        Debug.DrawRay(onDownhill.point, onDownhill.point + perp, Color.red);
-        
+        RaycastHit2D onDownhill = Physics2D.Raycast(transform.position + new Vector3(0, 1f,0), Vector2.down, hillRayLen+1f, LayerMask.GetMask("DownHill"));
+        //perp= Vector2.Perpendicular(onDownhill.normal).normalized;
+        //angle = Vector2.Angle(onDownhill.normal, Vector2.up);
+        //Debug.DrawRay(transform.position , onDownhill.point + onDownhill.normal, Color.blue);
+        //Debug.DrawRay(transform.position, onDownhill.point + perp, Color.red);
+
+        Debug.Log(rigid.position);
 
         if (onDownhill.collider != null)
         {
@@ -628,6 +630,8 @@ public class Player_Move : MonoBehaviour
             onAir = false;
             animator.SetBool("isJump", false);
             animator.SetBool("onGround", true);
+            if(!isSilding)
+                rigid.gravityScale = 1;
             isJumpInput = true;
 
             //오를때 테스트
@@ -640,6 +644,7 @@ public class Player_Move : MonoBehaviour
                 isSilding = true;
                 gameObject.tag = "PlayerAttack";
                 rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
+                rigid.gravityScale = 3;
                 if (isRight)
                 {
                     rigid.velocity = new Vector2(slideAddForcd, rigid.velocity.y);
@@ -664,6 +669,7 @@ public class Player_Move : MonoBehaviour
                 {
                     animator.SetBool("isSlide", true);
                     isSilding = true;
+                    rigid.gravityScale = 3;
 
                     rigid.constraints = RigidbodyConstraints2D.FreezeRotation;
                     if (isRight)
