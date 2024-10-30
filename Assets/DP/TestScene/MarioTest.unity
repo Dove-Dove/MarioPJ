@@ -3866,11 +3866,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5248906049530070142, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
       propertyPath: m_ForceSendLayers.m_Bits
-      value: 1054967
+      value: 1055479
       objectReference: {fileID: 0}
     - target: {fileID: 5248906049530070142, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
       propertyPath: m_ForceReceiveLayers.m_Bits
-      value: 1054967
+      value: 1055479
       objectReference: {fileID: 0}
     - target: {fileID: 5542911730178054836, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
       propertyPath: m_LocalPosition.y
