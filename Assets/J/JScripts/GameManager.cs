@@ -28,7 +28,14 @@ public class GameManager : MonoBehaviour
     private float playerMaxSpeed = 0; 
     public float runingTime = 0;
     public int PlayerLife;
-    public int Player_State = 0; 
+    public int Player_State = 0;
+
+    //플레이어 사망시 
+    private float deadTime = 0.0f;
+    private bool playerDead = false;
+
+    //카메라
+    private GameObject Cam;
 
 
     //플레이어 보너스(마지막 골지점에서 획득한거)
@@ -52,6 +59,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        Application.targetFrameRate = 60;
+
         // 싱글톤 패턴 설정
         if (Instance == null)
         {
@@ -64,9 +73,12 @@ public class GameManager : MonoBehaviour
         }
 
         Player = GameObject.Find("Mario");
+        Cam = GameObject.Find("Main Camera");
 
         // 씬 로드 이벤트 등록
         SceneManager.sceneLoaded += OnSceneLoaded;
+
+
     }
 
 
@@ -75,6 +87,10 @@ public class GameManager : MonoBehaviour
         if (Player == null)
         {
             Player = GameObject.Find("Mario"); // 씬 로드 시 다시 Player 찾기
+        }
+        if (Cam == null)
+        {
+            Cam = GameObject.Find("MainCamera");
         }
 
         //맵 사운드
@@ -134,7 +150,14 @@ public class GameManager : MonoBehaviour
                 Player_State = 1;
                 breakBlock = false;
             }
-               
+
+            else if (Player.GetComponentInChildren<Player_Move>().getMarioStatus() == MarioStatus.Death)
+            {
+                Player_State = 1;
+                deadTime += Time.unscaledDeltaTime;
+                Dead();
+            }
+
             else
             {
                 breakBlock = true;
@@ -143,7 +166,7 @@ public class GameManager : MonoBehaviour
                 else if(Player.GetComponentInChildren<Player_Move>().getMarioStatus() == MarioStatus.FireMario)
                     Player_State = 3;
                 else if(Player.GetComponentInChildren<Player_Move>().getMarioStatus() == MarioStatus.RaccoonMario)
-                    Player_State = 4;
+                    Player_State = 4;                  
             }
                 
         }
@@ -222,8 +245,23 @@ public class GameManager : MonoBehaviour
 
     public void Dead()
     {
-        PlayerLife--;
+        print("사망상태");
+        if(!playerDead)
+        {
+            PlayerLife--;
+            Cam.GetComponent<CameraController>().deadCam();
+            playerDead = true;
+        }
+            
         mapAudio.Stop();
+        if(deadTime >= 4.0f)
+        {
+            Time.timeScale = 1.0f;
+            playerDead = false;
+            Cam.GetComponent<CameraController>().deadCam();
+            SceneManager.LoadScene("SelectScene");
+        }
+            
     }
 
     public void getLife(int life)

@@ -15,6 +15,15 @@ public class CameraController : MonoBehaviour
     private Vector2 CameraPos;
     private bool playerdead = false;
 
+    public bool pipeCam = false;
+
+    public bool moveMap = false;
+    //
+    private bool moveCam = false;
+
+    public float moveSpeed = 1.5f;
+    public float MoveStop = 0.0f;
+
     // Update is called once per frame
     private void Start()
     {
@@ -27,19 +36,55 @@ public class CameraController : MonoBehaviour
             return;
 
         MapAnchor = GameObject.Find("MapManager").GetComponent<mapManager>().transform.position.y;
-
         Vector3 targetPos;
-        if (MapAnchor <= player.position.y)
-            targetPos = new Vector3(player.position.x, player.position.y , transform.position.z);
-        else 
-            targetPos = new Vector3(player.position.x, CameraPos.y, gameObject.transform.position.z);
+        if (moveMap)
+        {
+            if (MoveStop >= transform.position.x)
+               transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+          
+        }
+        else if (pipeCam)
+        {
+            targetPos = new Vector3(player.position.x, player.position.y + 1.5f, transform.position.z);
+            transform.position = targetPos;
+        }
 
-        transform.position = targetPos;
+        else
+        {
+            if (MapAnchor <= player.position.y)
+            {
+                targetPos = new Vector3(player.position.x,
+                    player.position.y
+                    , transform.position.z);
+                
+            }
+
+
+            else
+                targetPos = new Vector3(player.position.x,
+                    CameraPos.y,
+                    transform.position.z);
+
+            transform.position = targetPos;
+
+        }
+
 
     }
 
     public void deadCam()
     {
-        playerdead= true;
+        playerdead= !playerdead;
     }
+
+    public void inPipe()
+    {
+        pipeCam = true;
+    }
+
+    public void outPipe()
+    {
+        pipeCam = false; 
+    }
+
 }
