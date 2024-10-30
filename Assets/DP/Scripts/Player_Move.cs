@@ -630,7 +630,8 @@ public class Player_Move : MonoBehaviour
             onAir = false;
             animator.SetBool("isJump", false);
             animator.SetBool("onGround", true);
-            if(!isSilding)
+            //오르막에서 중력값 조정
+            if(!isSilding && onGround)
                 rigid.gravityScale = 1;
             isJumpInput = true;
 
@@ -691,7 +692,7 @@ public class Player_Move : MonoBehaviour
                 }
             }
             else
-            { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; marioFoot.SetActive(false); }
+            { rigid.constraints = RigidbodyConstraints2D.FreezeRotation; marioFoot.SetActive(false); rigid.gravityScale = 3; }
 
         }
 
@@ -1246,7 +1247,8 @@ public class Player_Move : MonoBehaviour
     }
 
     //파이프용 액션
-    void PipeAction(String dir)
+    //"Down" "Up" "Left" "Right"
+    public void PipeAction(String dir)
     {
         if (!isPipe)
         {
