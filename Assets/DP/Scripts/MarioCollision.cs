@@ -103,7 +103,7 @@ public class MarioCollision : MonoBehaviour
         }
 
         //무적상태가 아니면
-        if (!player.isInvincibleStar && !player.isInvincible)
+        if (!player.isInvincibleStar || !player.isInvincible)
         {
             //에너미
             if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "MovingShell" || collision.gameObject.tag == "BossAttack" ||collision.gameObject.name=="Flower")
