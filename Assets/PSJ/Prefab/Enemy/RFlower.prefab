@@ -46,7 +46,7 @@ GameObject:
   - component: {fileID: 4420564675615224171}
   m_Layer: 10
   m_Name: RFlower
-  m_TagString: Enemy
+  m_TagString: BossAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

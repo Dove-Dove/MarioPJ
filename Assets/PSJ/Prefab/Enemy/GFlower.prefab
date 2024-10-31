@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4981488756383790101}
   m_Layer: 10
   m_Name: GFlower
-  m_TagString: Enemy
+  m_TagString: BossAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -181,7 +181,6 @@ MonoBehaviour:
   Dir2: {fileID: 0}
   Dir3: {fileID: 0}
   Dir4: {fileID: 0}
-  ScorePos: {fileID: 505701968819326948}
   score: {fileID: 8842184703376758735, guid: d03685dbe1a0c154a9508ad0b03c430e, type: 3}
 --- !u!1 &5748349744535770704
 GameObject:

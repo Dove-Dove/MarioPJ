@@ -62,7 +62,12 @@ public class Tuttle : Enemy
         }
         else if(collision.gameObject.CompareTag("Enemy"))
         {
-            Flip();
+            if (collision.gameObject.name.Contains("Gumba"))
+            {
+
+            }
+            else
+                Flip();
         }
         else if(collision.gameObject.name.Contains("Cliff") && currentState == State.Move)
         {
