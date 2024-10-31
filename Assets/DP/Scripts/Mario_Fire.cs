@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MarioFire : MonoBehaviour
 {
-    public float lifeTime = 3.0f;
+    public float lifeTime = 1f;
     public GameObject player;
     private Rigidbody2D rigid;
     private BoxCollider2D hitbox;
@@ -34,7 +34,6 @@ public class MarioFire : MonoBehaviour
 
         isRight = playerCom.isRight;
         Invoke("destroy", lifeTime);
-        Debug.Log(isRight);
     }
 
     private void Update()
@@ -59,7 +58,7 @@ public class MarioFire : MonoBehaviour
                 distroyFireSound.Play();
                 animator.Play("SmokeEffect");
                 rigid.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezePositionY;
-                Invoke("destroy", 0.5f);
+                Invoke("destroy", 0.1f);
                 //destroy();
             }
         }

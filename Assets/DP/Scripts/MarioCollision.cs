@@ -106,7 +106,7 @@ public class MarioCollision : MonoBehaviour
         if (!player.isInvincibleStar && !player.isInvincible)
         {
             //¿¡³Ê¹Ì
-            if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "MovingShell")
+            if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "MovingShell" || collision.gameObject.tag == "BossAttack")
             {
                 if (player.isEnemy)
                 {

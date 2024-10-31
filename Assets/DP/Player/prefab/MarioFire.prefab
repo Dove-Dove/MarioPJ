@@ -196,7 +196,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e9102c3edc85a1b4ea83af6e868663d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lifeTime: 3
+  lifeTime: 1.4
   player: {fileID: 8602179114985834585, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
   shootFireSound: {fileID: 361079955479252500}
   distroyFireSound: {fileID: 9055527069385480711}

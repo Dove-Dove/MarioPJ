@@ -447,7 +447,6 @@ public class Player_Move : MonoBehaviour
                 ChangeSuperMario();
             }
         }
-        Debug.Log("MarioStatus :" + curStatus);
     }
 
     private void FixedUpdate()
@@ -1023,11 +1022,6 @@ public class Player_Move : MonoBehaviour
                     if (Input.GetKeyDown(KeyCode.Z))
                     {
                         ShootFire();
-                        if (!isFireBall)
-                        {
-                            isFireBall = true;
-                            animator.SetBool("isInputX", true);
-                        }
                     }
                     else
                     {
@@ -1489,9 +1483,10 @@ public class Player_Move : MonoBehaviour
     void ShootFire()
     {
         //불 두개가 발사중이면
-        //if (FireBalls[0] != null && FireBalls[1] != null)
-        //    return;
-
+        MarioFire[] fires = FindObjectsOfType<MarioFire>();
+        if(fires.Length > 1)
+        { return; }
+        
         Vector2 direction;
         // 발사체 생성 및 플레이어를 향해 발사
         GameObject projectile = Instantiate(FireBall, firePoint.position, Quaternion.identity);
@@ -1500,6 +1495,12 @@ public class Player_Move : MonoBehaviour
         else
             direction = new Vector2(-1, -1);
         projectile.GetComponent<Rigidbody2D>().velocity = direction * fireSpeed;
+
+        if (!isFireBall)
+        {
+            isFireBall = true;
+            animator.SetBool("isInputX", true);
+        }
     }
 
     //클리어
