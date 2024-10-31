@@ -1096,7 +1096,7 @@ public class Player_Move : MonoBehaviour
     {
         //濒冠烙& 公利
         marioBlink();
-        yield return new WaitForSecondsRealtime(1f);
+        yield return new WaitForSeconds(1f);
         isInvincible = false;
         Debug.Log("公利场");
     }
