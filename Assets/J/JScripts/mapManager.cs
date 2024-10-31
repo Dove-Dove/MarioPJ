@@ -6,8 +6,8 @@ public class mapManager : MonoBehaviour
 {
     private GameManager gameManager;
     private GameObject player;
-    private int player_state =  1;
-    int count = 0;
+    private bool MapStart = true;
+    private int player_state = 1;
     // Start is called before the first frame update
     private void Awake()
     {
@@ -20,12 +20,13 @@ public class mapManager : MonoBehaviour
             return;
         }
 
-        if (Time.timeScale == 0 && count == 0)
+        if (MapStart)
         {
             Time.timeScale = 1;
-            gameManager.StartMap();
-            count = 1;
+            gameManager.SetStartMap(MapStart);
+            MapStart = false;
         }
+
         player = GameObject.Find("Mario");
 
         player_state = gameManager.Player_State;

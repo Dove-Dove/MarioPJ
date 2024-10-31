@@ -47,6 +47,7 @@ public class GameManager : MonoBehaviour
     //1초씩 줄어들도록 만들기 위한 시간
     private float GameTime = 0.0f;
     private int Ones = 1;
+    bool StartMap = false;
     //사운드
     public AudioSource mapAudio;
     public AudioSource CoinSound;
@@ -78,6 +79,11 @@ public class GameManager : MonoBehaviour
         // 씬 로드 이벤트 등록
         SceneManager.sceneLoaded += OnSceneLoaded;
 
+        if (SceneManager.GetActiveScene().name == "SelectScene")
+        {
+            mapAudio.GetComponent<AudioSource>().clip = AllSound[0];
+            mapAudio.Play();
+        }
 
     }
 
@@ -92,24 +98,6 @@ public class GameManager : MonoBehaviour
         {
             Cam = GameObject.Find("Main Camera");
         }
-
-        //맵 사운드
-        switch (stage)
-        {
-            case Stage.Map: 
-                mapAudio.GetComponent<AudioSource>().clip = AllSound[0];
-                break;
-            case Stage.stage1:
-                mapAudio.GetComponent<AudioSource>().clip = AllSound[1];
-                break;
-            case Stage.stage2:
-                mapAudio.GetComponent<AudioSource>().clip = AllSound[2];
-                break;
-            case Stage.stageBoss:
-                mapAudio.GetComponent<AudioSource>().clip = AllSound[3];
-                break;
-        }
-        mapAudio.Play();
 
     }
 
@@ -140,16 +128,29 @@ public class GameManager : MonoBehaviour
 
         // 선택 스테이지 
         {
-            if (SceneManager.GetActiveScene().name == "Map1-1")
-                GameCurrentStage = 1;
-            else if (SceneManager.GetActiveScene().name == "Map1-2")
-                GameCurrentStage = 2;
-            else if (SceneManager.GetActiveScene().name == "Map1-3")
-                GameCurrentStage = 3;
-            else if (SceneManager.GetActiveScene().name == "Map1-4")
-                GameCurrentStage = 4;
-            else if (SceneManager.GetActiveScene().name == "MapBoss")
-                GameCurrentStage = 5;
+            switch (SceneManager.GetActiveScene().name)
+            {
+                case "Map1-1":
+                    GameCurrentStage = 1;
+                    break;
+                case "Map1-2":
+                    GameCurrentStage = 2;
+                    break;
+                case "Map1-3":
+                    GameCurrentStage = 3;
+                    break;
+                case "Map1-4":
+                    GameCurrentStage = 4;
+                    break;
+                case "MapBoss":
+                    GameCurrentStage = 5;
+                    break;
+            }
+
+            if (StartMap)
+            {
+                StartScene(GameCurrentStage);
+            }
         }
 
 
@@ -330,6 +331,30 @@ public class GameManager : MonoBehaviour
         BounsItem = new int[3]{ 0, 0, 0 };
     }
 
+    private void StartScene(int BackMusicNumber)
+    {
+        UITime = 300;
+        //맵 사운드
+        switch (BackMusicNumber)
+        {
+            case 1:
+            case 3:
+                mapAudio.GetComponent<AudioSource>().clip = AllSound[1];
+                break;
+            case 2:
+            case 4:
+                mapAudio.GetComponent<AudioSource>().clip = AllSound[2];
+                break;
+            case 5:
+                mapAudio.GetComponent<AudioSource>().clip = AllSound[3];
+                break;
+        }
+        mapAudio.Play();
+
+        StartMap = false;
+    }
+
+
     public void StartGame()
     {
         PlayerLife = 3;
@@ -337,18 +362,23 @@ public class GameManager : MonoBehaviour
         coin = 0;
     }
 
-    
 
-    public void StartMap()
+
+    public void SetStartMap(bool Start)
     {
-        UITime = 300;
+        StartMap = Start;
     }
-
     public void GameClear()
     {
         mapAudio.GetComponent<AudioSource>().Stop();
         ClearSound.Play();
         GameClearStage++;
+    }
+
+    public void orderMusicStart()
+    {
+        mapAudio.GetComponent<AudioSource>().clip = AllSound[0];
+        mapAudio.Play();
     }
 
 }

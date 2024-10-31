@@ -72,6 +72,8 @@ public class SelectSceneManager : MonoBehaviour
                 Player.transform.position = mapBossPos.position;
                 break;
         }
+
+        gameManager.orderMusicStart();
         //clearStage = 0;
     }
 
