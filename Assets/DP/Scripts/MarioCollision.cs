@@ -106,7 +106,7 @@ public class MarioCollision : MonoBehaviour
         if (!player.isInvincibleStar && !player.isInvincible)
         {
             //에너미
-            if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "MovingShell" || collision.gameObject.tag == "BossAttack")
+            if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "MovingShell" || collision.gameObject.tag == "BossAttack" ||collision.gameObject.name=="Flower")
             {
                 if (player.isEnemy)
                 {
@@ -123,6 +123,7 @@ public class MarioCollision : MonoBehaviour
                 shell = collision.gameObject;
             }
         }
+
 
         //노트블럭
         if (collision.gameObject.tag == "NoteBlock")
@@ -176,5 +177,19 @@ public class MarioCollision : MonoBehaviour
             { player.ishit = true; }
 
         }
+    }
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        //문
+        if (collision.gameObject.tag == "Door")
+        {
+            if (Input.GetKeyDown(KeyCode.UpArrow))
+            {
+                player.inDoor = true;
+                //0.3초 후 false로
+                StartCoroutine(player.FlaseInDoor());
+            }
+        }
+
     }
 }

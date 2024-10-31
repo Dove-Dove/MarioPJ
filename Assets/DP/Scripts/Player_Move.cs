@@ -185,6 +185,8 @@ public class Player_Move : MonoBehaviour
     public bool timeStop=false;
     private Vector2 LMarioHitboxSize = new Vector2(0.9f, 0.9f);
     private Vector2 SMarioHitboxSize = new Vector2(0.9f, 1.7f);
+    //문
+    public bool inDoor=false;
     //마리오별 특별기능용
     public bool isGlideButton=false;
     public bool isChargedP = false;
@@ -1546,6 +1548,14 @@ public class Player_Move : MonoBehaviour
         clearVelocity += Vector2.down * 9.8f * Time.unscaledDeltaTime;
         Vector2 newPosition = rigid.position + clearVelocity * Time.unscaledDeltaTime;
         rigid.transform.position = newPosition;
+    }
+
+    //문이동 비활성화
+    public IEnumerator FlaseInDoor()
+    {
+        yield return new WaitForSecondsRealtime(0.3f);
+        inDoor = false;
+        Debug.Log(inDoor);
     }
 
     //===Effect
