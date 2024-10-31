@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5095226210129356549}
   - component: {fileID: 4420564675615224171}
   - component: {fileID: 4981488756383790101}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: GFlower
   m_TagString: BossAttack
   m_Icon: {fileID: 0}
@@ -191,7 +191,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5452874396247507993}
-  m_Layer: 10
+  m_Layer: 0
   m_Name: FirePoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

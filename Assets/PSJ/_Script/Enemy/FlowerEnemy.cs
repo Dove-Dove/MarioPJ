@@ -195,7 +195,7 @@ public class FlowerEnemy : MonoBehaviour
                 gameObject.SetActive(false);
             }
         }
-        else if (collision.gameObject.CompareTag("Tail"))
+        else if (collision.gameObject.tag == ("Tail"))
         {
             Debug.Log("enter");
             if (!animator.GetBool("IsHide"))
@@ -212,7 +212,7 @@ public class FlowerEnemy : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if(collision.gameObject.CompareTag("Tail"))
+        if(collision.gameObject.tag == ("Tail"))
         {
             Debug.Log("stay");
 
