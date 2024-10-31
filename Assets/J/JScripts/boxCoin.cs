@@ -12,9 +12,6 @@ public class boxCoin : MonoBehaviour
     bool up = false;
     int point = 100;
 
-
-    //»ç¿îµå
-    public AudioSource getCoinSound;
     void Start()
     {
         nowpos = transform.position;

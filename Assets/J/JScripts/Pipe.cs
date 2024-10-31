@@ -3,15 +3,19 @@ using UnityEngine;
 
 public class Pipe : MonoBehaviour
 {
+    //받아올 게임 오브젝트
     public GameObject PipemMovement;
     private GameObject Player;
     private GameManager gameManager;
-
     private GameObject cam;
     private GameObject FadeUi;
 
+    public AudioSource pipeSound;
+
+    
     private bool Move = false;
 
+    //현재 파이프
     private bool inPipe = false;
     private bool outPipe = false;
     public bool outUp = false;
@@ -19,7 +23,7 @@ public class Pipe : MonoBehaviour
     {
         Player = GameObject.Find("Mario");
         gameManager = GameManager.Instance;
-        cam = GameObject.Find("MainCamera");
+        cam = GameObject.Find("Main Camera");
         FadeUi = GameObject.Find("Canvas");
     }
 
@@ -41,30 +45,32 @@ public class Pipe : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             inPipe = true;
+            pipeSound.Play();
         }
     }
 
     private IEnumerator PipeTransition()
     {
         Time.timeScale = 0;
-
-        // 파이프 이동 중 효과를 위해 2.5초 기다립니다.
+        
+        // 파이프 이동 중 효과를 위해 2.5초 기다림
         yield return new WaitForSecondsRealtime(2.5f);
-
+        cam.GetComponent<CameraController>().inPipe();
         // 플레이어 위치를 파이프 목표 지점으로 이동
         FadeUi.GetComponent<UIManager>().outFade(true);
         Player.transform.position = PipemMovement.transform.position;
-       
-        cam.GetComponent<CameraController>().inPipe();
+             
   
         // 애니메이션 설정 및 파이프 진입 액션
         if (outUp)
             Player.GetComponent<Player_Move>().PipeAction("Up");
+        
         else
             Player.GetComponent<Player_Move>().PipeAction("Down");
-      
+        pipeSound.Play();
         yield return new WaitForSecondsRealtime(2.5f);
         
+        //현재 마리오의 상태의 따라 애니메이션 변경
         switch (gameManager.Player_State)
         {
             case 1:
@@ -81,7 +87,7 @@ public class Pipe : MonoBehaviour
                 break;
         }
 
-        // 파이프 이동 종료 후 초기화
+        // 초기화
         Time.timeScale = 1;
         outPipe = false;
         inPipe = false;

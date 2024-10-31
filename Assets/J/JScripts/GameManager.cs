@@ -3,13 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum Stage
-{
-    Map,
-    stage1,
-    stage2,
-    stageBoss
-}
 
 public class GameManager : MonoBehaviour
 {
@@ -18,8 +11,6 @@ public class GameManager : MonoBehaviour
 
     public int coin;
     public int point;
-    //스테이지 
-    public Stage stage = Stage.Map;
 
     //플레이어
     private GameObject Player;
@@ -378,6 +369,12 @@ public class GameManager : MonoBehaviour
     public void orderMusicStart()
     {
         mapAudio.GetComponent<AudioSource>().clip = AllSound[0];
+        mapAudio.Play();
+    }
+    public void BossMusicStart()
+    {
+        mapAudio.Stop();
+        mapAudio.GetComponent<AudioSource>().clip = AllSound[4];
         mapAudio.Play();
     }
 

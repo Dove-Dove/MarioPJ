@@ -5,8 +5,10 @@ using UnityEngine;
 public class CamStop : MonoBehaviour
 {
     private GameObject Cam;
+    private GameManager gameManager;
     private void Start()
     {
+        gameManager = GameManager.Instance;
         Cam = GameObject.Find("Main Camera");
     }
 
@@ -15,6 +17,7 @@ public class CamStop : MonoBehaviour
         if (collision.gameObject.tag == "Player")
         {
             Cam.GetComponent<CameraController>().deadCam();
+            gameManager.BossMusicStart();
             Destroy(gameObject);
         }
     }

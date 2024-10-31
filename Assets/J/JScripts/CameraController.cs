@@ -22,7 +22,7 @@ public class CameraController : MonoBehaviour
     private bool moveCam = false;
 
     public float moveSpeed = 1.5f;
-    public float MoveStop = 0.0f;
+    private float MoveStop = 39.94f;
     Vector3 targetPos;
     // Update is called once per frame
     private void Start()
@@ -37,7 +37,6 @@ public class CameraController : MonoBehaviour
 
         MapAnchor = GameObject.Find("MapManager").GetComponent<mapManager>().transform.position.y;
  
-        MoveStop = 39.94f;
         if (moveMap)
         {
             if (MoveStop >= transform.position.x)
@@ -94,6 +93,7 @@ public class CameraController : MonoBehaviour
     public void inPipe()
     {
         pipeCam = !pipeCam;
+        gameObject.transform.position = new Vector3(40f, 0, transform.position.z);
     }
 
 

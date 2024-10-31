@@ -31,7 +31,7 @@ public class GoalObj : MonoBehaviour
         if (PlayerGoal)
         {
             transform.Translate(Vector2.up * Time.unscaledDeltaTime * 10.0f);
-            if (nextTime >=2.0f)
+            if (nextTime >=4.0f)
             {
                 Time.timeScale = 1;
                 GameObject.Find("GameManager").GetComponent<GameManager>().getBouns(count);
@@ -41,8 +41,6 @@ public class GoalObj : MonoBehaviour
         }
 
         spriteImg(count);
-
-
     }
 
     void spriteImg(int count)

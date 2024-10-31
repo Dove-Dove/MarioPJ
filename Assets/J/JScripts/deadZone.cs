@@ -25,6 +25,10 @@ public class deadZone : MonoBehaviour
             GameObject.Find("Mario").GetComponent<Player_Move>().setMarioStatus(MarioStatus.Death);
         }
         else
-            Destroy(collision.gameObject);
+        {
+            if(!(collision.gameObject.tag == "E_Attack"))
+                Destroy(collision.gameObject);
+        }
+            
     }
 }
