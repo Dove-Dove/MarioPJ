@@ -700,24 +700,24 @@ public class Player_Move : MonoBehaviour
 
         //====파이프 애니메이션 동작
         //필요시 머리도 감지해서 작동할 수 있도록
-        RaycastHit2D downPipe   = Physics2D.Raycast(rigid.position, Vector2.down, hillRayLen / 2, LayerMask.GetMask("Pipe"));
+        RaycastHit2D downPipe   = Physics2D.Raycast(rigid.position, Vector2.down, 0.2f, LayerMask.GetMask("Pipe"));
         RaycastHit2D upPipe;
         if (marioStatus == MarioStatus.NormalMario)
         {
-            Debug.DrawRay(rigid.position + new Vector2(0, 1), new Vector2(0, hillRayLen / 2), new Color(0, 0, 1));
-            upPipe = Physics2D.Raycast(rigid.position + new Vector2(0, 1), Vector2.up, hillRayLen / 2, LayerMask.GetMask("Pipe"));
+            Debug.DrawRay(rigid.position + new Vector2(0, 1), new Vector2(0, 0.2f), new Color(0, 0, 1));
+            upPipe = Physics2D.Raycast(rigid.position + new Vector2(0, 1), Vector2.up, 0.2f, LayerMask.GetMask("Pipe"));
         }
         else
         {
-            Debug.DrawRay(rigid.position + new Vector2(0, 1.6f), new Vector2(0, hillRayLen / 2), new Color(0, 0, 1));
-            upPipe = Physics2D.Raycast(rigid.position + new Vector2(0, 1.6f), Vector2.up, hillRayLen / 2, LayerMask.GetMask("Pipe"));
+            Debug.DrawRay(rigid.position + new Vector2(0, 1.6f), new Vector2(0, 0.2f), new Color(0, 0, 1));
+            upPipe = Physics2D.Raycast(rigid.position + new Vector2(0, 1.6f), Vector2.up, 0.2f, LayerMask.GetMask("Pipe"));
         }
-        RaycastHit2D leftPipe   = Physics2D.Raycast(rigid.position + new Vector2(-1, 0.5f), Vector2.left, hillRayLen / 2, LayerMask.GetMask("Pipe"));
-        RaycastHit2D rightPipe  = Physics2D.Raycast(rigid.position + new Vector2(1, 0.5f), Vector2.right, hillRayLen / 2, LayerMask.GetMask("Pipe"));
+        RaycastHit2D leftPipe   = Physics2D.Raycast(rigid.position + new Vector2(-1, 0.5f), Vector2.left, 0.2f, LayerMask.GetMask("Pipe"));
+        RaycastHit2D rightPipe  = Physics2D.Raycast(rigid.position + new Vector2(1, 0.5f), Vector2.right, 0.2f, LayerMask.GetMask("Pipe"));
 
-        Debug.DrawRay(rigid.position, new Vector2(0, -hillRayLen/2), new Color(0, 0, 1));
-        Debug.DrawRay(rigid.position + new Vector2(-1, 0.5f), new Vector2(hillRayLen / 2, 0), new Color(0, 0, 1));
-        Debug.DrawRay(rigid.position + new Vector2(1, 0.5f), new Vector2(-hillRayLen / 2, 0), new Color(0, 0, 1));
+        Debug.DrawRay(rigid.position, new Vector2(0, -0.2f), new Color(0, 0, 1));
+        Debug.DrawRay(rigid.position + new Vector2(-1, 0.5f), new Vector2(0.2f / 2, 0), new Color(0, 0, 1));
+        Debug.DrawRay(rigid.position + new Vector2(1, 0.5f), new Vector2(-0.2f / 2, 0), new Color(0, 0, 1));
         //아래 파이프
         if (downPipe.collider !=null)
         {
