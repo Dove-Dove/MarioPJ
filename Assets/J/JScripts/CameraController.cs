@@ -23,7 +23,7 @@ public class CameraController : MonoBehaviour
 
     public float moveSpeed = 1.5f;
     public float MoveStop = 0.0f;
-
+    Vector3 targetPos;
     // Update is called once per frame
     private void Start()
     {
@@ -36,7 +36,7 @@ public class CameraController : MonoBehaviour
             return;
 
         MapAnchor = GameObject.Find("MapManager").GetComponent<mapManager>().transform.position.y;
-        Vector3 targetPos;
+ 
         MoveStop = 39.94f;
         if (moveMap)
         {
@@ -95,5 +95,6 @@ public class CameraController : MonoBehaviour
     {
         pipeCam = !pipeCam;
     }
+
 
 }
