@@ -166,16 +166,20 @@ public class MarioCollision : MonoBehaviour
     //트리거(E_Attack)
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //에너미
-        if ( collision.gameObject.tag == "E_Attack")
+        //무적상태가 아니면
+        if (!player.isInvincibleStar || !player.isInvincible)
         {
-            if (player.isEnemy)
+            //에너미
+            if (collision.gameObject.tag == "E_Attack")
             {
-                player.isAttack = true;
-            }
-            else
-            { player.ishit = true; }
+                if (player.isEnemy)
+                {
+                    player.isAttack = true;
+                }
+                else
+                { player.ishit = true; }
 
+            }
         }
     }
     private void OnTriggerStay2D(Collider2D collision)

@@ -1047,7 +1047,8 @@ public class Player_Move : MonoBehaviour
             animator.SetBool("isTailAttack", false);
             isTailAttackSound = false;
             runSound.Pause();
-            if(isLift)
+            isKick = true;
+            if (isLift)
             {
                 if (tuttleShell != null)
                 { 
@@ -1055,7 +1056,7 @@ public class Player_Move : MonoBehaviour
                     //Å± »ç¿îµå
                     kickSound.Play();
                 }
-                isKick = true;
+                //isKick = true;
                 isLift = false;
                 animator.SetBool("isLift", false);
 
