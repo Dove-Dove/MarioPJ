@@ -76,8 +76,8 @@ public class FlowerEnemy : MonoBehaviour
             RaycastHit2D hit2 = Physics2D.BoxCast(pipeUp, boxSize2, 0f, Vector2.zero, 0f, playerLayer);
 
 
-            if((hit.collider != null && hit.collider.tag.Contains("Player"))
-                || (hit2.collider != null && hit2.collider.tag.Contains("Player")))
+            if((hit.collider != null && hit.collider.gameObject.layer == playerLayer)
+                || (hit2.collider != null && hit2.collider.gameObject.layer == playerLayer))
                 IsClose = true;
             else
                 IsClose = false;
@@ -86,19 +86,25 @@ public class FlowerEnemy : MonoBehaviour
             //DrawBox(pipeUp, boxSize2);
         }
 
-        if (Vector2.Distance(gameObject.transform.position, player.position) < attackRange && !IsClose)
+        if (Vector2.Distance(gameObject.transform.position, player.position) < attackRange)
+            inRange = true;
+        else
+            inRange = false;
+        
+        if (inRange && !IsClose)
         {
             animator.SetBool("IsHide", false);
-            gameObject.tag = "Enemy";
-            inRange = true;
+            //gameObject.tag = "Enemy";
             animator.SetBool("InRange", true);
+            gameObject.GetComponent<BoxCollider2D>().enabled = true;
         }
         else
         {
             animator.SetBool("IsHide", false);
-            gameObject.tag = "Untagged";
-            inRange = false;
+            //gameObject.tag = "Untagged";
+            gameObject.GetComponent<BoxCollider2D>().enabled = false;
             animator.SetBool("InRange", false);
+
         }
 
         SetDirectionAndAnimation();
@@ -179,7 +185,7 @@ public class FlowerEnemy : MonoBehaviour
         {
 
         }
-        else if (collision.gameObject.CompareTag("PlayerFire") || collision.gameObject.CompareTag("Tail"))
+        else if (collision.gameObject.CompareTag("PlayerFire"))
         {
             if (!animator.GetBool("IsHide"))
             {
@@ -189,7 +195,37 @@ public class FlowerEnemy : MonoBehaviour
                 gameObject.SetActive(false);
             }
         }
+        else if (collision.gameObject.CompareTag("Tail"))
+        {
+            Debug.Log("enter");
+            if (!animator.GetBool("IsHide"))
+            {
+                Enemy.Score(gameObject, score);
+                animator.SetTrigger("IsDead");
 
+                gameObject.SetActive(false);
+            }
+
+        }
+
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if(collision.gameObject.CompareTag("Tail"))
+        {
+            Debug.Log("stay");
+
+            if (!animator.GetBool("IsHide"))
+            {
+
+                Enemy.Score(gameObject, score);
+                animator.SetTrigger("IsDead");
+
+                gameObject.SetActive(false);
+            }
+
+        }
     }
 
     public void Movedown()

@@ -34,7 +34,8 @@ public class MovingBlock : MonoBehaviour
         {
             if (isMovingDown)
             {
-                Movedown();
+                Invoke("Movedown", 1.5f);
+                //Movedown();
             }
             else if (isMovingUp)
             {

@@ -8,7 +8,7 @@ public class Lava : MonoBehaviour
 
     private bool isJumping;
 
-    protected float jumpForce = 12f;
+    protected float jumpForce = 14f;
     protected float jumpInterveal = 4f;
     protected float nextJumpTime;
 

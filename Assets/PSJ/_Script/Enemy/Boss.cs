@@ -9,7 +9,7 @@ public class Boss : MonoBehaviour
 
     public float moveSpeed = 3f;
     public LayerMask groundLayer;
-    public float range = 10f;
+    private float range = 7f;
     private Rigidbody2D rb;
     private Transform player;
 
@@ -27,6 +27,7 @@ public class Boss : MonoBehaviour
     public AudioSource HitSound;
     public GameObject score;
     public GameObject effect;
+
 
     void Start()
     {
@@ -168,5 +169,9 @@ public class Boss : MonoBehaviour
 
         GameObject projectile = Instantiate(effect, transform.position, Quaternion.identity);
         Destroy(projectile, 3.0f);
+
     }
+
+
+
 }

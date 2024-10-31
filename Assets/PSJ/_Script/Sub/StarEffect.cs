@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StarEffect : MonoBehaviour
 {
@@ -24,5 +25,13 @@ public class StarEffect : MonoBehaviour
             boltObj.GetComponent<Rigidbody2D>().AddForce(dirVec * speed);
             Destroy(boltObj, timer);
         }
+
+        Invoke("changeScene", 2.0f);
+    }
+
+
+    void changeScene()
+    {
+        SceneManager.LoadScene("SelectScene");
     }
 }
