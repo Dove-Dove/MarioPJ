@@ -3681,10 +3681,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 879457614400164742, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
-      propertyPath: m_LinearDrag
-      value: 0.5
-      objectReference: {fileID: 0}
     - target: {fileID: 1742523096837631264, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
       propertyPath: m_LocalPosition.x
       value: -15.31
@@ -3724,30 +3720,6 @@ PrefabInstance:
     - target: {fileID: 1742523096837631264, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3556399622005666075, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4454721168408888324, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
-      propertyPath: m_Size.x
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 4454721168408888324, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
-      propertyPath: m_Size.y
-      value: 0.01
-      objectReference: {fileID: 0}
-    - target: {fileID: 7625155459772160354, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
-      propertyPath: marioFoot
-      value: 
-      objectReference: {fileID: 1641040493}
-    - target: {fileID: 7625155459772160354, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
-      propertyPath: marioStatus
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7625155459772160354, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
-      propertyPath: StartMarioStatus
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8602179114985834585, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
       propertyPath: m_Name
@@ -3835,11 +3807,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 770935543}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1641040493 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3556399622005666075, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
-  m_PrefabInstance: {fileID: 1624154971}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1690986814
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -708,7 +708,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.8, y: 0.05971861}
+  m_Size: {x: 0.5, y: 0.01}
   m_EdgeRadius: 0
 --- !u!50 &6857179550345045843
 Rigidbody2D:
@@ -1420,7 +1420,7 @@ Transform:
   m_GameObject: {fileID: 8602179114985834585}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -10.85, y: 7.84, z: 0.123125}
+  m_LocalPosition: {x: -15.31, y: 3.86, z: 0.123125}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1541,7 +1541,7 @@ Rigidbody2D:
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
   m_Mass: 2
-  m_LinearDrag: 1
+  m_LinearDrag: 0.5
   m_AngularDrag: 0
   m_GravityScale: 3
   m_Material: {fileID: 6200000, guid: 176b9f9904019b142864706ebceaca8f, type: 2}
@@ -1594,14 +1594,14 @@ MonoBehaviour:
   sprite: {fileID: 0}
   physicsMaterial: {fileID: 6200000, guid: 176b9f9904019b142864706ebceaca8f, type: 2}
   tail: {fileID: 1595661745717746897}
-  marioFoot: {fileID: 0}
+  marioFoot: {fileID: 3556399622005666075}
   LMrio_Jump_pow: 9
   SMrio_Jump_pow: 10
   mario_AddedJumpPowLevel: 2.5
   isSuperMario: 0
   isLittleMario: 0
   marioStatus: 1
-  StartMarioStatus: 1
+  StartMarioStatus: 3
   marioHp: 0
   isFireMario: 0
   isRaccoonMario: 0
@@ -1632,6 +1632,7 @@ MonoBehaviour:
   onceInputJumpBoutton: 0
   jumpInputTime: 0.4
   isJumpInput: 1
+  onHill: 0
   isSilding: 0
   slideAddForcd: 3
   isSit: 0
