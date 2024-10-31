@@ -31,7 +31,7 @@ public class GameManager : MonoBehaviour
     public int Player_State = 0;
 
     //플레이어 사망시 
-    private float deadTime = 0.0f;
+    public float deadTime = 0.0f;
     private bool playerDead = false;
 
     //카메라
@@ -90,7 +90,7 @@ public class GameManager : MonoBehaviour
         }
         if (Cam == null)
         {
-            Cam = GameObject.Find("MainCamera");
+            Cam = GameObject.Find("Main Camera");
         }
 
         //맵 사운드
@@ -117,6 +117,26 @@ public class GameManager : MonoBehaviour
     {
         if (SceneManager.GetActiveScene().name == "SelectScene")
             return;
+
+        if (Player == null)
+        {
+            Player = GameObject.Find("Mario");
+            if (Player == null)
+            {
+                Debug.LogWarning("Player 오브젝트를 찾을 수 없습니다.");
+                return;
+            }
+        }
+
+        if (Cam == null)
+        {
+            Cam = GameObject.Find("Main Camera");
+            if (Cam == null)
+            {
+                Debug.LogWarning("Camera 오브젝트를 찾을 수 없습니다.");
+                return;
+            }
+        }
 
         // 선택 스테이지 
         {
@@ -149,13 +169,6 @@ public class GameManager : MonoBehaviour
             {
                 Player_State = 1;
                 breakBlock = false;
-            }
-
-            else if (Player.GetComponentInChildren<Player_Move>().getMarioStatus() == MarioStatus.Death)
-            {
-                Player_State = 1;
-                deadTime += Time.unscaledDeltaTime;
-                Dead();
             }
 
             else
@@ -210,6 +223,14 @@ public class GameManager : MonoBehaviour
             PlayerLife++;
         }
 
+
+        if (Player.GetComponentInChildren<Player_Move>().getMarioStatus() == MarioStatus.Death)
+        {
+
+            deadTime += Time.unscaledDeltaTime;
+            Dead();
+        }
+
     }
 
     private void OnDestroy()
@@ -245,23 +266,27 @@ public class GameManager : MonoBehaviour
 
     public void Dead()
     {
-        print("사망상태");
-        if(!playerDead)
+        if (Player == null || Cam == null)
+            return; // Player나 Cam이 null이면 메서드 종료
+
+        if (!playerDead)
         {
             PlayerLife--;
+            mapAudio.Stop();
             Cam.GetComponent<CameraController>().deadCam();
             playerDead = true;
         }
-            
-        mapAudio.Stop();
-        if(deadTime >= 4.0f)
+
+        if (deadTime >= 4.0f)
         {
-            Time.timeScale = 1.0f;
-            playerDead = false;
+            print(playerDead);
+           
             Cam.GetComponent<CameraController>().deadCam();
+            playerDead = false;
+            deadTime = 0;
+            Time.timeScale = 1.0f;
             SceneManager.LoadScene("SelectScene");
         }
-            
     }
 
     public void getLife(int life)
