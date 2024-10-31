@@ -1254,7 +1254,7 @@ public class Player_Move : MonoBehaviour
         {
             //Time.timeScale = 0;
             //히트박스끄기
-            hitBox.enabled = false;
+            //hitBox.enabled = false;
             if (dir == "Down")
                 StartCoroutine(StartDownPipeAnim());
             else if (dir == "Up")
