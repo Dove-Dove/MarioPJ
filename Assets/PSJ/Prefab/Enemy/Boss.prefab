@@ -135,6 +135,7 @@ MonoBehaviour:
   bossHp: 3
   HitSound: {fileID: 2870689202263132450}
   score: {fileID: 8842184703376758735, guid: d03685dbe1a0c154a9508ad0b03c430e, type: 3}
+  effect: {fileID: 5813284900125389429, guid: a392e7d6cf9b77543ace8eff8906eef7, type: 3}
 --- !u!50 &2723439505280408226
 Rigidbody2D:
   serializedVersion: 4

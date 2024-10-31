@@ -26,6 +26,7 @@ public class Boss : MonoBehaviour
     Animator animator;
     public AudioSource HitSound;
     public GameObject score;
+    public GameObject effect;
 
     void Start()
     {
@@ -129,6 +130,8 @@ public class Boss : MonoBehaviour
                 rb.gravityScale = 0;
                 rb.velocity = new Vector2(0, rb.velocity.y);
 
+                StartCoroutine(WaitAndEffect());
+
                 animator.SetTrigger("IsDead");
                 currentState = State.Dead;
             }
@@ -157,5 +160,13 @@ public class Boss : MonoBehaviour
     void destroy()
     {
         gameObject.SetActive(false);
+    }
+
+    private IEnumerator WaitAndEffect()
+    {
+        yield return new WaitForSeconds(2.8f);
+
+        GameObject projectile = Instantiate(effect, transform.position, Quaternion.identity);
+        Destroy(projectile, 3.0f);
     }
 }
