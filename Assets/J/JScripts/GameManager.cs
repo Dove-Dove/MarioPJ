@@ -96,7 +96,7 @@ public class GameManager : MonoBehaviour
         //¸Ê »ç¿îµå
         switch (stage)
         {
-            case Stage.Map:
+            case Stage.Map: 
                 mapAudio.GetComponent<AudioSource>().clip = AllSound[0];
                 break;
             case Stage.stage1:
@@ -325,6 +325,5 @@ public class GameManager : MonoBehaviour
         ClearSound.Play();
         GameClearStage++;
     }
-
 
 }

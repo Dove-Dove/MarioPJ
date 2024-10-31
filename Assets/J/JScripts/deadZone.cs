@@ -9,7 +9,7 @@ public class deadZone : MonoBehaviour
     public bool playerRender = false;
     private void Start()
     {
-        cam = GameObject.Find("MainCamera");
+        cam = GameObject.Find("Main Camera");
     }
 
     private void OnCollisionEnter2D(Collision2D collision)

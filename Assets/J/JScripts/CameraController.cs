@@ -88,7 +88,7 @@ public class CameraController : MonoBehaviour
 
     public void deadCam()
     {
-        playerdead= !playerdead;
+        playerdead= true;
     }
 
     public void inPipe()

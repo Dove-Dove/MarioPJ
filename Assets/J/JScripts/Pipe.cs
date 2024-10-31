@@ -14,7 +14,7 @@ public class Pipe : MonoBehaviour
 
     private bool inPipe = false;
     private bool outPipe = false;
-    private bool outUp = false;
+    public bool outUp = false;
     void Start()
     {
         Player = GameObject.Find("Mario");
@@ -31,10 +31,11 @@ public class Pipe : MonoBehaviour
         {
             outPipe = true;
             inPipe = false;
+            
             StartCoroutine(PipeTransition());
         }
     }
-
+     
     private void OnCollisionStay2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -48,18 +49,20 @@ public class Pipe : MonoBehaviour
         Time.timeScale = 0;
 
         // 파이프 이동 중 효과를 위해 2.5초 기다립니다.
-        yield return new WaitForSecondsRealtime(1.0f);
-        FadeUi.GetComponent<UIManager>().inFade(true);
-        yield return new WaitForSecondsRealtime(1.5f);
-       
+        yield return new WaitForSecondsRealtime(2.5f);
+
         // 플레이어 위치를 파이프 목표 지점으로 이동
+        FadeUi.GetComponent<UIManager>().outFade(true);
         Player.transform.position = PipemMovement.transform.position;
-        FadeUi.GetComponent<UIManager>().inFade(false);
+       
+        cam.GetComponent<CameraController>().inPipe();
+  
         // 애니메이션 설정 및 파이프 진입 액션
         if (outUp)
             Player.GetComponent<Player_Move>().PipeAction("Up");
         else
             Player.GetComponent<Player_Move>().PipeAction("Down");
+      
         yield return new WaitForSecondsRealtime(2.5f);
         
         switch (gameManager.Player_State)
@@ -82,7 +85,7 @@ public class Pipe : MonoBehaviour
         Time.timeScale = 1;
         outPipe = false;
         inPipe = false;
-        cam.GetComponent<CameraController>().inPipe();
+   
 
         
     }
