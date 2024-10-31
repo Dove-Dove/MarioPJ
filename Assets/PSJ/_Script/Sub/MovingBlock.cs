@@ -9,7 +9,7 @@ public class MovingBlock : MonoBehaviour
 
     private float moveCooldown = 3f;
     private float stayDuration = 1f;
-    private float speed = 5f;
+    private float speed = 8f;
 
     private bool isMovingDown = true;
     private bool isMovingUp = false;
@@ -86,7 +86,7 @@ public class MovingBlock : MonoBehaviour
         }
         else if(collision.gameObject.CompareTag("Player"))
         {
-            //Debug.Log("Test1");
+            Debug.Log("Test1");
         }
     }
 }

@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 7473828056411512664}
   m_Layer: 10
   m_Name: MovingSpike
-  m_TagString: E_Attack
+  m_TagString: BossAttack
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
