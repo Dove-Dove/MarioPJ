@@ -1436,7 +1436,7 @@ public class Player_Move : MonoBehaviour
                 {
                     animator.SetBool("isInputX", true);
 
-                    var direction = new Vector2(0, 280);
+                    var direction = new Vector2(0, 290);
                     isGlideButton = true;
                     rigid.AddForce(direction, ForceMode2D.Force);
                     StartCoroutine(ButtonAvailable());
@@ -1449,7 +1449,7 @@ public class Player_Move : MonoBehaviour
                     animator.SetBool("isInputX", true);
 
                     Debug.Log("P");
-                    var direction = new Vector2(0, 10);
+                    var direction = new Vector2(0, 11);
                     isGlideButton = true;
                     rigid.AddForce(direction, ForceMode2D.Impulse);
                     StartCoroutine(ButtonAvailable2());
