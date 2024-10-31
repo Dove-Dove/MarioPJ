@@ -18,6 +18,7 @@ TagManager:
   - NoteBlock
   - StarInvincible
   - BossAttack
+  - Door
   layers:
   - Default
   - TransparentFX
