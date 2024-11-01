@@ -219,9 +219,7 @@ public class Player_Move : MonoBehaviour
         animAccel = 8;
         jumpPower=LMrio_Jump_pow;
 
-        //마리오 시작 Status
-        //상태 및 hp적용
-        StartMarioStatusAnim(StartMarioStatus);
+
         //마리오 상태변화 감지용
         curStatus = marioStatus;
     }
@@ -230,6 +228,10 @@ public class Player_Move : MonoBehaviour
     {
         //시작 시 오른쪽으로
         FlipPlayer(true);
+
+        //마리오 시작 Status
+        //상태 및 hp적용
+        StartMarioStatusAnim(StartMarioStatus);
 
         //애니메이션 최고속도 설정
         addedMaxAnimSpeed =maxAnimSpeed;
