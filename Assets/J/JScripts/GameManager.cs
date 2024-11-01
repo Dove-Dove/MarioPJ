@@ -280,12 +280,9 @@ public class GameManager : MonoBehaviour
             deadTime = 0;
             Time.timeScale = 1.0f;
             if (PlayerLife <= 0)
-            {
-                StartGame();
-                SceneManager.LoadScene("TitleScnen");
-            }
-            else
-                SceneManager.LoadScene("SelectScene");
+                mapAudio.Stop();
+
+            SceneManager.LoadScene("SelectScene");
         }
     }
 
@@ -353,12 +350,15 @@ public class GameManager : MonoBehaviour
         StartMap = false;
     }
 
-
+    //초기화 (게임 오버가 되면 초기화)
     public void StartGame()
     {
         PlayerLife = 3;
         point = 1000;
         coin = 0;
+        GameClearStage = 0;
+        GameCurrentStage = 0;
+        mapAudio.Stop();
     }
 
 
@@ -376,7 +376,10 @@ public class GameManager : MonoBehaviour
 
     public void orderMusicStart()
     {
-        mapAudio.GetComponent<AudioSource>().clip = AllSound[0];
+        if(PlayerLife <=0)
+            mapAudio.GetComponent<AudioSource>().clip = AllSound[5];
+        else
+            mapAudio.GetComponent<AudioSource>().clip = AllSound[0];
         mapAudio.Play();
     }
     public void BossMusicStart()

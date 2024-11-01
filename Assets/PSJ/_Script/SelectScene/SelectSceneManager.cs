@@ -21,7 +21,13 @@ public class SelectSceneManager : MonoBehaviour
 
     public GameObject Player;
 
+    //------
     public GameObject GameOverObj;
+    public GameObject Arrow1;
+    public GameObject Arrow2;
+    public bool playerDead = false;
+    private bool reStartGame = true;
+
 
     //----
     private GameManager gameManager;
@@ -49,6 +55,7 @@ public class SelectSceneManager : MonoBehaviour
             Time.timeScale = 1;
 
         gameManager = GameManager.Instance;
+        GameOverObj.SetActive(false);
 
         clearStage = gameManager.GameClearStage;
         currentStage = gameManager.GameCurrentStage;
@@ -76,11 +83,20 @@ public class SelectSceneManager : MonoBehaviour
         }
 
         gameManager.orderMusicStart();
+
+        if(gameManager.PlayerLife <=0)
+            playerDead = true;
         //clearStage = 0;
     }
 
     void Update()
     {
+        if(playerDead == true)
+        {
+            GameOver();
+            return;
+        }
+
         if(clearStage >= 1)
         {
             map1Obj.GetComponent<SpriteRenderer>().enabled = true;
@@ -318,4 +334,37 @@ public class SelectSceneManager : MonoBehaviour
         }        
 
     }
+
+    void GameOver()
+    {   
+        GameOverObj.SetActive(true);
+
+        if (Input.GetKeyDown(KeyCode.UpArrow) || Input.GetKeyDown(KeyCode.DownArrow))
+        {
+            reStartGame = !reStartGame;
+        }
+
+        if (reStartGame)
+        {
+            Arrow1.SetActive(true);
+            Arrow2.SetActive(false);
+        }
+
+        else if(!reStartGame)
+        {
+            Arrow1.SetActive(false);
+            Arrow2.SetActive(true);
+        }
+
+        if(reStartGame && Input.GetKeyDown(KeyCode.X))
+        {
+            gameManager.StartGame();
+            SceneManager.LoadScene("TitleScnen");
+        }
+        else if(!reStartGame && Input.GetKeyDown(KeyCode.X))
+        {
+            Application.Quit();
+        }
+    }
+
 }

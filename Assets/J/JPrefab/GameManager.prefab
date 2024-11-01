@@ -177,7 +177,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coin: 0
   point: 1000
-  stage: 0
   breakBlock: 0
   runingTime: 0
   PlayerLife: 3
@@ -194,6 +193,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: b798a867e46f3684c828c714350c1a3a, type: 3}
   - {fileID: 8300000, guid: 3a93a1b9a0b487f4199c0a0f6797ddb0, type: 3}
   - {fileID: 8300000, guid: 5b92731b7b3abe94d94f21e6077601e0, type: 3}
+  - {fileID: 8300000, guid: 19345a4d17b03564580b8df1ed4c3dee, type: 3}
   GameClearStage: 0
   GameCurrentStage: 0
 --- !u!82 &8669062387399357704
