@@ -64,7 +64,7 @@ public class Tuttle : Enemy
         }
         else if(collision.gameObject.CompareTag("Enemy")) //적 충돌
         {
-            if (collision.gameObject.name.Contains("Gumba") && currentState == State.ShellMove)
+            if (((collision.gameObject.name.Contains("Gumba") || collision.gameObject.name.Contains("Tuttle")) && currentState == State.ShellMove))
             {
                 //굼바일때는 그냥 지나가도록
             }
