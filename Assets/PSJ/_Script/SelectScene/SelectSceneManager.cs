@@ -21,6 +21,8 @@ public class SelectSceneManager : MonoBehaviour
 
     public GameObject Player;
 
+    public GameObject GameOverObj;
+
     //----
     private GameManager gameManager;
     //==--

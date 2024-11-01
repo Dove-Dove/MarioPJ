@@ -14,7 +14,8 @@ public class underCol : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            if (GameObject.Find("Mario").GetComponent<Player_Move>().onAir == true)
+            if (GameObject.Find("Mario").GetComponent<Player_Move>().isJump == true||
+                GameObject.Find("Mario").GetComponent<Player_Move>().onAir == true)
             {
                 WallUnderOpen = true;
                 big = GameObject.Find("GameManager").GetComponent<GameManager>().breakBlock;

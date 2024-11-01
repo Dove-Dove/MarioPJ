@@ -407,8 +407,9 @@ public class Player_Move : MonoBehaviour
            //==점프
            if (Input.GetKey(KeyCode.X) || isAttack || isNoteblockJump)
             {
+                if (isAttack)
+                { marioFoot.SetActive(true); Debug.Log("발판"); }
                 if(isJumpInput)
-                    marioFoot.SetActive(true);
                     Jump();
                 StartCoroutine(FalseMarioFoot());
             }
@@ -1567,7 +1568,7 @@ public class Player_Move : MonoBehaviour
     IEnumerator FalseMarioFoot()
     {
         yield return new WaitForSecondsRealtime(0.1f);
-        marioFoot.SetActive(true);
+        marioFoot.SetActive(false);
     }
 
     //===Effect
