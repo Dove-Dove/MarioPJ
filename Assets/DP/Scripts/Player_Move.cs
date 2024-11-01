@@ -408,7 +408,9 @@ public class Player_Move : MonoBehaviour
            if (Input.GetKey(KeyCode.X) || isAttack || isNoteblockJump)
             {
                 if(isJumpInput)
+                    marioFoot.SetActive(true);
                     Jump();
+                StartCoroutine(FalseMarioFoot());
             }
            else if(Input.GetKeyUp(KeyCode.X))
             { 
@@ -1408,7 +1410,6 @@ public class Player_Move : MonoBehaviour
                 isUseP = true;
                 animator.SetBool("isUseP",true);
             }
-           
         }
         else
         {
@@ -1425,9 +1426,7 @@ public class Player_Move : MonoBehaviour
             PLimitTimeCount = 0;
             animator.SetBool("isUseP", false);
         }
-
     }
-
 
     //너구리 마리오 활공
     void RMarioSpecialActtion()
@@ -1562,6 +1561,13 @@ public class Player_Move : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.3f);
         inDoor = false;
         Debug.Log(inDoor);
+    }
+
+    //
+    IEnumerator FalseMarioFoot()
+    {
+        yield return new WaitForSecondsRealtime(0.1f);
+        marioFoot.SetActive(true);
     }
 
     //===Effect
