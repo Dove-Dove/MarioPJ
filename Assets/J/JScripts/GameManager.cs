@@ -223,6 +223,8 @@ public class GameManager : MonoBehaviour
             Dead();
         }
 
+
+
     }
 
     private void OnDestroy()
@@ -277,7 +279,13 @@ public class GameManager : MonoBehaviour
             playerDead = false;
             deadTime = 0;
             Time.timeScale = 1.0f;
-            SceneManager.LoadScene("SelectScene");
+            if (PlayerLife <= 0)
+            {
+                StartGame();
+                SceneManager.LoadScene("TitleScnen");
+            }
+            else
+                SceneManager.LoadScene("SelectScene");
         }
     }
 
