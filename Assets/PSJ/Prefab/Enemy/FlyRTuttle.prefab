@@ -468,11 +468,10 @@ MonoBehaviour:
   movingLeft: 1
   wings: {fileID: 3862766115793756759}
   DeadSound: {fileID: 6946230859917655035}
-  ScorePos: {fileID: 2173441078177483023}
   score: {fileID: 8842184703376758735, guid: d03685dbe1a0c154a9508ad0b03c430e, type: 3}
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 1048576
 --- !u!1 &9038356141781564198
 GameObject:
   m_ObjectHideFlags: 0

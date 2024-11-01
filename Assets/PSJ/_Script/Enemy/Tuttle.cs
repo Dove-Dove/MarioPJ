@@ -9,8 +9,10 @@ using UnityEngine;
 
 public class Tuttle : Enemy
 {
+    //움직이는 껍질 속도
     protected float shellSpeed = 6.0f;
 
+    //껍질상태에일때 대기시간
     protected float shellTimer = 8.0f;
 
     protected Animator Tuttleanim;
@@ -60,20 +62,20 @@ public class Tuttle : Enemy
         {
             Flip();
         }
-        else if(collision.gameObject.CompareTag("Enemy"))
+        else if(collision.gameObject.CompareTag("Enemy")) //적 충돌
         {
-            if (collision.gameObject.name.Contains("Gumba"))
+            if (collision.gameObject.name.Contains("Gumba") && currentState == State.ShellMove)
             {
-
+                //굼바일때는 그냥 지나가도록
             }
             else
                 Flip();
         }
-        else if(collision.gameObject.name.Contains("Cliff") && currentState == State.Move)
+        else if(collision.gameObject.name.Contains("Cliff") && currentState == State.Move) //기본상태일때 절벽에서 떨어지지않도록 제한
         {
             Flip();
         }
-        else if (collision.gameObject.CompareTag("PlayerAttack") || collision.gameObject.CompareTag("Tail")) //공격 충돌
+        else if (collision.gameObject.CompareTag("PlayerAttack") || collision.gameObject.CompareTag("Tail")) //공격 충돌(현재 상태,공격 종류에 따른 처리)
         {
             if (hasWing)
             {
@@ -119,13 +121,13 @@ public class Tuttle : Enemy
             }
 
         }
-        else if (collision.gameObject.CompareTag("PlayerFire"))
+        else if (collision.gameObject.CompareTag("PlayerFire")) //플레이어 불꽃
         {
             DeadSound.Play();
             Score(gameObject, score);
             currentState = State.Dead;
         }
-        else if (collision.gameObject.CompareTag("MovingShell")) //움직이는 껍질과충돌
+        else if (collision.gameObject.CompareTag("MovingShell")) //움직이는 껍질
         {
             if (currentState == State.ShellMove)
             {
@@ -143,7 +145,7 @@ public class Tuttle : Enemy
         {
             Flip();
         }
-        else if(collision.gameObject.CompareTag("StarInvincible"))
+        else if(collision.gameObject.CompareTag("StarInvincible")) //플레이어 무적상태
         {
             DeadSound.Play();
             Jump();
@@ -172,14 +174,12 @@ public class Tuttle : Enemy
 
     }
 
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-    }
-
-
     protected float shellElapsedTime = 0;
 
+    //등껍질상태
+    //적이아닌 오브젝트판정
+    //정해진 타이머가 지나면 다시 move상태로 전환
+    //플레이어가 부딪히거나하면 movingShell로 전환
     public void enemyShell()
     {
         Tuttleanim.SetBool("IsShell", true);
@@ -225,6 +225,10 @@ public class Tuttle : Enemy
         }
     }
 
+    //movingShell 상태
+    //플레이어와 부딫히면 공격과 같은판정
+    //좌우방향에서 충돌하는 블럭파괴
+    //
     public void enemyShellMove()
     {
         gameObject.tag = "MovingShell";

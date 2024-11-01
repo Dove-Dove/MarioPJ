@@ -11,6 +11,7 @@ public class FlyTuttle : Tuttle
     private void Start()
     {
         Tuttleanim = GetComponent<Animator>();
+        player = GameObject.Find("Mario");
 
         startPos = transform.position;
         gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
@@ -25,7 +26,7 @@ public class FlyTuttle : Tuttle
                 if (hasWing)
                     enemyFly();
                 else
-                    enemyMove();
+                    enemyIdle();
                 break;
             case State.Dead:
                 enemyDead();
@@ -40,11 +41,22 @@ public class FlyTuttle : Tuttle
         if (!hasWing)
         {
             wings.SetActive(false);
-            gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
-
+            Invoke("WaitAndFall", 0.2f);
         }
 
     }
+
+    new void enemyIdle()
+    {
+        if (Vector2.Distance(transform.position, player.transform.position) < range)
+        {
+            if (Time.time >= 0.3f)
+            {
+                currentState = State.Move;
+            }
+        }
+    }
+
 
     new void enemyMove()
     {
@@ -89,5 +101,11 @@ public class FlyTuttle : Tuttle
             movingDown = !movingDown;
         }
     }
-    
+
+    void WaitAndFall()
+    {
+        gameObject.GetComponent<Rigidbody2D>().gravityScale = 1;
+    }
+
+
 }
