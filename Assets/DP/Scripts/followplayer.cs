@@ -33,19 +33,21 @@ public class followplayer : MonoBehaviour
         {
             playerTrans = player.transform;
         }
-        if (!getP)
-        {
-            Vector2 playerPos = new Vector2(playerTrans.position.x, fixY);
-            transform.SetPositionAndRotation(playerPos, transform.rotation);
-        }
-        else
-        {
-            if (getP && playerTrans.position.y > transform.position.y / 3 * 2)
-            {
-                Vector2 playerPos = new Vector2(playerTrans.position.x, playerTrans.position.y + fixY - 2);
-                transform.SetPositionAndRotation(playerPos, transform.rotation);
-            }
-        }
+        Vector2 playerPos = new Vector2(playerTrans.position.x, playerTrans.position.y);
+        transform.SetPositionAndRotation(playerPos, transform.rotation);
+        //if (!getP)
+        //{
+        //    Vector2 playerPos = new Vector2(playerTrans.position.x, fixY);
+        //    transform.SetPositionAndRotation(playerPos, transform.rotation);
+        //}
+        //else
+        //{
+        //    if (getP && playerTrans.position.y > transform.position.y / 3 * 2)
+        //    {
+        //        Vector2 playerPos = new Vector2(playerTrans.position.x, playerTrans.position.y + fixY - 2);
+        //        transform.SetPositionAndRotation(playerPos, transform.rotation);
+        //    }
+        //}
     }
 
 

@@ -583,7 +583,7 @@ public class Player_Move : MonoBehaviour
             rigid.gravityScale = 3;
 
             //¾É±â
-            if (Input.GetKey(KeyCode.DownArrow) && input_x == 0)
+            if (Input.GetKey(KeyCode.DownArrow) && input_x == 0&& !onHill)
             {
                 hitBox.size = LMarioHitboxSize;
                 hitBox.offset = new Vector2(0, 0.5f);
@@ -623,7 +623,7 @@ public class Player_Move : MonoBehaviour
         }
 
         //====¾ð´öÀ§¿¡ ÀÖÀ» ¶§ 
-        RaycastHit2D onDownhill = Physics2D.Raycast(transform.position + new Vector3(0, 1f,0), Vector2.down, hillRayLen+1.2f, LayerMask.GetMask("DownHill"));
+        RaycastHit2D onDownhill = Physics2D.Raycast(transform.position + new Vector3(0, 1f,0), Vector2.down, hillRayLen+1f, LayerMask.GetMask("DownHill"));
 
         if (onDownhill.collider != null)
         {
