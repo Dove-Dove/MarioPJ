@@ -1034,13 +1034,16 @@ public class Player_Move : MonoBehaviour
                     break;
                 //너구리마리오
                 case MarioStatus.RaccoonMario:
-                    animator.SetBool("isTailAttack",true);
-                    if(Input.GetKeyDown(KeyCode.Z))
-                        animator.Play("RMario_tailattack");
-                    if (!isTailAttackSound)
+                    if (!tuttleShell)
                     {
-                        isTailAttackSound = true;
-                        tailAttackSound.Play();
+                        animator.SetBool("isTailAttack", true);
+                        if (Input.GetKeyDown(KeyCode.Z))
+                            animator.Play("RMario_tailattack");
+                        if (!isTailAttackSound)
+                        {
+                            isTailAttackSound = true;
+                            tailAttackSound.Play();
+                        }
                     }
                     break;
             }
@@ -1271,7 +1274,9 @@ public class Player_Move : MonoBehaviour
                 StartCoroutine(StartLeftPipeAnim());
 
             isPipe = true;
+            StartCoroutine(FalseInPipe());
         }
+
     }
 
     IEnumerator StartDownPipeAnim()
@@ -1393,6 +1398,11 @@ public class Player_Move : MonoBehaviour
             yield return new WaitForSecondsRealtime(0.01f);
         }
 
+    }
+    IEnumerator FalseInPipe()
+    {
+        yield return new WaitForSeconds(0.5f);
+        isPipe = false;
     }
     //P 차지및 판단
     void TurnOnP()
