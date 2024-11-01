@@ -665,7 +665,7 @@ public class Player_Move : MonoBehaviour
             if (input_x == 0 && !isSilding && !onAir)
             {
 
-                //멈추면 발판생성(작동안함) TODO:보류 수정필요
+                //멈추면 발판생성(작동안함) TODO:보류 수정필요.
                 if(onHill)
                     marioFoot.SetActive(true);
 
