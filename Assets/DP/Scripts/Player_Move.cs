@@ -439,6 +439,7 @@ public class Player_Move : MonoBehaviour
             //테스트용 마리오 변신시 사용
             if (curStatus !=marioStatus)
             {
+                
                 curStatus=marioStatus;
                 setChangeStatus();
                 ChangeSuperMario();
@@ -620,7 +621,7 @@ public class Player_Move : MonoBehaviour
         }
 
         //====언덕위에 있을 때 
-        RaycastHit2D onDownhill = Physics2D.Raycast(transform.position + new Vector3(0, 1f,0), Vector2.down, hillRayLen+1f, LayerMask.GetMask("DownHill"));
+        RaycastHit2D onDownhill = Physics2D.Raycast(transform.position + new Vector3(0, 1f,0), Vector2.down, hillRayLen+1.2f, LayerMask.GetMask("DownHill"));
 
         if (onDownhill.collider != null)
         {
@@ -1071,6 +1072,8 @@ public class Player_Move : MonoBehaviour
         //사운드 출력
         if (!isPowerUp)
         {
+            if(marioStatus==MarioStatus.Clear)
+                { return; }
             powerUpSound.Play();
             isPowerUp = true;
         }
