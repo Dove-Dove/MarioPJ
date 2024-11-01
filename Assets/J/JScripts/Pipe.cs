@@ -45,14 +45,14 @@ public class Pipe : MonoBehaviour
         if (collision.gameObject.CompareTag("Player"))
         {
             inPipe = true;
-            pipeSound.Play();
+            
         }
     }
 
     private IEnumerator PipeTransition()
     {
         Time.timeScale = 0;
-        
+        pipeSound.Play();
         // 파이프 이동 중 효과를 위해 2.5초 기다림
         yield return new WaitForSecondsRealtime(2.5f);
         cam.GetComponent<CameraController>().inPipe();
