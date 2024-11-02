@@ -8,17 +8,19 @@ public class GoalObj : MonoBehaviour
 {
     //이미지 전환
     public Sprite[] spr;
-
+    private float GoalTime = 4.0f;
     //반복실행 방지
     int count = 1;
     bool PlayerGoal = false;
-  
+    bool isGoal = false;
     float nextTime = 0.0f;
 
 
     // Update is called once per frame
+
     void Update()
     {
+      
         nextTime += Time.unscaledDeltaTime;
         if (nextTime > 0.15f && !PlayerGoal)
         {
@@ -31,10 +33,15 @@ public class GoalObj : MonoBehaviour
         if (PlayerGoal)
         {
             transform.Translate(Vector2.up * Time.unscaledDeltaTime * 10.0f);
-            if (nextTime >=4.0f)
+            if(isGoal)
             {
-                Time.timeScale = 1;
                 GameObject.Find("GameManager").GetComponent<GameManager>().getBouns(count);
+                isGoal = false;
+            }
+          
+            if (nextTime >= GoalTime)
+            {
+                Time.timeScale = 1;               
                 SceneManager.LoadScene("SelectScene");
                 gameObject.SetActive(false); 
             }
@@ -52,11 +59,11 @@ public class GoalObj : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
+            isGoal = true;
             PlayerGoal = true;
             GameObject.Find("Mario").GetComponent<Player_Move>().setMarioStatus(MarioStatus.Clear);
             GameObject.Find("GameManager").GetComponent<GameManager>().GameClear();
-        }
-           
-
+        }         
     }
+
 }

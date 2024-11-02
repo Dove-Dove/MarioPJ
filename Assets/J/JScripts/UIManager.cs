@@ -18,6 +18,9 @@ public class UIManager : MonoBehaviour
     public GameObject[] Bouns;
 
     public RawImage FadeImg;
+
+    public GameObject BounsEventObj;
+
     public float fadeDuration = 1.0f;
 
     private float nowPower = 0;
@@ -34,6 +37,9 @@ public class UIManager : MonoBehaviour
     private int[] arrTims = new int[3];
     private int[] arrBouns;
 
+    private bool BounsEvent = false;
+
+
 
     private GameManager gameManager; // ΩÃ±€≈Ê¿∏∑Œ ∞°¡Æø√ GameManager
 
@@ -49,6 +55,10 @@ public class UIManager : MonoBehaviour
     void Update()
     {
         if (gameManager == null) return;
+        if(BounsEvent)
+            BounsEventObj.SetActive(true);
+        else
+            BounsEventObj.SetActive(false);
 
         nowPower = gameManager.GetComponentInChildren<GameManager>().runingTime;
         nowCoin = gameManager.GetComponentInChildren<GameManager>().coin;
@@ -56,6 +66,9 @@ public class UIManager : MonoBehaviour
         nowPoint = gameManager.GetComponentInChildren<GameManager>().point;
         nowTime = gameManager.GetComponentInChildren<GameManager>().UITime;
         arrBouns = gameManager.GetComponentInChildren<GameManager>().BounsItem;
+
+        BounsEvent = gameManager.GetComponentInChildren<GameManager>().LifeBouns;
+
         ShowPower(nowPower);
         ShowCoin(nowCoin);
         ShowLife(nowLife);

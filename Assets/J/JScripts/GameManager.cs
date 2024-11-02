@@ -22,9 +22,9 @@ public class GameManager : MonoBehaviour
     public int PlayerLife;
     public int Player_State = 0;
 
+    //플레이어 별 먹었을때 
     private bool PlayerStar = false;
     private bool reStartBack = false;
-
 
     //플레이어 사망시 
     public float deadTime = 0.0f;
@@ -51,10 +51,14 @@ public class GameManager : MonoBehaviour
     public AudioSource ClearSound;
     public AudioClip[] AllSound;
 
+    //플레이어 스테이지 
     public int GameClearStage = 0;
     public int GameCurrentStage = 0;
 
-    private GameObject points;
+    //기타
+    //보너스 
+    public bool LifeBouns = false;
+
 
     private void Awake()
     {
@@ -97,17 +101,16 @@ public class GameManager : MonoBehaviour
             Cam = GameObject.Find("Main Camera");
         }
 
-        if(points == null)
-        {
-            points = GameObject.Find("PointObjs");
-        }
-
     }
 
     void Update()
     {
         if (SceneManager.GetActiveScene().name == "SelectScene")
+        {
+            LifeBouns = false;
             return;
+        }
+
 
         if (Player == null)
         {
@@ -129,15 +132,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        if (points == null)
-        {
-            Cam = GameObject.Find("PointObjs");
-            if (Cam == null)
-            {
-                Debug.LogWarning("PointObjs 오브젝트를 찾을 수 없습니다.");
-                return;
-            }
-        }
+
 
 
         PlayerStar = Player.GetComponent<Player_Move>().isInvincibleStar;
@@ -334,7 +329,7 @@ public class GameManager : MonoBehaviour
 
     private void calculateBouns()
     {
-        if (BounsItem[0] == BounsItem[1] && BounsItem[1] == BounsItem[2])
+        if ( (BounsItem[0] == BounsItem[1] && BounsItem[1] == BounsItem[2]))
         {
             if (BounsItem[0] == 1)
             {
@@ -352,7 +347,9 @@ public class GameManager : MonoBehaviour
         else
             getLife(1);
 
-        BounsItem = new int[3]{ 0, 0, 0 };
+        LifeBouns = true;
+
+        BounsItem = new int[3] { 0, 0, 0 };
     }
 
     private void StartScene(int BackMusicNumber)
@@ -448,5 +445,6 @@ public class GameManager : MonoBehaviour
         mapAudio.GetComponent<AudioSource>().clip = AllSound[4];
         mapAudio.Play();
     }
+
 
 }
