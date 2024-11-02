@@ -39,7 +39,7 @@ public class MarioCollision : MonoBehaviour
                         || player.getMarioStatus() == MarioStatus.FireMario)
                     {
                         player.powerUpSound.Play();
-                        Destroy(collision.gameObject); return; //점수추가
+                        //Destroy(collision.gameObject); return; //점수추가
                     }
                     else if (player.getMarioStatus() == MarioStatus.NormalMario)
                     {
@@ -53,7 +53,7 @@ public class MarioCollision : MonoBehaviour
                     if (player.getMarioStatus() == MarioStatus.RaccoonMario)
                     {
                         player.powerUpSound.Play();
-                        Destroy(collision.gameObject); return; //점수추가
+                        //Destroy(collision.gameObject); return; //점수추가
                     }
                     else if(player.getMarioStatus() == MarioStatus.NormalMario)
                     {
@@ -75,7 +75,7 @@ public class MarioCollision : MonoBehaviour
                     if (player.getMarioStatus() == MarioStatus.FireMario)
                     {
                         player.powerUpSound.Play();
-                        Destroy(collision.gameObject); return; //점수추가
+                        //Destroy(collision.gameObject); return; //점수추가
                     }
                     else if (player.getMarioStatus() == MarioStatus.NormalMario)
                     {
@@ -95,11 +95,11 @@ public class MarioCollision : MonoBehaviour
                     break;
                 case Itemtypy.star://스타
                     player.isInvincibleStar = true;
-                    Destroy(collision.gameObject);
+                    //Destroy(collision.gameObject);
                     break;
             }
             player.powerUpSound.Play();
-            Destroy(collision.gameObject);
+            //Destroy(collision.gameObject);
         }
 
         //무적상태가 아니면
@@ -144,10 +144,25 @@ public class MarioCollision : MonoBehaviour
 
     private void OnCollisionStay2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Shell")
+        if (collision.gameObject.tag == "Shell" && !player.onAir)
         {
-            if(player.isKick)
+            if(player.isKick && !player.onGround)
             {
+                switch (player.getMarioStatus())
+                {
+                    case MarioStatus.NormalMario:
+                        player.animator.Play("LMario_kick");
+                        break;
+                    case MarioStatus.SuperMario:
+                        player.animator.Play("SMario_kick");
+                        break;
+                    case MarioStatus.FireMario:
+                        player.animator.Play("FMario_kick");
+                        break;
+                    case MarioStatus.RaccoonMario:
+                        player.animator.Play("RMario_kick");
+                        break;
+                }
                 shell.GetComponent<Tuttle>().currentState = Enemy.State.ShellMove;
                 shell = null;
             }
