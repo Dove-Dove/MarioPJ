@@ -979,19 +979,7 @@ public class Player_Move : MonoBehaviour
         {
             //킥 안되도록
             isKick = false;
-            if(onGround)
-                addedLimitVelocity = LimitVelocity + addLimitVelocity;
-            //액션키 누르면 최대속도 addAnimSpeed 만큼 추가
-            //공중이 아닐 때
-            if(!onAir)
-                addedMaxAnimSpeed = maxAnimSpeed + addAnimSpeed;
-            //이동 시
-            if (curAnimSpeed > maxAnimSpeed)
-            {
-                animator.SetBool("inputActionButton", true);
-                //TODO:한번끝나고 한번재생하는 형태로
-                runSound.Play();
-            }
+
             //아이템 들기
             if (isLift)
             {
@@ -1008,6 +996,20 @@ public class Player_Move : MonoBehaviour
             else
             {
                 tuttleShell = null;
+            }
+
+            if (onGround)
+                addedLimitVelocity = LimitVelocity + addLimitVelocity;
+            //액션키 누르면 최대속도 addAnimSpeed 만큼 추가
+            //공중이 아닐 때
+            if (!onAir)
+                addedMaxAnimSpeed = maxAnimSpeed + addAnimSpeed;
+            //이동 시
+            if (curAnimSpeed > maxAnimSpeed && !isLift)
+            {
+                animator.SetBool("inputActionButton", true);
+                //TODO:한번끝나고 한번재생하는 형태로
+                runSound.Play();
             }
 
             //Debug.Log("Input 'Z'button");
