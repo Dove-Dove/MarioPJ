@@ -21,6 +21,10 @@ public class GameManager : MonoBehaviour
     public int PlayerLife;
     public int Player_State = 0;
 
+    private bool PlayerStar = false;
+    private bool reStartBack = false;
+
+
     //플레이어 사망시 
     public float deadTime = 0.0f;
     private bool playerDead = false;
@@ -104,7 +108,7 @@ public class GameManager : MonoBehaviour
             {
                 Debug.LogWarning("Player 오브젝트를 찾을 수 없습니다.");
                 return;
-            }
+            }          
         }
 
         if (Cam == null)
@@ -116,6 +120,8 @@ public class GameManager : MonoBehaviour
                 return;
             }
         }
+
+        PlayerStar = Player.GetComponent<Player_Move>().isInvincibleStar;
 
         // 선택 스테이지 
         {
@@ -142,6 +148,9 @@ public class GameManager : MonoBehaviour
             {
                 StartScene(GameCurrentStage);
             }
+
+            if (PlayerStar || reStartBack)
+                MarioStarSound(GameCurrentStage);
         }
 
 
@@ -350,6 +359,39 @@ public class GameManager : MonoBehaviour
         StartMap = false;
     }
 
+    private void MarioStarSound(int BackMusicNumber)
+    {
+        if(PlayerStar && !reStartBack)
+        {
+            mapAudio.Stop();
+            mapAudio.GetComponent<AudioSource>().clip = AllSound[6];
+            reStartBack = true;
+            mapAudio.Play();
+        }
+        else if(!PlayerStar && reStartBack) 
+        {
+            mapAudio.Stop();
+            switch (BackMusicNumber)
+            {
+                case 1:
+                case 3:
+                    mapAudio.GetComponent<AudioSource>().clip = AllSound[1];
+                    break;
+                case 2:
+                case 4:
+                    mapAudio.GetComponent<AudioSource>().clip = AllSound[2];
+                    break;
+                case 5:
+                    mapAudio.GetComponent<AudioSource>().clip = AllSound[3];
+                    break;
+            }
+            reStartBack = false;
+            mapAudio.Play();
+        }
+
+    }
+
+
     //초기화 (게임 오버가 되면 초기화)
     public void StartGame()
     {
@@ -360,7 +402,6 @@ public class GameManager : MonoBehaviour
         GameCurrentStage = 0;
         mapAudio.Stop();
     }
-
 
 
     public void SetStartMap(bool Start)
