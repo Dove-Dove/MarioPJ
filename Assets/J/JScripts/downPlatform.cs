@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class downPlatform : MonoBehaviour
@@ -9,6 +10,8 @@ public class downPlatform : MonoBehaviour
     private Vector2 endPos;
     private float playerDis = 0.0f;
     private GameObject Player;
+
+    private bool start = false;
     
     //X 혹은 Y의 이동 거리
 
@@ -27,6 +30,9 @@ public class downPlatform : MonoBehaviour
         playerDis = Player.GetComponent<Transform>().transform.position.x;
         
         if((StartPos.x - playerDis) <= 12.0f)
+            start = true;
+
+        if(start)
             transform.Translate(Vector2.left * Time.deltaTime * PlatformSpeed);
 
     }

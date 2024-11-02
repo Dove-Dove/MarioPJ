@@ -28,11 +28,17 @@ public class items : MonoBehaviour
     private int direction = 1;
 
     private float moveTime = 0 ;
+    //별일때 땅으로 떨어지는것을 이용하기 위해 만듬
     private bool isGround = false;
 
-    bool openItem = true;
+    //아이템이 한번 올라가는것을 확인 
+    private bool openItem = true;
+    //위에서 밑으로(노트블럭) 친것을 확인
+    private bool downItem = false;
+
     private GameManager gameManager;
     public PhysicsMaterial2D mat;
+
 
     void Start()
     {
@@ -40,10 +46,11 @@ public class items : MonoBehaviour
         if (itemtypys == Itemtypy.star)
             mat.bounciness = 0.5f;
         if (gameManager.Player_State == 1 && itemtypys != Itemtypy.star)
-        {
             itemtypys = Itemtypy.mushroom;
-        }
-        if(itemtypys == Itemtypy.star)
+
+        if (downItem)
+            target = new Vector2(transform.position.x, transform.position.y - 0.4f);
+        else if (itemtypys == Itemtypy.star)
             target = new Vector2(transform.position.x, transform.position.y + 2);
         else if (itemtypys == Itemtypy.leaf)
             target = new Vector2(transform.position.x, transform.position.y + 3);
@@ -53,14 +60,17 @@ public class items : MonoBehaviour
         randomWay = (Random.value > 0.5f);
         GetComponent<BoxCollider2D>().enabled = false;
         GetComponent<Rigidbody2D>().gravityScale = 0;
-
-        
+       
     }
 
     // Update is called once per frame
     void Update()
     {
-        upItem();
+        if(downItem)
+            DownItems();
+        else
+            upItem();
+
         switch (itemtypys)
         {
             case Itemtypy.mushroom:
@@ -127,10 +137,33 @@ public class items : MonoBehaviour
                
             else
                 GetComponent<Rigidbody2D>().gravityScale = 1;
-        }
-
-            
+        }           
      //아이템에 따라서 움직임이 달라짐
+    }
+
+    void DownItems()
+    {
+        //먼저 아이템 위로 올라감 (현재 위치에서 y 좌표 +1 만큼 올라감 )
+        if (openItem && (transform.position.y >= target.y + 0.1))
+        {
+            if (itemtypys == Itemtypy.leaf)
+                movespeed = 7.0f;
+
+            transform.position = Vector2.MoveTowards(transform.position, target, movespeed * Time.deltaTime);
+        }
+        else
+        {
+            openItem = false;
+            GetComponent<BoxCollider2D>().enabled = true;
+            if (itemtypys == Itemtypy.leaf)
+            {
+                GetComponent<Rigidbody2D>().gravityScale = 0.08f;
+                movespeed = 5.0f;
+            }
+
+            else
+                GetComponent<Rigidbody2D>().gravityScale = 1;
+        }
     }
 
 
@@ -175,6 +208,12 @@ public class items : MonoBehaviour
         }
     }
 
+    public void setDownItem()
+    {
+        downItem = true;
+    }
+
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -188,7 +227,11 @@ public class items : MonoBehaviour
         {
             isGround = true;
         }
+
+        if(collision.gameObject.tag == "Player")
+            mat.bounciness = 0f;
     }
+
 }
 
 

@@ -20,6 +20,8 @@ public class noteBlocks : MonoBehaviour
     private bool jumping = false;
     private bool Down = false;
 
+    private bool DownItem;
+
     //위에서 충돌시 올라가게 하는 값
     private bool DownAUp = false;
 
@@ -53,13 +55,18 @@ public class noteBlocks : MonoBehaviour
             jumping = true;
         //위에서 밑으로 
         else if (UpObj.GetComponent<underCol>().WallUnderOpen)
+        {
             Down = true;
+            DownItem = true;
+        }
+            
       
 
         if(jumping )
             MoveBlock(upBlock);
         else if(Down && !DownAUp)
             MoveBlock(downBlock);
+
         else
         {
             transform.position = Vector2.MoveTowards(transform.position, BlockPos, Time.deltaTime * 3);
@@ -70,6 +77,8 @@ public class noteBlocks : MonoBehaviour
             }
             if (count == 1 && isItems)
             {
+                if (DownItem)
+                    Items.GetComponent<items>().setDownItem();
                 Items.SetActive(true);
                 isItems = false;
             }
