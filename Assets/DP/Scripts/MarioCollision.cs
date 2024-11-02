@@ -132,22 +132,19 @@ public class MarioCollision : MonoBehaviour
             {
                 if(collision.gameObject.GetComponentInChildren<noteBlocks>().Jump)
                 {
-                    //player.isNoteblockJump = true;
-                    //player.isJumpInput = true;
                     player.isAttack = true;
                 }
             }
             else
             { player.isNoteblockJump = false; }
         }
-    }
 
-    private void OnCollisionStay2D(Collision2D collision)
-    {
+        //일반 킥
         if (collision.gameObject.tag == "Shell" && !player.onAir)
         {
-            if(player.isKick && !player.onGround)
+            if (player.isKick && !player.isEnemy)
             {
+                Debug.Log("asfasdf");
                 switch (player.getMarioStatus())
                 {
                     case MarioStatus.NormalMario:
@@ -163,14 +160,61 @@ public class MarioCollision : MonoBehaviour
                         player.animator.Play("RMario_kick");
                         break;
                 }
-                shell.GetComponent<Tuttle>().currentState = Enemy.State.ShellMove;
-                shell = null;
+                if (shell)
+                    shell.GetComponent<Tuttle>().currentState = Enemy.State.ShellMove;
+                //킥 사운드
+                if (!player.iskcikSound)
+                {
+                    player.iskcikSound = true;
+                    player.kickSound.Play();
+                }
+            }
+        }
+    }
+
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        //잡고있을 때 킥
+        if (collision.gameObject.tag == "Shell" && !player.onAir)
+        {
+            if(player.isKick && !player.isEnemy)
+            {
+                Debug.Log("asfasdf");
+                switch (player.getMarioStatus())
+                {
+                    case MarioStatus.NormalMario:
+                        player.animator.Play("LMario_kick");
+                        break;
+                    case MarioStatus.SuperMario:
+                        player.animator.Play("SMario_kick");
+                        break;
+                    case MarioStatus.FireMario:
+                        player.animator.Play("FMario_kick");
+                        break;
+                    case MarioStatus.RaccoonMario:
+                        player.animator.Play("RMario_kick");
+                        break;
+                }
+                if(shell)
+                    shell.GetComponent<Tuttle>().currentState = Enemy.State.ShellMove;
+                //킥 사운드
+                if (!player.iskcikSound)
+                {
+                    player.iskcikSound = true;
+                    player.kickSound.Play();
+                }
             }
         }
     }
 
     private void OnCollisionExit2D(Collision2D collision)
     {
+        if (collision.gameObject.tag == "Shell")
+        {
+            //쉘 매모리 해제
+            shell = null;
+            player.iskcikSound = false;
+        }
         //노트블럭
         if (collision.gameObject.tag == "NoteBlock")
         {

@@ -135,6 +135,7 @@ public class Player_Move : MonoBehaviour
     //상태 전달용
     public bool isKick=true;
     public bool isPipe=false;
+    public bool isShellKick=false;
 
     //죽음
     private Vector2 clearVelocity=Vector2.zero;
@@ -158,7 +159,7 @@ public class Player_Move : MonoBehaviour
     private bool isDeadSound=false;
     public AudioSource runSound;
     public AudioSource kickSound;
-    private bool iskcikSound = false;
+    public bool iskcikSound = false;
     public AudioSource tailAttackSound;
     private bool isTailAttackSound=false;
     public AudioSource FireSound;
@@ -1073,6 +1074,23 @@ public class Player_Move : MonoBehaviour
 
             }
         }
+        //단순 충돌 시
+        //if(isShellKick)
+        //{
+        //    runSound.Pause();
+        //    if (!isLift)
+        //    {
+        //        if (tuttleShell == null)
+        //        {
+        //            //킥 사운드
+        //            kickSound.Play();
+        //        }
+        //        //isKick = true;
+        //        isLift = false;
+        //        animator.SetBool("isLift", false);
+
+        //    }
+        //}
     }
 
     void ChangeSuperMario()
@@ -1691,7 +1709,7 @@ public class Player_Move : MonoBehaviour
             GetComponent<SpriteRenderer>().material.color = originalColor;
         }
 
-        yield return new WaitForSecondsRealtime(0.1f);
+        yield return new WaitForSecondsRealtime(0.2f);
     }
     //마리오 시작 애니메이션 결정용 함수
     public void StartMarioStatusAnim(MarioStatus status=MarioStatus.NormalMario)
