@@ -177,7 +177,7 @@ public class MarioCollision : MonoBehaviour
         //잡고있을 때 킥
         if (collision.gameObject.tag == "Shell" && !player.onAir)
         {
-            if(player.isKick && !player.isEnemy)
+            if(player.isKick&& !player.isEnemy)
             {
                 Debug.Log("asfasdf");
                 switch (player.getMarioStatus())
@@ -209,10 +209,11 @@ public class MarioCollision : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
+        //쉘 매모리 해제
+        shell = null;
         if (collision.gameObject.tag == "Shell")
         {
-            //쉘 매모리 해제
-            shell = null;
+
             player.iskcikSound = false;
         }
         //노트블럭
