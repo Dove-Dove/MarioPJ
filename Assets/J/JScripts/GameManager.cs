@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -43,6 +44,7 @@ public class GameManager : MonoBehaviour
     private float GameTime = 0.0f;
     private int Ones = 1;
     bool StartMap = false;
+
     //사운드
     public AudioSource mapAudio;
     public AudioSource CoinSound;
@@ -52,6 +54,7 @@ public class GameManager : MonoBehaviour
     public int GameClearStage = 0;
     public int GameCurrentStage = 0;
 
+    private GameObject points;
 
     private void Awake()
     {
@@ -94,6 +97,11 @@ public class GameManager : MonoBehaviour
             Cam = GameObject.Find("Main Camera");
         }
 
+        if(points == null)
+        {
+            points = GameObject.Find("PointObjs");
+        }
+
     }
 
     void Update()
@@ -120,6 +128,17 @@ public class GameManager : MonoBehaviour
                 return;
             }
         }
+
+        if (points == null)
+        {
+            Cam = GameObject.Find("PointObjs");
+            if (Cam == null)
+            {
+                Debug.LogWarning("PointObjs 오브젝트를 찾을 수 없습니다.");
+                return;
+            }
+        }
+
 
         PlayerStar = Player.GetComponent<Player_Move>().isInvincibleStar;
 
@@ -254,7 +273,6 @@ public class GameManager : MonoBehaviour
     {
         CoinSound.Play();
         coin++;
-        print(coin);
     }
     public void GetPoint(int getpoint)
     {
@@ -298,6 +316,7 @@ public class GameManager : MonoBehaviour
     public void getLife(int life)
     {
         PlayerLife += life;
+        
     }
     public void getBouns(int itemNumber)
     {

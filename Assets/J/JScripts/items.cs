@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Security.Cryptography.X509Certificates;
 using UnityEditor;
 using UnityEngine;
@@ -31,6 +32,9 @@ public class items : MonoBehaviour
     //별일때 땅으로 떨어지는것을 이용하기 위해 만듬
     private bool isGround = false;
 
+    private bool PlayerEnter= false;
+    private float EnterTime = 0.0f;
+
     //아이템이 한번 올라가는것을 확인 
     private bool openItem = true;
     //위에서 밑으로(노트블럭) 친것을 확인
@@ -38,6 +42,8 @@ public class items : MonoBehaviour
 
     private GameManager gameManager;
     public PhysicsMaterial2D mat;
+
+    public GameObject Poits;
 
 
     void Start()
@@ -66,6 +72,14 @@ public class items : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if(PlayerEnter)
+        {
+            EnterTime += Time.unscaledDeltaTime;
+            if(EnterTime > 2.0f)
+                Destroy(gameObject);
+            return;
+        }
+
         if(downItem)
             DownItems();
         else
@@ -229,7 +243,19 @@ public class items : MonoBehaviour
         }
 
         if(collision.gameObject.tag == "Player")
+        {
             mat.bounciness = 0f;
+            gameObject.GetComponent<SpriteRenderer>().enabled = false;
+            GetComponent<BoxCollider2D>().enabled = false;
+            gameManager.GetPoint(100);
+            Poits.GetComponent<PointObj>().setPos(100);
+            Poits.SetActive(true);
+            PlayerEnter = true;
+            
+        }
+            
+
+            
     }
 
 }
