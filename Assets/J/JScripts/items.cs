@@ -16,7 +16,7 @@ public class items : MonoBehaviour
 {
     public Sprite[] itemImg;
     public Itemtypy itemtypys;
-
+    public Rigidbody2D ridy;
 
     //아이템이 올라오는 위치 
     public Vector2 target;
@@ -24,26 +24,32 @@ public class items : MonoBehaviour
     public float movespeed =5 ;
     // 좌우 랜덤용 함수
     public bool randomWay = false;
+    float jumpForce = 5.0f;
+    private int direction = 1;
 
     private float moveTime = 0 ;
+    private bool isGround = false;
 
     bool openItem = true;
     private GameManager gameManager;
-
-
+    public PhysicsMaterial2D mat;
 
     void Start()
     {
         gameManager = GameManager.Instance;
-        if (gameManager.Player_State == 1)
+        if (itemtypys == Itemtypy.star)
+            mat.bounciness = 0.5f;
+        if (gameManager.Player_State == 1 && itemtypys != Itemtypy.star)
         {
             itemtypys = Itemtypy.mushroom;
         }
-
-        if (itemtypys != Itemtypy.leaf)
-            target = new Vector2(transform.position.x, transform.position.y+1);
-        else
+        if(itemtypys == Itemtypy.star)
+            target = new Vector2(transform.position.x, transform.position.y + 2);
+        else if (itemtypys == Itemtypy.leaf)
             target = new Vector2(transform.position.x, transform.position.y + 3);
+        else
+            target = new Vector2(transform.position.x, transform.position.y + 1);
+
         randomWay = (Random.value > 0.5f);
         GetComponent<BoxCollider2D>().enabled = false;
         GetComponent<Rigidbody2D>().gravityScale = 0;
@@ -88,6 +94,8 @@ public class items : MonoBehaviour
     void star()
     {
         GetComponent<SpriteRenderer>().sprite = itemImg[2];
+
+        MoveStar();
     }
 
     void leaf()
@@ -150,12 +158,35 @@ public class items : MonoBehaviour
                
     }
 
+    void MoveStar()
+    {
+        ridy.mass = 4;
+        if (!openItem)
+        {
+
+            ridy.velocity = new Vector2(movespeed * direction, ridy.velocity.y);
+
+            // 바닥에 닿은 상태에서만 점프
+            if (isGround)
+            {
+                ridy.velocity = new Vector2(ridy.velocity.x, jumpForce);
+                isGround = false;
+            }
+        }
+    }
+
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if(collision.gameObject.tag == "EnemyWall" && itemtypys != Itemtypy.leaf)
         {
             randomWay = !randomWay;
+            direction *= -1;
+        }
+
+        if (collision.gameObject.CompareTag("Ground"))
+        {
+            isGround = true;
         }
     }
 }
