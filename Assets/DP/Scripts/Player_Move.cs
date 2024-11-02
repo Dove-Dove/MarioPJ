@@ -1096,7 +1096,6 @@ public class Player_Move : MonoBehaviour
     void ChangeSuperMario()
     {
         //각종 수치 변경
-        //Debug.Log("SuperMario!!");
         //사운드 출력
         if (!isPowerUp)
         {
@@ -1646,6 +1645,7 @@ public class Player_Move : MonoBehaviour
             //애니메이터 끄기
             animator.SetBool("isInvincibleStar", false);
             notInput = false;
+            invisibleCount = 0;
         }
         else
         {
@@ -1677,39 +1677,52 @@ public class Player_Move : MonoBehaviour
         yield return new WaitForSecondsRealtime(0.1f);
     }
     //파이어 마리오 이펙트
+    //TODO
     public void ChangeFireMario()
     {
-        if (invisibleTimeCount1 > 7)
+        if (invisibleTimeCount2 > 7)
         {
             StopCoroutine("Blink");
-            GetComponent<SpriteRenderer>().material.color = originalColor;
+            StopCoroutine("ChangeFireMarioEffect");  // 코루틴 정지
+            GetComponent<SpriteRenderer>().material.color = originalColor; // 원래 색으로 변경
             invisibleTimeCount2 = 0;
             effectOn = false;
+            invisibleCount = 0;
         }
         else
         {
             invisibleTimeCount2 += Time.unscaledDeltaTime;
-            StartCoroutine(ChangeFireMarioEffect());
+
+            // 코루틴이 한 번만 실행되도록 설정
+            if (!effectOn)
+            {
+                StartCoroutine(ChangeFireMarioEffect());
+                effectOn = true;
+            }
+
             invisibleCount++;
         }
     }
 
     private IEnumerator ChangeFireMarioEffect()
     {
-        if (0 == invisibleCount % 3)
+        while (true)  // 코루틴이 반복적으로 실행되도록 설정
         {
-            GetComponent<SpriteRenderer>().material.color = new Color(originalColor.r, 0.5f - originalColor.g, 0.5f - originalColor.b, 255);
-        }
-        else if (1 == invisibleCount % 3)
-        {
-            GetComponent<SpriteRenderer>().material.color = new Color(102, originalColor.g, 102, 255);
-        }
-        else
-        {
-            GetComponent<SpriteRenderer>().material.color = originalColor;
-        }
+            if (0 == invisibleCount % 3)
+            {
+                GetComponent<SpriteRenderer>().material.color = new Color(originalColor.r, 0.5f - originalColor.g, 0.5f - originalColor.b, originalColor.a);
+            }
+            else if (1 == invisibleCount % 3)
+            {
+                GetComponent<SpriteRenderer>().material.color = new Color(102 / 255f, originalColor.g, 102 / 255f, originalColor.a);
+            }
+            else
+            {
+                GetComponent<SpriteRenderer>().material.color = originalColor;
+            }
 
-        yield return new WaitForSecondsRealtime(0.2f);
+            yield return new WaitForSecondsRealtime(0.1f);
+        }
     }
     //마리오 시작 애니메이션 결정용 함수
     public void StartMarioStatusAnim(MarioStatus status=MarioStatus.NormalMario)

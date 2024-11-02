@@ -179,7 +179,6 @@ public class MarioCollision : MonoBehaviour
         {
             if(player.isKick&& !player.isEnemy)
             {
-                Debug.Log("asfasdf");
                 switch (player.getMarioStatus())
                 {
                     case MarioStatus.NormalMario:
