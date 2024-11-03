@@ -32,6 +32,8 @@ public class Player_Move : MonoBehaviour
     public float LMrio_Jump_pow = 9f;
     public float SMrio_Jump_pow = 10f;
     public float mario_AddedJumpPowLevel = 2.5f;
+    //시작리셋용
+    public bool firstStartMarioSetting=false;
     //==마리오 확인용
     public bool isSuperMario;
     public bool isLittleMario;
@@ -232,7 +234,10 @@ public class Player_Move : MonoBehaviour
 
         //마리오 시작 Status
         //상태 및 hp적용
-        StartMarioStatusAnim(StartMarioStatus);
+        if (!firstStartMarioSetting)
+        {
+            StartMarioStatusAnim(StartMarioStatus);
+        }
 
         //애니메이션 최고속도 설정
         addedMaxAnimSpeed =maxAnimSpeed;
@@ -443,12 +448,13 @@ public class Player_Move : MonoBehaviour
             TimePause();
 
             //테스트용 마리오 변신시 사용
-            if (curStatus !=marioStatus)
+            if (curStatus !=marioStatus && firstStartMarioSetting)
             {
                 
                 curStatus=marioStatus;
                 setChangeStatus();
                 ChangeSuperMario();
+                firstStartMarioSetting = true;
             }
         }
     }
