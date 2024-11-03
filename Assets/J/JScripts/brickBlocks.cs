@@ -22,8 +22,8 @@ public class brickBlocks : MonoBehaviour
     private int soundPlay;
 
     //작은 마리오가 벽돌 칠때 
-    private Vector2 nowPos;
-    private Vector2 movePos;
+    public Vector2 nowPos;
+    public Vector2 movePos;
     public bool shakeBlocks = false;
 
     float moveTime = 0.0f;
@@ -72,15 +72,15 @@ public class brickBlocks : MonoBehaviour
                 hitBlockSound.Play();
                 soundPlay++;
             }
-            transform.position = Vector2.MoveTowards(transform.position, movePos, Time.deltaTime * 3);
+            transform.position = Vector2.MoveTowards(transform.position, movePos, Time.deltaTime * 4);
             shakeBlocks = true;
             moveTime += Time.deltaTime;
 
         }
-       else if (notOpen && transform.position.y >= nowPos.y ) 
+       else if (transform.position.y >= nowPos.y) 
         {
             moveTime = 0.0f;
-            transform.position = Vector2.MoveTowards(transform.position, nowPos, Time.deltaTime * 3);
+            transform.position = Vector2.MoveTowards(transform.position, nowPos, Time.deltaTime * 4);
             shakeBlocks = false;
             notOpen = false;
             soundPlay = 0;

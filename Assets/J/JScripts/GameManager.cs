@@ -416,6 +416,7 @@ public class GameManager : MonoBehaviour
         coin = 0;
         GameClearStage = 0;
         GameCurrentStage = 0;
+        BounsItem = new int[3] { 0, 0, 0 };
         mapAudio.Stop();
     }
 
