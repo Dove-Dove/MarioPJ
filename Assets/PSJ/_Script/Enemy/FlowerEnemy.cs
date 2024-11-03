@@ -76,14 +76,13 @@ public class FlowerEnemy : MonoBehaviour
             RaycastHit2D hit2 = Physics2D.BoxCast(pipeUp, boxSize2, 0f, Vector2.zero, 0f, playerLayer);
 
 
-            if((hit.collider != null && hit.collider.gameObject.layer == playerLayer)
-                || (hit2.collider != null && hit2.collider.gameObject.layer == playerLayer))
+            if((hit.collider != null) || (hit2.collider != null ))
                 IsClose = true;
             else
                 IsClose = false;
 
-            //DrawBox(pipeOrigin, boxSize);
-            //DrawBox(pipeUp, boxSize2);
+            DrawBox(pipeOrigin, boxSize);
+            DrawBox(pipeUp, boxSize2);
         }
 
         if (Vector2.Distance(gameObject.transform.position, player.position) < attackRange)

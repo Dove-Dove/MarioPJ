@@ -34,8 +34,7 @@ public class FlowerEnemy2 : FlowerEnemy
             RaycastHit2D hit2 = Physics2D.BoxCast(pipeUp, boxSize2, 0f, Vector2.zero, 0f, playerLayer);
 
 
-            if ((hit.collider != null && hit.collider.tag.Contains("Player"))
-                || (hit2.collider != null && hit2.collider.tag.Contains("Player")))
+            if ((hit.collider != null) || (hit2.collider != null))
                 IsClose = true;
             else
                 IsClose = false;

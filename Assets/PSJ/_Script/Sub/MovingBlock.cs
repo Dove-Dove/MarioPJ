@@ -87,7 +87,7 @@ public class MovingBlock : MonoBehaviour
         }
         else if(collision.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Test1");
+            //Debug.Log("Test1");
         }
     }
 }
