@@ -29,6 +29,7 @@ public class GameManager : MonoBehaviour
     //플레이어 사망시 
     public float deadTime = 0.0f;
     private bool playerDead = false;
+    private bool playerTimeOver =false; 
 
     //카메라
     private GameObject Cam;
@@ -230,6 +231,11 @@ public class GameManager : MonoBehaviour
         {
             UITime -= 1;
             GameTime = 0;
+            if(UITime <=0 && !playerTimeOver)
+            {
+                GameObject.Find("Mario").GetComponent<Player_Move>().setMarioStatus(MarioStatus.Death);
+                playerTimeOver = true;
+            }
         }
 
         if (coin >= 100)
@@ -373,6 +379,7 @@ public class GameManager : MonoBehaviour
         mapAudio.Play();
 
         StartMap = false;
+        playerTimeOver = false;
     }
 
     private void MarioStarSound(int BackMusicNumber)

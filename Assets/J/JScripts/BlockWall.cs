@@ -11,7 +11,7 @@ public class BlockWall : MonoBehaviour
 
         if (collision.gameObject.tag == "MovingShell" || collision.gameObject.tag == "Tail")
         {
-            print("sadf"); WallOpen = true;
+             WallOpen = true;
         }
            
     }
@@ -19,7 +19,7 @@ public class BlockWall : MonoBehaviour
     {
         if (collision.gameObject.tag == "MovingShell" || collision.gameObject.tag == "Tail")
         {
-            print("sadf"); WallOpen = true;
+            WallOpen = true;
         }
 
     }
