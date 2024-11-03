@@ -454,8 +454,9 @@ public class Player_Move : MonoBehaviour
                 curStatus=marioStatus;
                 setChangeStatus();
                 ChangeSuperMario();
-                firstStartMarioSetting = true;
             }
+            //마리오 초기 설정 끝
+            firstStartMarioSetting = true;
         }
     }
 
@@ -1752,7 +1753,7 @@ public class Player_Move : MonoBehaviour
                 UpdateMarioStatusAndHP(MarioStatus.RaccoonMario);
                 break;
         }
-
+        curStatus = marioStatus;
     }
 
     // 박스캐스트 디버그용
