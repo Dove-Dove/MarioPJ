@@ -916,7 +916,8 @@ public class Player_Move : MonoBehaviour
         if (marioAttackHit2.collider != null || marioAttackHit3.collider != null)
         {
             isEnemy = true;
-            gameObject.tag = "PlayerAttack";
+            if(!isInvincibleStar)
+                gameObject.tag = "PlayerAttack";
         }
         else
         {
