@@ -36,20 +36,24 @@ public class CameraController : MonoBehaviour
             return;
 
         MapAnchor = GameObject.Find("MapManager").GetComponent<mapManager>().transform.position.y;
- 
-        if (moveMap)
-        {
-            if (MoveStop >= transform.position.x)
-                transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
-            else
-                moveSpeed = 0;
-          
-        }
-        else if (pipeCam)
+
+
+        if (pipeCam)
         {
             targetPos = new Vector3(player.position.x, player.position.y + 1.5f, transform.position.z);
             transform.position = targetPos;
         }
+
+        else if (moveMap)
+        {
+            if (MoveStop >= transform.position.x || pipeCam == false)
+                transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
+            else
+                moveSpeed = 0;
+
+          
+        }
+
 
         else
         {
@@ -93,6 +97,7 @@ public class CameraController : MonoBehaviour
     public void inPipe()
     {
         pipeCam = !pipeCam;
+        moveCam = false;
         gameObject.transform.position = new Vector3(40f, 0, transform.position.z);
     }
 
