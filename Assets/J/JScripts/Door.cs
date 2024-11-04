@@ -32,4 +32,15 @@ public class Door : MonoBehaviour
         }
     }
 
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+
+        if (collision.gameObject.tag == "Player" && PlayerDoor)
+        {
+            collision.gameObject.transform.position = DoorOut.transform.position;
+            cam.GetComponent<CameraController>().inPipe();
+        }
+    }
+
+
 }

@@ -40,6 +40,9 @@ public class items : MonoBehaviour
     //위에서 밑으로(노트블럭) 친것을 확인
     private bool downItem = false;
 
+    //별일때 충돌 조건 충돌
+    public float StarUpTime = 0.0f;
+
     private GameManager gameManager;
     public PhysicsMaterial2D mat;
 
@@ -99,6 +102,11 @@ public class items : MonoBehaviour
             case Itemtypy.leaf:
                 leaf();
                 break;
+        }
+
+        if(StarUpTime <= 2.0f && itemtypys == Itemtypy.star)
+        {
+            StarUpTime += Time.deltaTime;
         }
     }
 
@@ -234,7 +242,8 @@ public class items : MonoBehaviour
         if(collision.gameObject.tag == "EnemyWall" && itemtypys != Itemtypy.leaf)
         {
             randomWay = !randomWay;
-            direction *= -1;
+            if (StarUpTime <= 2.0f) direction = 1;
+            else direction *= -1;
         }
 
         if (collision.gameObject.CompareTag("Ground"))
