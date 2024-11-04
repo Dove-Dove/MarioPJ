@@ -119,6 +119,7 @@ public class MarioCollision : MonoBehaviour
             //에너미
             if (collision.gameObject.tag == "Shell")
             {
+                shell = null;
                 player.isLift = true;
                 shell = collision.gameObject;
             }
@@ -144,7 +145,6 @@ public class MarioCollision : MonoBehaviour
         {
             if (player.isKick && !player.isEnemy)
             {
-                Debug.Log("asfasdf");
                 switch (player.getMarioStatus())
                 {
                     case MarioStatus.NormalMario:
@@ -161,7 +161,15 @@ public class MarioCollision : MonoBehaviour
                         break;
                 }
                 if (shell)
+                {
+                    if (player.isRight)
+                        shell.GetComponent<Tuttle>().movingLeft = false;
+                    else
+                        shell.GetComponent<Tuttle>().movingLeft = true;
+
                     shell.GetComponent<Tuttle>().currentState = Enemy.State.ShellMove;
+
+                }
                 //킥 사운드
                 if (!player.iskcikSound)
                 {
@@ -175,9 +183,9 @@ public class MarioCollision : MonoBehaviour
     private void OnCollisionStay2D(Collision2D collision)
     {
         //잡고있을 때 킥
-        if (collision.gameObject.tag == "Shell" && !player.onAir)
+        if (collision.gameObject.tag == "Shell")
         {
-            if(player.isKick&& !player.isEnemy)
+            if(player.isKick&& Input.GetKeyUp(KeyCode.Z))
             {
                 switch (player.getMarioStatus())
                 {
@@ -194,8 +202,17 @@ public class MarioCollision : MonoBehaviour
                         player.animator.Play("RMario_kick");
                         break;
                 }
-                if(shell)
-                    shell.GetComponent<Tuttle>().currentState = Enemy.State.ShellMove;
+                if (shell)
+                {
+                    if(player.isRight)
+                        shell.GetComponent<Tuttle>().movingLeft=false;
+                    else
+                        shell.GetComponent<Tuttle>().movingLeft = true;
+
+                    shell.GetComponent<Tuttle>().currentState = Enemy.State.ShellMove; 
+
+                }
+
                 //킥 사운드
                 if (!player.iskcikSound)
                 {

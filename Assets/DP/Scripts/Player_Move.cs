@@ -295,7 +295,7 @@ public class Player_Move : MonoBehaviour
                 }
             }
 
-            if(!ishitSound && marioHp > 0)
+            if(!ishitSound && marioHp > 0 && marioStatus!=MarioStatus.Death)
             {
                 ishitSound = true;
                 hitSound.Play();
@@ -457,6 +457,11 @@ public class Player_Move : MonoBehaviour
             }
             //마리오 초기 설정 끝
             firstStartMarioSetting = true;
+        }
+
+        if(Input.GetKeyDown(KeyCode.T))
+        {
+            isInvincibleStar = true;
         }
     }
 
@@ -995,9 +1000,19 @@ public class Player_Move : MonoBehaviour
                 {
                     tuttleShell = GameObject.Find("Mario").GetComponent<MarioCollision>().shell;
                     if (isRight)
-                        tuttleShell.transform.position = marioPos + new Vector2(0.8f, 0.5f);
+                    {
+                        if(tuttleShell.GetComponent<Tuttle>().currentState == Enemy.State.Shell)
+                            tuttleShell.transform.position = marioPos + new Vector2(0.8f, 0.5f);
+
+                        tuttleShell.GetComponent<Tuttle>().movingLeft = false;
+                    }
                     else
-                        tuttleShell.transform.position = marioPos + new Vector2(-0.8f, 0.5f);
+                    {
+                        if (tuttleShell.GetComponent<Tuttle>().currentState == Enemy.State.Shell)
+                            tuttleShell.transform.position = marioPos + new Vector2(-0.8f, 0.5f);
+
+                        tuttleShell.GetComponent<Tuttle>().movingLeft = true;
+                    }
                     animator.SetBool("isLift", true);
                 }
             }
@@ -1067,6 +1082,8 @@ public class Player_Move : MonoBehaviour
             isTailAttackSound = false;
             runSound.Pause();
             isKick = true;
+            //
+            tuttleShell = null;
             if (isLift)
             {
                 if (tuttleShell != null)
@@ -1081,6 +1098,11 @@ public class Player_Move : MonoBehaviour
 
             }
         }
+        if(!isLift)
+        {
+            tuttleShell = null;
+        }
+
         //단순 충돌 시
         //if(isShellKick)
         //{
