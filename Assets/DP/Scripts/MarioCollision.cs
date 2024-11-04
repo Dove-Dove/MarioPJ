@@ -102,20 +102,7 @@ public class MarioCollision : MonoBehaviour
             //Destroy(collision.gameObject);
         }
 
-        //무적상태가 아니면
-        if (!player.isInvincibleStar || !player.isInvincible)
-        {
-            //에너미
-            if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "MovingShell" || collision.gameObject.tag == "BossAttack" ||collision.gameObject.name=="Flower")
-            {
-                if (player.isEnemy)
-                {
-                    player.isAttack = true;
-                }
-                else
-                { player.ishit = true; }
 
-            }
             //에너미
             if (collision.gameObject.tag == "Shell")
             {
@@ -123,7 +110,7 @@ public class MarioCollision : MonoBehaviour
                 player.isLift = true;
                 shell = collision.gameObject;
             }
-        }
+        
 
 
         //노트블럭
@@ -177,6 +164,22 @@ public class MarioCollision : MonoBehaviour
                     player.kickSound.Play();
                 }
             }
+        }
+        //무적상태가 아니면
+        if (!player.isInvincibleStar || !player.isInvincible)
+        {
+            return;
+        }
+        //에너미
+        if (collision.gameObject.tag == "Enemy" || collision.gameObject.tag == "MovingShell" || collision.gameObject.tag == "BossAttack" || collision.gameObject.name == "Flower")
+        {
+            if (player.isEnemy && !player.isInvincibleStar)
+            {
+                player.isAttack = true;
+            }
+            else
+            { player.ishit = true; }
+
         }
     }
 
@@ -246,18 +249,20 @@ public class MarioCollision : MonoBehaviour
         //무적상태가 아니면
         if (!player.isInvincibleStar || !player.isInvincible)
         {
-            //에너미
-            if (collision.gameObject.tag == "E_Attack")
-            {
-                if (player.isEnemy)
-                {
-                    player.isAttack = true;
-                }
-                else
-                { player.ishit = true; }
-
-            }
+            return;
         }
+        //에너미
+        if (collision.gameObject.tag == "E_Attack")
+        {
+            if (player.isEnemy)
+            {
+                player.isAttack = true;
+            }
+            else
+            { player.ishit = true; }
+
+        }
+        
     }
     private void OnTriggerStay2D(Collider2D collision)
     {
