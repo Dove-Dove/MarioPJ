@@ -113,6 +113,7 @@ MonoBehaviour:
   randomWay: 0
   mat: {fileID: 6200000, guid: 4daddebd8fac5284c9dddf81a344dd18, type: 2}
   Poits: {fileID: 1768596329801525643}
+  scoreobj: {fileID: 8842184703376758735, guid: d03685dbe1a0c154a9508ad0b03c430e, type: 3}
 --- !u!61 &4856413788205284321
 BoxCollider2D:
   m_ObjectHideFlags: 0

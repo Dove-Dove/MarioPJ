@@ -12,7 +12,8 @@ public class underCol : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player")
+        if (collision.gameObject.tag == "Player" 
+            || collision.gameObject.tag == "StarInvincible")
         {
             if (GameObject.Find("Mario").GetComponent<Player_Move>().isJump == true||
                 GameObject.Find("Mario").GetComponent<Player_Move>().onAir == true)

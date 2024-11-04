@@ -42,7 +42,7 @@ public class CameraController : MonoBehaviour
             if (MoveStop >= transform.position.x)
                 transform.Translate(Vector2.right * moveSpeed * Time.deltaTime);
             else
-                moveMap = false;
+                moveSpeed = 0;
           
         }
         else if (pipeCam)
