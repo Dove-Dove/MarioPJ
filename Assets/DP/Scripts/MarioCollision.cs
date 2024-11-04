@@ -103,14 +103,6 @@ public class MarioCollision : MonoBehaviour
         }
 
 
-            //에너미
-            if (collision.gameObject.tag == "Shell")
-            {
-                shell = null;
-                player.isLift = true;
-                shell = collision.gameObject;
-            }
-        
 
 
         //노트블럭
@@ -128,8 +120,10 @@ public class MarioCollision : MonoBehaviour
         }
 
         //일반 킥
-        if (collision.gameObject.tag == "Shell" && !player.onAir)
+        if (collision.gameObject.tag == "Shell" && !player.isLift &&player.isKick)
         {
+            Debug.Log("쉘 인");
+            player.isGetShell = true;
             if (player.isKick && !player.isEnemy)
             {
                 switch (player.getMarioStatus())
@@ -147,16 +141,14 @@ public class MarioCollision : MonoBehaviour
                         player.animator.Play("RMario_kick");
                         break;
                 }
-                if (shell)
-                {
-                    if (player.isRight)
-                        shell.GetComponent<Tuttle>().movingLeft = false;
-                    else
-                        shell.GetComponent<Tuttle>().movingLeft = true;
 
-                    shell.GetComponent<Tuttle>().currentState = Enemy.State.ShellMove;
+                if (player.isRight)
+                    collision.gameObject.GetComponent<Tuttle>().movingLeft = false;
+                else
+                    collision.gameObject.GetComponent<Tuttle>().movingLeft = true;
 
-                }
+                collision.gameObject.GetComponent<Tuttle>().currentState = Enemy.State.ShellMove;
+
                 //킥 사운드
                 if (!player.iskcikSound)
                 {
@@ -165,8 +157,18 @@ public class MarioCollision : MonoBehaviour
                 }
             }
         }
+
+        //쉘 잡기용
+        if (collision.gameObject.tag == "Shell" && player.isLift)
+        {
+            shell = null;
+            //충돌 했음을 전달
+            player.isCrushShell = true;
+            shell = collision.gameObject;
+        }
+
         //무적상태가 아니면
-        if (!player.isInvincibleStar || !player.isInvincible)
+        if (player.isInvincibleStar || player.isInvincible)
         {
             return;
         }
@@ -179,15 +181,22 @@ public class MarioCollision : MonoBehaviour
             }
             else
             { player.ishit = true; }
-
         }
     }
 
     private void OnCollisionStay2D(Collision2D collision)
     {
+        //에너미
+        if (collision.gameObject.tag == "Shell" && player.isLift)
+        {
+            shell = null;
+            shell = collision.gameObject;
+        }
+
         //잡고있을 때 킥
         if (collision.gameObject.tag == "Shell")
         {
+            Debug.Log("쉘 스테이");
             if(player.isKick&& Input.GetKeyUp(KeyCode.Z))
             {
                 switch (player.getMarioStatus())
@@ -212,7 +221,7 @@ public class MarioCollision : MonoBehaviour
                     else
                         shell.GetComponent<Tuttle>().movingLeft = true;
 
-                    shell.GetComponent<Tuttle>().currentState = Enemy.State.ShellMove; 
+                    shell.GetComponent<Tuttle>().currentState = Enemy.State.ShellMove;
 
                 }
 
@@ -228,18 +237,19 @@ public class MarioCollision : MonoBehaviour
 
     private void OnCollisionExit2D(Collision2D collision)
     {
-
- 
+        player.isGetShell = false;
         if (collision.gameObject.tag == "Shell")
         {
+            Debug.Log("쉘 엔드");
             //쉘 매모리 해제
             shell = null;
+            player.isLift = false;
             player.iskcikSound = false;
+            player.isCrushShell = false;
         }
         //노트블럭
         if (collision.gameObject.tag == "NoteBlock")
         {
-
             player.isNoteblockJump = false;
         }
     }
@@ -247,7 +257,7 @@ public class MarioCollision : MonoBehaviour
     private void OnTriggerEnter2D(Collider2D collision)
     {
         //무적상태가 아니면
-        if (!player.isInvincibleStar || !player.isInvincible)
+        if (player.isInvincibleStar || player.isInvincible)
         {
             return;
         }

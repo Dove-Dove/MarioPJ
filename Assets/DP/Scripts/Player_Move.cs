@@ -134,6 +134,7 @@ public class Player_Move : MonoBehaviour
     public bool isAttack = false;
     //기능(Z)
     public bool isLift;
+    public bool isCrushShell=false;
     //상태 전달용
     public bool isKick=true;
     public bool isPipe=false;
@@ -188,6 +189,8 @@ public class Player_Move : MonoBehaviour
     public bool timeStop=false;
     private Vector2 LMarioHitboxSize = new Vector2(0.9f, 0.9f);
     private Vector2 SMarioHitboxSize = new Vector2(0.9f, 1.7f);
+    //콜라이더 확인용 
+    public bool isGetShell=false;
     //문
     public bool inDoor=false;
     //마리오별 특별기능용
@@ -463,6 +466,8 @@ public class Player_Move : MonoBehaviour
         {
             isInvincibleStar = true;
         }
+
+        Debug.Log(isGetShell);
     }
 
     private void FixedUpdate()
@@ -993,13 +998,14 @@ public class Player_Move : MonoBehaviour
         {
             //킥 안되도록
             isKick = false;
-
+            isLift = true;
             //아이템 들기
-            if (isLift)
+            if (isLift && isCrushShell)
             {
                 if (GameObject.Find("Mario").GetComponent<MarioCollision>().shell != null)
                 {
                     tuttleShell = GameObject.Find("Mario").GetComponent<MarioCollision>().shell;
+                    //방향결정
                     if (isRight)
                     {
                         if(tuttleShell.GetComponent<Tuttle>().currentState == Enemy.State.Shell)
@@ -1017,10 +1023,6 @@ public class Player_Move : MonoBehaviour
                     animator.SetBool("isLift", true);
                 }
             }
-            else
-            {
-                tuttleShell = null;
-            }
 
             if (onGround)
                 addedLimitVelocity = LimitVelocity + addLimitVelocity;
@@ -1037,31 +1039,30 @@ public class Player_Move : MonoBehaviour
             }
 
             //Debug.Log("Input 'Z'button");
-            switch (marioStatus)
-            {
-                //상태에 따른 
-                case MarioStatus.NormalMario:
-                    break;
-                //슈퍼마리오
-                case MarioStatus.SuperMario:
-                    break;
-                //불꽃마리오
-                case MarioStatus.FireMario:
-                    //TODO:다시 함수로 만들기
-                    if (Input.GetKeyDown(KeyCode.Z))
-                    {
-                        ShootFire();
-                    }
-                    else
-                    {
-                        isFireBall=false;
-                        animator.SetBool("isInputX", false);
-                    }
-                    break;
-                //너구리마리오
-                case MarioStatus.RaccoonMario:
-                    if (!tuttleShell)
-                    {
+            if(!isCrushShell)
+            { switch (marioStatus)
+                {
+                    //상태에 따른 
+                    case MarioStatus.NormalMario:
+                        break;
+                    //슈퍼마리오
+                    case MarioStatus.SuperMario:
+                        break;
+                    //불꽃마리오
+                    case MarioStatus.FireMario:
+                        //TODO:다시 함수로 만들기
+                        if (Input.GetKeyDown(KeyCode.Z))
+                        {
+                            ShootFire();
+                        }
+                        else
+                        {
+                            isFireBall = false;
+                            animator.SetBool("isInputX", false);
+                        }
+                        break;
+                    //너구리마리오
+                    case MarioStatus.RaccoonMario:
                         animator.SetBool("isTailAttack", true);
                         if (Input.GetKeyDown(KeyCode.Z))
                             animator.Play("RMario_tailattack");
@@ -1070,12 +1071,13 @@ public class Player_Move : MonoBehaviour
                             isTailAttackSound = true;
                             tailAttackSound.Play();
                         }
-                    }
-                    break;
+                        break;
+                }
             }
         }
-        else if(Input.GetKeyUp(KeyCode.Z))//원상복귀
+        else if(isCrushShell)//원상복귀
         {
+            //z키 누르면 리프트 가능상태
             addedLimitVelocity = LimitVelocity;
             addedMaxAnimSpeed = maxAnimSpeed;
             animator.SetBool("inputActionButton", false);
@@ -1084,11 +1086,13 @@ public class Player_Move : MonoBehaviour
             runSound.Pause();
             isKick = true;
             //
-            tuttleShell = null;
+            Debug.Log("쉘발사");
             if (isLift)
             {
+                //쉘이동시키기
+                tuttleShell.GetComponent<Tuttle>().currentState = Enemy.State.ShellMove;
                 if (tuttleShell != null)
-                { 
+                {
                     tuttleShell = null;
                     //킥 사운드
                     kickSound.Play();
@@ -1096,8 +1100,16 @@ public class Player_Move : MonoBehaviour
                 //isKick = true;
                 isLift = false;
                 animator.SetBool("isLift", false);
-
+                isCrushShell = false;
             }
+        }
+        else
+        {
+            //z키 누르면 리프트 가능상태
+            addedLimitVelocity = LimitVelocity;
+            addedMaxAnimSpeed = maxAnimSpeed;
+            animator.SetBool("inputActionButton", false);
+            animator.SetBool("isTailAttack", false);
         }
         if(!isLift)
         {
