@@ -307,6 +307,7 @@ public class GameManager : MonoBehaviour
             playerDead = false;
             deadTime = 0;
             Time.timeScale = 1.0f;
+            Player_State = 1;
             if (PlayerLife <= 0)
                 mapAudio.Stop();
 
