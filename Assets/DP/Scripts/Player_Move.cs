@@ -1031,7 +1031,7 @@ public class Player_Move : MonoBehaviour
             if (!onAir)
                 addedMaxAnimSpeed = maxAnimSpeed + addAnimSpeed;
             //이동 시
-            if (curAnimSpeed > maxAnimSpeed && !isLift)
+            if (curAnimSpeed > maxAnimSpeed)
             {
                 animator.SetBool("inputActionButton", true);
                 //TODO:한번끝나고 한번재생하는 형태로
