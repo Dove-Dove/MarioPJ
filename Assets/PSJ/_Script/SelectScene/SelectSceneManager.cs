@@ -97,6 +97,11 @@ public class SelectSceneManager : MonoBehaviour
             return;
         }
 
+        if(Input.GetKeyDown(KeyCode.O))
+        {
+            clearStage = 4;
+        }
+
         if(clearStage >= 1)
         {
             map1Obj.GetComponent<SpriteRenderer>().enabled = true;
