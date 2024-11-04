@@ -196,7 +196,18 @@ public class FlowerEnemy : MonoBehaviour
         }
         else if (collision.gameObject.tag == ("Tail"))
         {
-            Debug.Log("enter");
+            //Debug.Log("enter");
+            if (!animator.GetBool("IsHide"))
+            {
+                Enemy.Score(gameObject, score);
+                animator.SetTrigger("IsDead");
+
+                gameObject.SetActive(false);
+            }
+
+        }
+        else if (collision.gameObject.CompareTag("StarInvincible")) //플레이어 무적상태
+        {
             if (!animator.GetBool("IsHide"))
             {
                 Enemy.Score(gameObject, score);
