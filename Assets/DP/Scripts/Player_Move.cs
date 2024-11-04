@@ -156,7 +156,7 @@ public class Player_Move : MonoBehaviour
     public AudioSource powerUpSound;
     private bool isPowerUp=false;
     public AudioSource hitSound;
-    private bool ishitSound = false;
+    public bool ishitSound = false;
     public AudioSource deadSound;
     private bool isDeadSound=false;
     public AudioSource runSound;
