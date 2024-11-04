@@ -29,10 +29,4 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MapBoss.unity
     guid: bb13fc5c49e688241b60a79983984cfe
-  - enabled: 1
-    path: Assets/J/TsetScene/Test.unity
-    guid: 0690c9382447e7d4a94a3bba35f35e28
-  - enabled: 1
-    path: Assets/J/TsetScene/UITest.unity
-    guid: 32e0ebb3b8f38a449a392f46754a43bc
   m_configObjects: {}
