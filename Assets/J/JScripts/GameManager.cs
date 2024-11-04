@@ -437,6 +437,7 @@ public class GameManager : MonoBehaviour
     public void GameClear()
     {
         mapAudio.GetComponent<AudioSource>().Stop();
+        Cam.GetComponent<CameraController>().pipeCam = false;
         ClearSound.Play();
         GameClearStage++;
     }
