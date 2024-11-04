@@ -295,7 +295,7 @@ public class Player_Move : MonoBehaviour
                 }
             }
 
-            if(!ishitSound && marioHp > 1)
+            if(!ishitSound && marioHp > 0)
             {
                 ishitSound = true;
                 hitSound.Play();
@@ -326,8 +326,6 @@ public class Player_Move : MonoBehaviour
         //기본 입력가능상태
         else
         {
-            //히트 사운드 초기화
-            ishitSound = false;
             //별 무적상태
             if (isInvincibleStar)
             {
