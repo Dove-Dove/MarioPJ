@@ -103228,8 +103228,8 @@ Tilemap:
   - first: {x: 76, y: 1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 2
-      m_TileSpriteIndex: 2
+      m_TileIndex: 1
+      m_TileSpriteIndex: 1
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -103238,8 +103238,8 @@ Tilemap:
   - first: {x: 77, y: 1, z: 0}
     second:
       serializedVersion: 2
-      m_TileIndex: 3
-      m_TileSpriteIndex: 3
+      m_TileIndex: 4
+      m_TileSpriteIndex: 4
       m_TileMatrixIndex: 0
       m_TileColorIndex: 0
       m_TileObjectToInstantiateIndex: 65535
@@ -108599,13 +108599,13 @@ Tilemap:
   m_TileAssetArray:
   - m_RefCount: 26
     m_Data: {fileID: 11400000, guid: 50058444f0b22b044a7a0a8a7ed6f1c5, type: 2}
-  - m_RefCount: 493
+  - m_RefCount: 494
     m_Data: {fileID: 11400000, guid: 9e4c321c42aab574ea093b46e2843426, type: 2}
-  - m_RefCount: 7
+  - m_RefCount: 6
     m_Data: {fileID: 11400000, guid: c62f786e6b67fec44a3bb6673a2e38b0, type: 2}
-  - m_RefCount: 7
+  - m_RefCount: 6
     m_Data: {fileID: 11400000, guid: fadc878a6517d494984032f978cedab2, type: 2}
-  - m_RefCount: 4
+  - m_RefCount: 5
     m_Data: {fileID: 11400000, guid: c0843b8af54ec9f488850207b7516003, type: 2}
   - m_RefCount: 5
     m_Data: {fileID: 11400000, guid: ed95a583948cd8242a9c180b6fdab405, type: 2}
@@ -108614,13 +108614,13 @@ Tilemap:
   m_TileSpriteArray:
   - m_RefCount: 26
     m_Data: {fileID: 769884159, guid: fa8b771c351d0e94cae6c13fa80ccffb, type: 3}
-  - m_RefCount: 493
+  - m_RefCount: 494
     m_Data: {fileID: -525716838, guid: fa8b771c351d0e94cae6c13fa80ccffb, type: 3}
-  - m_RefCount: 7
+  - m_RefCount: 6
     m_Data: {fileID: 832540229, guid: fa8b771c351d0e94cae6c13fa80ccffb, type: 3}
-  - m_RefCount: 7
+  - m_RefCount: 6
     m_Data: {fileID: 1236244791, guid: fa8b771c351d0e94cae6c13fa80ccffb, type: 3}
-  - m_RefCount: 4
+  - m_RefCount: 5
     m_Data: {fileID: 2082402849, guid: fa8b771c351d0e94cae6c13fa80ccffb, type: 3}
   - m_RefCount: 5
     m_Data: {fileID: 686050972, guid: fa8b771c351d0e94cae6c13fa80ccffb, type: 3}
