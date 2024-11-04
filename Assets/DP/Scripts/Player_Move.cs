@@ -156,7 +156,7 @@ public class Player_Move : MonoBehaviour
     public AudioSource powerUpSound;
     private bool isPowerUp=false;
     public AudioSource hitSound;
-    private bool ishitSound = false;
+    public bool ishitSound = false;
     public AudioSource deadSound;
     private bool isDeadSound=false;
     public AudioSource runSound;
@@ -295,7 +295,7 @@ public class Player_Move : MonoBehaviour
                 }
             }
 
-            if(!ishitSound && marioHp > 1)
+            if(!ishitSound && marioHp > 0 && marioStatus!=MarioStatus.Death)
             {
                 ishitSound = true;
                 hitSound.Play();
@@ -327,7 +327,7 @@ public class Player_Move : MonoBehaviour
         else
         {
             //별 무적상태
-            if(isInvincibleStar)
+            if (isInvincibleStar)
             {
                 StarInvisibleEffect();
             }
@@ -1108,7 +1108,6 @@ public class Player_Move : MonoBehaviour
         {
             if(marioStatus==MarioStatus.Clear)
                 { return; }
-            powerUpSound.Play();
             isPowerUp = true;
         }
         Time.timeScale = 0;
