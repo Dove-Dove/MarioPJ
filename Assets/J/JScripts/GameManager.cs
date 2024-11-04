@@ -380,6 +380,7 @@ public class GameManager : MonoBehaviour
 
         StartMap = false;
         playerTimeOver = false;
+        runingTime = 0;
     }
 
     private void MarioStarSound(int BackMusicNumber)
