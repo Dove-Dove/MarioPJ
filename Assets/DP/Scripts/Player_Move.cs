@@ -1110,8 +1110,6 @@ public class Player_Move : MonoBehaviour
         {
             if(marioStatus==MarioStatus.Clear)
                 { return; }
-            if(!ishit)
-                powerUpSound.Play();
             isPowerUp = true;
         }
         Time.timeScale = 0;
