@@ -139,7 +139,7 @@ public class SelectSceneManager : MonoBehaviour
                     currentStage = 0;
                     onRoad = true;
                 }
-                else if(Input.GetKeyDown(KeyCode.Z) && !onRoad)
+                else if(Input.GetKeyDown(KeyCode.X) && !onRoad)
                 {
                     SceneManager.LoadScene("Map1-1");
                 }
@@ -176,7 +176,7 @@ public class SelectSceneManager : MonoBehaviour
                     currentStage = 1;
                     onRoad = false;
                 }
-                else if(Input.GetKeyDown(KeyCode.Z) && !onRoad)
+                else if(Input.GetKeyDown(KeyCode.X) && !onRoad)
                 {
                     SceneManager.LoadScene("Map1-2");
                     clearStage = 2;
@@ -234,7 +234,7 @@ public class SelectSceneManager : MonoBehaviour
                     currentStage = 2;
                     onRoad = false;
                 }
-                else if (Input.GetKeyDown(KeyCode.Z) && !onRoad)
+                else if (Input.GetKeyDown(KeyCode.X) && !onRoad)
                 {
                     SceneManager.LoadScene("Map1-3");
                     clearStage = 3;
@@ -265,7 +265,7 @@ public class SelectSceneManager : MonoBehaviour
                     currentStage = 4;
                     onRoad = false;
                 }
-                else if(Input.GetKeyDown(KeyCode.Z) && !onRoad && clearStage >= 3)
+                else if(Input.GetKeyDown(KeyCode.X) && !onRoad && clearStage >= 3)
                 {
                     SceneManager.LoadScene("Map1-4");
                     clearStage = 4;
@@ -325,7 +325,7 @@ public class SelectSceneManager : MonoBehaviour
                     onRoad = true;
                     itemStage = true;
                 }
-                else if(Input.GetKeyDown(KeyCode.Z) && !onRoad && !itemStage)
+                else if(Input.GetKeyDown(KeyCode.X) && !onRoad && !itemStage)
                 {
                     SceneManager.LoadScene("MapBoss");
                     clearStage = 5;
