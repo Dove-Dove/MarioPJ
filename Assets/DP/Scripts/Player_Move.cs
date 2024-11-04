@@ -295,7 +295,7 @@ public class Player_Move : MonoBehaviour
                 }
             }
 
-            if(!ishitSound && marioHp > 0 && marioStatus! = MarioStatus.Death)
+            if(!ishitSound && marioHp > 0 && marioStatus != MarioStatus.Death)
             {
                 ishitSound = true;
                 hitSound.Play();
