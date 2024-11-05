@@ -230,7 +230,7 @@ public class Enemy : MonoBehaviour
         perp = Vector2.Perpendicular(hit.normal).normalized;
         angle = Vector2.Angle(hit.normal, Vector2.up);
 
-        if (angle != 0)
+        if (angle > 0 && angle <= 45) // 경사 각도 조건을 45도 미만으로 설정
         {
             isSlope = true;
         }
@@ -238,9 +238,8 @@ public class Enemy : MonoBehaviour
         {
             isSlope = false;
         }
-
     }
-
+    
     //방향전환용 함수
     public void Flip()
     {
