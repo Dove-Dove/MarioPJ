@@ -65,7 +65,7 @@ public class Pipe : MonoBehaviour
         if (outUp)
             Player.GetComponent<Player_Move>().PipeAction("Up");
         
-        else
+        else if(!outUp)
             Player.GetComponent<Player_Move>().PipeAction("Down");
         pipeSound.Play();
         yield return new WaitForSecondsRealtime(2.5f);
