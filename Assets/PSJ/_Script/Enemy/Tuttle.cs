@@ -106,13 +106,10 @@ public class Tuttle : Enemy
                 if(collision.gameObject.CompareTag("Tail"))
                 {
                     Jump();
-                    if(!reverse)
-                    {
-                        Vector3 theScale = transform.localScale;
-                        theScale.y *= -1;
-                        transform.localScale = theScale;
-                        reverse = true;
-                    }
+                    Vector3 theScale = transform.localScale;
+                    theScale.y *= -1;
+                    transform.localScale = theScale;
+                    reverse = !reverse;
                 }
             }
             else if(!hasWing && currentState == State.ShellMove)
@@ -217,6 +214,7 @@ public class Tuttle : Enemy
                 Vector3 theScale = transform.localScale;
                 theScale.y *= -1;
                 transform.localScale = theScale;
+                reverse = false;
             }
             Tuttleanim.SetBool("IsShell", false);
             currentState = State.Move;
