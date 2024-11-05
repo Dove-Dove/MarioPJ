@@ -18,6 +18,7 @@ public enum MarioStatus
 public class Player_Move : MonoBehaviour
 {
     //컴포넌트
+    [Header("==Components")]
     public BoxCollider2D hitBox;
     public Rigidbody2D rigid;
     public Animator animator;
@@ -28,13 +29,14 @@ public class Player_Move : MonoBehaviour
 
     //오브젝트 가져오기용
     private GameObject tuttleShell;
-
+    [Header("==Mario Ability")]
     public float LMrio_Jump_pow = 9f;
     public float SMrio_Jump_pow = 10f;
     public float mario_AddedJumpPowLevel = 2.5f;
     //시작리셋용
     public bool firstStartMarioSetting=false;
     //==마리오 확인용
+    [Header("==Mario Check")]
     public bool isSuperMario;
     public bool isLittleMario;
     [SerializeField]
@@ -43,20 +45,26 @@ public class Player_Move : MonoBehaviour
     public MarioStatus StartMarioStatus;
 
     //마리오 HP
+    [Header("==Mario HP")]
     [SerializeField]
     private int marioHp;
     //마리오 변신 확인용
+    [Header("==Mario ChangeCheck")]
     public bool isFireMario = false;
     public bool isRaccoonMario = false;
     //무적상태(히트 후)
+    [Header("==Hit Invincible")]
     public bool isInvincible = false;
     //별 무적
+    [Header("==Star Invincible")]
     public bool isInvincibleStar = false;
     public bool isInvincibleStarStart = false;
 
     //히트
+    [Header("==Mario Hit")]
     public bool ishit = false;
     //입력불가 상태
+    [Header("==Input impossible status")]
     [SerializeField]
     private bool notInput = false;
     public bool NotInput
@@ -66,10 +74,12 @@ public class Player_Move : MonoBehaviour
     }
     public bool isClear= false;
     //마리오 방향
+    [Header("==Mario Direction")]
     public bool isRight = false;
 
 
     //==이동
+    [Header("==Move")]
     private Vector2 destination;
     private Vector2 curPos = Vector2.zero;
     public float maxAnimSpeed = 10;
@@ -86,11 +96,13 @@ public class Player_Move : MonoBehaviour
     private Vector2 perp;
 
     //littleMario
+    [Header("==Little Mario")]
     public float Velocity = 20;
     public float LimitVelocity = 4;
     public float addedLimitVelocity;
     public float addLimitVelocity = 3;
     //FireMario
+    [Header("==Fire Mario")]
     public GameObject FireBall;
     public float fireSpeed = 10;
     public UnityEngine.Transform firePoint;
@@ -100,8 +112,10 @@ public class Player_Move : MonoBehaviour
     //==애니메이션
     public UnityEngine.KeyCode curKey=KeyCode.None;
     //좌우
+    [Header("==Axis")]
     public float input_x;
     //점프
+    [Header("==Jump")]
     public bool isJump=false;
     public bool onAir=false;
     //점프시간 유지용
@@ -111,6 +125,7 @@ public class Player_Move : MonoBehaviour
     private float jumpPower;
     public bool isJumpInput=true;
     //언덕
+    [Header("==Slope")]
     [SerializeField]
     private bool onHill=false;
     //미끄러지기
@@ -118,8 +133,9 @@ public class Player_Move : MonoBehaviour
     public float slideAddForcd=5f;
     public const float friction = 0.4f;
     public const float hillFriction = 0.1f;
-    
+
     //앉기
+    [Header("==Sitting")]
     public bool isSit = false;
     [SerializeField]
     private float groundRayLen=0;
@@ -130,17 +146,21 @@ public class Player_Move : MonoBehaviour
     public float SMarioGroundRayLen = 0.3f;
     public float SMarioHillRayLen = 0.6f;
     //공격
+    [Header("==Attack")]
     public bool isEnemy=false;
     public bool isAttack = false;
     //기능(Z)
+    [Header("==Button'Z'")]
     public bool isLift;
     public bool isCrushShell=false;
     //상태 전달용
+    [Header("==Status Transmission")]
     public bool isKick=true;
     public bool isPipe=false;
     public bool isShellKick=false;
 
     //죽음
+    [Header("==Death")]
     private Vector2 clearVelocity=Vector2.zero;
 
     //중간중간 전체 애니메이션 멈춤제어하는 불형
@@ -150,7 +170,7 @@ public class Player_Move : MonoBehaviour
 
 
     private Vector2 marioPos;
-
+    [Header("==Sound")]
     //===사운드
     public AudioSource jumpSound;
     public AudioSource turnSound;
@@ -170,6 +190,7 @@ public class Player_Move : MonoBehaviour
     public AudioSource PipeSound;
     private bool isPipeSound = false;
     //===이펙트
+    [Header("==Effect")]
     [SerializeField]
     private float invisibleTimeCount1 = 0;
     private float invisibleTimeCount2 = 0;
@@ -186,6 +207,7 @@ public class Player_Move : MonoBehaviour
     public Color Color3;
 
     //기타
+    [Header("==ETC")]
     public bool timeStop=false;
     private Vector2 LMarioHitboxSize = new Vector2(0.9f, 0.9f);
     private Vector2 SMarioHitboxSize = new Vector2(0.9f, 1.7f);
@@ -1004,7 +1026,7 @@ public class Player_Move : MonoBehaviour
             {
                 if (GameObject.Find("Mario").GetComponent<MarioCollision>().shell != null)
                 {
-                    tuttleShell = GameObject.Find("Mario").GetComponent<MarioCollision>().shell;
+                    tuttleShell = GetComponentInChildren<MarioCollision>().shell;
                     //방향결정
                     if (isRight)
                     {
@@ -1090,7 +1112,8 @@ public class Player_Move : MonoBehaviour
             if (isLift)
             {
                 //쉘이동시키기
-                tuttleShell.GetComponent<Tuttle>().currentState = Enemy.State.ShellMove;
+                if(tuttleShell)
+                    tuttleShell.GetComponent<Tuttle>().currentState = Enemy.State.ShellMove;
                 if (tuttleShell != null)
                 {
                     tuttleShell = null;
@@ -1110,29 +1133,13 @@ public class Player_Move : MonoBehaviour
             addedMaxAnimSpeed = maxAnimSpeed;
             animator.SetBool("inputActionButton", false);
             animator.SetBool("isTailAttack", false);
+            isTailAttackSound = false;
         }
         if(!isLift)
         {
             tuttleShell = null;
         }
 
-        //단순 충돌 시
-        //if(isShellKick)
-        //{
-        //    runSound.Pause();
-        //    if (!isLift)
-        //    {
-        //        if (tuttleShell == null)
-        //        {
-        //            //킥 사운드
-        //            kickSound.Play();
-        //        }
-        //        //isKick = true;
-        //        isLift = false;
-        //        animator.SetBool("isLift", false);
-
-        //    }
-        //}
     }
 
     void ChangeSuperMario()
@@ -1173,7 +1180,6 @@ public class Player_Move : MonoBehaviour
     }
 
     //마리오 변신 초기화
-
     public void setChangeStatus()
     {
         switch (marioStatus)
@@ -1245,7 +1251,7 @@ public class Player_Move : MonoBehaviour
     //꼬리 히트박스켜고 끄기
     public void onTailHitbox()
     {
-        tail.SetActive(true);    
+        tail.SetActive(true);  
     }
 
     public void offTailHitbox()

@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 
-public class MarioCollision : MonoBehaviour
+public class MarioCollision : Player_Move
 {
     private PlatformEffector2D pletformCol;
     private GameObject playerCom;
     public GameObject shell;
-    public GameObject marioFoot;
     private Player_Move player;
     // Start is called before the first frame update
     void Start()

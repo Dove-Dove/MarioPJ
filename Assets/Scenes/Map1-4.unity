@@ -4968,7 +4968,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1059197562887880578, guid: 566c97c01a82e6145b005205013e8d93, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.79
+      value: 10.37
       objectReference: {fileID: 0}
     - target: {fileID: 1059197562887880578, guid: 566c97c01a82e6145b005205013e8d93, type: 3}
       propertyPath: m_LocalPosition.y
@@ -54097,6 +54097,10 @@ PrefabInstance:
     - target: {fileID: 1742523096837631264, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7625155459772160354, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
+      propertyPath: StartMarioStatus
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8602179114985834585, guid: c36994cbf30dc694780498d2cefaf079, type: 3}
       propertyPath: m_Name
