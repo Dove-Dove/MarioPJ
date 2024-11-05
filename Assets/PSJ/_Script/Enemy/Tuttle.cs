@@ -53,6 +53,18 @@ public class Tuttle : Enemy
         {
             wings.SetActive(false);
         }
+        if(movingLeft && transform.localScale.x != 1)
+        {
+            Vector3 theScale = transform.localScale;
+            theScale.x *= -1;
+            transform.localScale = theScale;
+        }
+        else if(!movingLeft && transform.localScale.x  != -1)
+        {
+            Vector3 theScale = transform.localScale;
+            theScale.x *= -1;
+            transform.localScale = theScale;
+        }
     }
 
 
