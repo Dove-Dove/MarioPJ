@@ -86,7 +86,10 @@ public class Boomerang : MonoBehaviour
 
         if (collision.gameObject.name.Contains("Boo") && isReturning)
         {
-            DestroyBoomerang();
+            if(collision.CompareTag("Enemy"))
+            {
+                DestroyBoomerang();
+            }
         }
     }
 
