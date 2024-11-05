@@ -102,8 +102,6 @@ public class MarioCollision : Player_Move
         }
 
 
-
-
         //노트블럭
         if (collision.gameObject.tag == "NoteBlock")
         {
