@@ -1482,7 +1482,7 @@ public class Player_Move : MonoBehaviour
             if(PCheckTimeCount>0.5f)
                 isChargedP = true;
 
-            if(isChargedP && Input.GetKeyDown(KeyCode.X))
+            if(isChargedP && Input.GetKeyDown(KeyCode.X) && onGround)
             { 
                 isUseP = true;
                 animator.SetBool("isUseP",true);
