@@ -24,8 +24,7 @@
 ## 작업 진행
 
  #### 김동평
-    
-    <img src="./ReadmeImg/MixMario.png" width="100%" height="100%">
+<img src="./ReadmeImg/MixMario.png">
     
     1. 플레이어의 움직임을 구현
         * 이동 속도에 따른 애니메이션 구현 및 rigidbody를 이용한 가속도 구현이 된다.
@@ -64,7 +63,8 @@
             오른쪽 방향으로 이동이 되고 다른 키값을 받지 않는다.
 
 #### 박세진
-    * 이미지
+<img src="./ReadmeImg/Monster 2.png" width="45%" height="45%">
+
     1. 적 공통 움직임
         * 움직이는 몬스터들은 FSM으로 구현 되어 있으며 기본적으로 3개의 상태가 있다.
             * Idle
@@ -125,7 +125,8 @@
 
 
 #### 진세민
-    * 이미지
+<img src="./ReadmeImg/UIALL.png"  width="45%" height="45%">
+
     1. 게임 매니저
         * 게임 메니저는 싱글톤을 이용하여 시간, 목숨, 플레이어 상태 등을 저장한다.
         * 다음 씬으로 전환되어도 DontDestroyOnLoad를 이용하여서 다음씬으로 전환되어도 삭제가 안되도록 구현한다.
